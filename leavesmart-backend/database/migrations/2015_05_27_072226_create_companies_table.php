@@ -16,7 +16,7 @@ class CreateCompaniesTable extends Migration
             $table->string('email')->unique();
             $table->string('industry');
             $table->string('website')->nullable();
-            $table->string('photo_company')->nullable();
+            //$table->string('photo_company')->nullable();
             $table->unsignedBigInteger('package_type_id');
             $table->timestamps();
             $table->foreign('package_type_id')->references('id')->on('package_types')->onDelete('cascade');
