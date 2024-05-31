@@ -14,7 +14,6 @@ class CreateAdminsTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->unsignedBigInteger('company_id');
-            $table->string('FullName');
             $table->string('gender');
             //$table->string('photo_admin')->nullable();
             $table->string('contact_number');

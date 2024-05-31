@@ -1,47 +1,42 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\JobPosition;
-use Illuminate\Support\Facades\Auth;
+use App\Models\LeaveType;
+use App\Models\JobPositionLeaveTypes;
 
-
-
-class JobPositionController extends Controller
+class JobPositionLeaveTypeController extends Controller
 {
     public function store(Request $request)
     {
         try {
-            // Authenticate admin
-            if (!Auth::guard('admin-api')->check()) {
+            if (!auth()->guard('admin-api')->check()) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
-
             // Validate incoming request data
             $validatedData = $request->validate([
-                'position_name' => 'required|string',
-                'company_id' => 'required|exists:companies,id',
+                'job_position_id' => '',
+                'leave_type_id' => '',
+                'max_allowed_days' => 'required|integer',
+                'company_id' => '',
             ]);
 
-            // Check if the job position already exists
-            $existingPosition = JobPosition::where('position_name', $validatedData['position_name'])
+            // Check if the association already exists
+            $existingAssociation = JobPositionLeaveTypes::where('job_position_id', $validatedData['job_position_id'])
+                ->where('leave_type_id', $validatedData['leave_type_id'])
                 ->where('company_id', $validatedData['company_id'])
-                ->first();
+                ->exists();
 
-            if ($existingPosition) {
-                return response()->json([
-                    'status' => 'error',
-                    'code' => 409,
-                    'message' => 'Job position already exists',
-                ], 409);
+            if ($existingAssociation) {
+                return response()->json(['error' => 'Leave type for this position already exists'], 409);
             }
 
-            // Create a new job position
-            $position = JobPosition::create($validatedData);
+            // Create a new association between job position and leave type
+            $association = JobPositionLeaveTypes::create($validatedData);
 
             // Return a response indicating success
-            return response()->json(['message' => 'Job position created successfully', 'data' => $position], 201);
+            return response()->json(['message' => 'Leave type for this position created successfully', 'data' => $association], 201);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'status' => 'error',
@@ -49,7 +44,7 @@ class JobPositionController extends Controller
                 'message' => 'Validation Error',
                 'errors' => $e->validator->getMessageBag()
             ], 422);
-        } catch (\Exception $e) {
+         } catch (\Exception $e) {
             // Log the exception
             return response()->json([
                 'status' => 'error',
@@ -62,17 +57,17 @@ class JobPositionController extends Controller
     public function indexAdmin()
     {
         try {
-            // Authenticate user
+            // Authenticate admin
             $admin = auth()->guard('admin-api')->user();
             if (!$admin) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
-            // Retrieve leave types
-            $jobPosition = JobPosition::where('company_id', $admin->company_id)->get();
+            // Retrieve JobPositionLeaveTypes associated with the authenticated admin's company ID
+            $JobPositionLeaveTypes = JobPositionLeaveTypes::where('company_id', $admin->company_id)->get();
 
-            // Return a response with leave types
-            return response()->json(['data' => $jobPosition], 200);
+            // Return a response with JobPositionLeaveTypes data
+            return response()->json(['data' => $JobPositionLeaveTypes], 200);
         } catch (\Exception $e) {
             // Log the exception
             return response()->json([

@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Request extends Model
+class LeaveRequest extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'leave_title',
-        'leave_type',
         'start_date',
         'end_date',
         'total_days',
@@ -19,6 +18,8 @@ class Request extends Model
         'status',
         'staff_id',
         'company_id',
+        'leave_type_id',
+
     ];
 
     public function staff()
@@ -29,5 +30,10 @@ class Request extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function leaveType()
+    {
+        return $this->belongsTo(leaveType::class);
     }
 }

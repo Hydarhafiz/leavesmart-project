@@ -18,9 +18,11 @@ class CreateStaffTable extends Migration
             //$table->string('photo_staff')->nullable();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('job_position_id');
+            $table->unsignedBigInteger('admin_id');
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('job_position_id')->references('id')->on('job_positions')->onDelete('cascade');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
         });
     }
 

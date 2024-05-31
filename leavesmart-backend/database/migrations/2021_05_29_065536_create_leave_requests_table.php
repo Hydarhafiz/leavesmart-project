@@ -4,14 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRequestsTable extends Migration
+return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        Schema::create('requests', function (Blueprint $table) {
+        Schema::create('leave_requests', function (Blueprint $table) {
             $table->id();
             $table->string('leave_title');
-            $table->string('leave_type');
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('total_days');
@@ -19,14 +21,20 @@ class CreateRequestsTable extends Migration
             $table->string('status');
             $table->unsignedBigInteger('staff_id');
             $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('leave_type_id');
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade');
+            $table->foreign('leave_type_id')->references('id')->on('leave_types')->onDelete('cascade');
+
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('leave_requests');
     }
-}
+};
