@@ -1,0 +1,8 @@
+<div class="leave-balance-info">
+    <h2>Leave balance</h2>
+    <ul>
+        <li *ngFor="let leave of leaveBalances">
+            {{ leave.type }}: {{ leave.days }} days
+        </li>
+    </ul>
+</div>

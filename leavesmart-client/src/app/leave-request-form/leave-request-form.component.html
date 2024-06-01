@@ -1,0 +1,41 @@
+<div class="leave-request-form">
+    <h3>Leave Request Form</h3>
+    <form>
+        <div class="form-group">
+            <label for="leaveTitle">Title:</label>
+            <input type="text" id="leaveTitle" name="leaveTitle" required>
+        </div>
+        <div class="form-group">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate" required>
+        </div>
+        <div class="form-group">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate" required>
+        </div>
+        <div class="form-group">
+            <label for="leaveType">Leave Type:</label>
+            <select id="leaveType" name="leaveType" required>
+                <option value="annual">Annual Leave</option>
+                <option value="sick">Sick Leave</option>
+                <option value="maternity">Maternity Leave</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="manager">Manager:</label>
+            <select id="manager" name="manager" required>
+                <option value="manager1">Manager 1</option>
+                <option value="manager2">Manager 2</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="reason">Reason:</label>
+            <textarea id="reason" name="reason" required></textarea>
+        </div>
+        <div class="button-container">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>

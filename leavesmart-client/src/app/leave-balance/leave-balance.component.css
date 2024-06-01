@@ -1,0 +1,22 @@
+
+.leave-balance-info {
+    background-color: #fff;
+    border: 2px solid black;
+    padding: 20px;
+    text-align: center; /* Center align text */
+    
+}
+
+.leave-balance-info ul {
+    list-style: none; /* Remove default bullet points */
+    padding-left: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+
+.leave-balance-info li {
+    margin-bottom: 10px;
+}
+
+.leave-balance-info li strong {
+    margin-right: 5px;
+}

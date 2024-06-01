@@ -1,0 +1,16 @@
+<div class="view-leave-request">
+    <h2>My Leave Request:</h2>
+
+    <div *ngFor="let request of leaveRequests" class="leave-details">
+        <div class="request-details">
+            <p><strong>Leave Reason:</strong> {{ request.leaveReason }}</p>
+            <p><strong>Leave Type:</strong> {{ request.leaveType }}</p>
+            <p><strong>Dates:</strong> {{ request.dates }}</p>
+            <p><strong>Total Leave Days:</strong> {{ request.totalLeaveDays }}</p>
+            <p><strong>Manager Comments:</strong> {{ request.managerComments }}</p>
+          </div>
+          <div class="status" [ngStyle]="{ 'background-color': getStatusColor(request.status), 'color': 'white' }">
+            <span>{{ request.status }}</span>
+          </div>
+      </div>
+</div>

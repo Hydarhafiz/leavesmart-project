@@ -1,0 +1,46 @@
+.view-leave-request {
+  margin-top: 8px;
+  background-color: #fff;
+  border: 2px solid black;
+  padding: 20px;
+  max-height: 315px; /* Set max height */
+  overflow-y: auto; /* Add scrollbar if content exceeds max height */
+}
+
+.leave-details {
+    display: flex;
+    justify-content: space-between; /* Position request details and status at each end */
+    border-bottom: 1px solid #ccc; /* Add a border between leave requests */
+    align-items: center; /* Align items vertically */
+
+  }
+  
+  .request-details {
+    flex-grow: 1; /* Allow request details to grow to fill available space */
+  }
+  
+  .status {
+    width: 100px;
+    text-align: center; /* Align the status text in the center horizontally */
+    align-items: center;
+    justify-content: center;
+  }
+
+.view-leave-request .leave-details ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.view-leave-request .leave-details li {
+    margin-bottom: 10px;
+}
+
+.view-leave-request .leave-details li strong {
+    margin-right: 5px;
+}
+
+.view-leave-request .leave-details {
+    margin-bottom: 20px; /* Add some bottom margin for spacing */
+    border-bottom: 1px solid #ccc; /* Add a border at the bottom of each leave request */
+}
