@@ -1,0 +1,97 @@
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-6">
+                <!-- Your title "Welcome to LeaveSmart" -->
+                <div class="container-fluid login-container">
+                    <div class="row justify-content-center align-items-center h-100">
+                        <div class="col-lg-6">
+                            <!-- Your title "Welcome to LeaveSmart" -->
+                            <div class="title d-flex align-items-center justify-content-center">
+                                <h1>Welcome to <br> LeaveSmart</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+              </div>
+              
+    
+          <div class="col-md-6 col-lg-6">
+          <!-- Bootstrap login form -->
+          <form id="login-form">
+            <!-- Email input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+              <label class="form-label">Email address</label>
+              <input type="email" id="email" class="form-control form-control-lg" name="email"
+                placeholder="Enter a valid email address" [(ngModel)]="credentials.email" required />
+              <!-- Display error message only if the field is touched and submitted -->
+              <div *ngIf="submitted && form.get('email')?.errors?.['required']" class="error-message">
+                Email is required.
+              </div>
+              <div *ngIf="submitted && form.get('email')?.errors?.['email']" class="error-message">
+                Invalid email format.
+              </div>
+            </div>
+  
+            <!-- Password input -->
+            <div data-mdb-input-init class="form-outline mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Enter password"
+              [(ngModel)]="credentials.password" required />
+  
+                <div *ngIf="submitted && form.get('password')?.errors?.['required']" class="error-message">
+                  Password is required.
+                </div>
+                <div *ngIf="submitted && form.get('password')?.errors?.['minlength']" class="error-message">
+                  Password must be at least 6 characters long.
+                </div>
+            </div>
+  
+            <div class="d-flex justify-content-between align-items-center">
+              <!-- Checkbox -->
+              <div class="form-check mb-0">
+                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                <label class="form-check-label" for="form2Example3">
+                  Remember me
+                </label>
+              </div>
+            </div>
+  
+            <div class="text-center text-lg-start mt-4 pt-2">
+              <!-- Apply color to the button -->
+              <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
+                style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #36A2D0;" (click)="submit()">Login</button>
+              <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!" class="link-danger">Register</a>
+              </p>
+            </div>
+          </form>
+          <!-- End of Bootstrap login form -->
+        </div>
+      </div>
+    </div>
+    <!-- Apply color to the footer -->
+    <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5"
+      style="background-color: #36A2D0;">
+      <!-- Copyright -->
+      <div class="text-white mb-3 mb-md-0">
+        Copyright © 2020. All rights reserved.
+      </div>
+      <!-- Right -->
+      <div>
+        <a href="#!" class="text-white me-4">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#!" class="text-white me-4">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#!" class="text-white me-4">
+          <i class="fab fa-google"></i>
+        </a>
+        <a href="#!" class="text-white">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </div>
+      <!-- Right -->
+    </div>
+  </section>

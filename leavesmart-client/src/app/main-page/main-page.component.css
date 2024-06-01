@@ -1,0 +1,16 @@
+/* styles.css */
+
+.container {
+    display: flex;
+    margin: 0; /* Remove margin */
+}
+
+.sidebar {
+    width: 279px; /* Adjust as needed */
+}
+
+.content {
+    flex: 1;
+    padding: 8px;
+    /* Additional styling for content area */
+}
