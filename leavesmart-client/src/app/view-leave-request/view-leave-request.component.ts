@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ILeaveRequest } from '../interface/leave-request';
+import { LeaveRequestService } from '../services/leave-request.service';
 
 @Component({
   selector: 'app-view-leave-request',
@@ -6,33 +8,30 @@ import { Component } from '@angular/core';
   styleUrl: './view-leave-request.component.css'
 })
 export class ViewLeaveRequestComponent {
-  leaveRequests = [
-    {
-      leaveReason: "Vacation",
-      leaveType: "Paid Time Off",
-      dates: "01 July 2023 - 04 July 2023",
-      totalLeaveDays: 4,
-      managerComments: "Approved",
-      status: "Approved"
-    },
-    {
-      leaveReason: "Sick Leave",
-      leaveType: "Medical",
-      dates: "10 September 2023 - 12 September 2023",
-      totalLeaveDays: 3,
-      managerComments: "",
-      status: "Pending"
-    },
-    {
-      leaveReason: "Family Emergency",
-      leaveType: "Emergency",
-      dates: "25 November 2023 - 27 November 2023",
-      totalLeaveDays: 3,
-      managerComments: "Teruk",
-      status: "Rejected"
 
-    }
-  ];
+  leaveRequests: ILeaveRequest[] = [];
+
+  constructor(private leaveRequestService: LeaveRequestService) { }
+
+  ngOnInit(): void {
+    this.fetchLeaveBalanceData();
+  }
+
+  fetchLeaveBalanceData() {
+    this.leaveRequestService.fetchLeaveRequests().subscribe(
+      (response: any) => {
+        if (response && response.data) {
+          this.leaveRequests = response.data;
+        } else {
+          console.error('Invalid response format:', response);
+        }
+      },
+      error => {
+        console.error('Error fetching leave requests data:', error);
+        // Handle error
+      }
+    );
+  }
 
   getStatusColor(status: string): string {
     switch (status) {

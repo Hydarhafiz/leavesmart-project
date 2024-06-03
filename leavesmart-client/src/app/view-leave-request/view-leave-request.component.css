@@ -3,6 +3,7 @@
   background-color: #fff;
   border: 2px solid black;
   padding: 20px;
+  min-height: 315px; /* Set max height */
   max-height: 315px; /* Set max height */
   overflow-y: auto; /* Add scrollbar if content exceeds max height */
 }
@@ -24,7 +25,15 @@
     text-align: center; /* Align the status text in the center horizontally */
     align-items: center;
     justify-content: center;
+    border-radius: 5px; /* Add rounded corners */
+    padding: 5px; /* Add some padding */
+    font-weight: bold; /* Make the text bold */
   }
+  
+  .status span {
+    display: inline-block; /* Ensure text wraps if it's too long */
+  }
+  
 
 .view-leave-request .leave-details ul {
     list-style: none;

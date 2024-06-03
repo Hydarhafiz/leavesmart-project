@@ -3,11 +3,11 @@
 
     <div *ngFor="let request of leaveRequests" class="leave-details">
         <div class="request-details">
-            <p><strong>Leave Reason:</strong> {{ request.leaveReason }}</p>
-            <p><strong>Leave Type:</strong> {{ request.leaveType }}</p>
-            <p><strong>Dates:</strong> {{ request.dates }}</p>
-            <p><strong>Total Leave Days:</strong> {{ request.totalLeaveDays }}</p>
-            <p><strong>Manager Comments:</strong> {{ request.managerComments }}</p>
+            <p><strong>Leave Title:</strong> {{ request.leave_title }}</p>
+            <p><strong>Leave Type:</strong> {{ request.leave_type?.leave_name }}</p>
+            <p><strong>Dates:</strong> {{ request.start_date }} - {{request.end_date}}</p>
+            <p><strong>Total Leave Days:</strong> {{ request.total_days }}</p>
+            <p><strong>Manager Comments:</strong> {{ request.manager_comments }}</p>
           </div>
           <div class="status" [ngStyle]="{ 'background-color': getStatusColor(request.status), 'color': 'white' }">
             <span>{{ request.status }}</span>

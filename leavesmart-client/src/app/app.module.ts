@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainPageComponent } from './main-page/main-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -13,6 +13,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { LeaveBalanceComponent } from './leave-balance/leave-balance.component';
 import { ViewLeaveRequestComponent } from './view-leave-request/view-leave-request.component';
 import { LeaveRequestFormComponent } from './leave-request-form/leave-request-form.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -32,10 +33,12 @@ import { LeaveRequestFormComponent } from './leave-request-form/leave-request-fo
     HttpClientModule, // Add this line
     BrowserAnimationsModule, // Add this line
     FormsModule, // Add this line
+    MatSnackBarModule
 
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+
   ],
   bootstrap: [AppComponent]
 })
