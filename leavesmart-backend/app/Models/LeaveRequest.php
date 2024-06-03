@@ -14,6 +14,7 @@ class LeaveRequest extends Model
         'start_date',
         'end_date',
         'total_days',
+        'reason',
         'manager_comments',
         'status',
         'staff_id',

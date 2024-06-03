@@ -120,6 +120,30 @@ class AdminController extends Controller
         }
     }
 
+    public function indexUser()
+    {
+        try {
+            // Authenticate admin
+            $user = auth()->guard('user-api')->user();
+            if (!$user) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+
+            // Retrieve admin and company data associated with the authenticated admin's company ID
+            $adminData = Admin::where('company_id', $user->company_id)->get();
+
+            // Return a response with admin and company data
+            return response()->json(['data' => $adminData], 200);
+        } catch (\Exception $e) {
+            // Log the exception
+            return response()->json([
+                'status' => 'error',
+                'code' => 500,
+                'message' => 'Internal Server Error'
+            ], 500);
+        }
+    }
+
     public function indexAdmin()
     {
         try {

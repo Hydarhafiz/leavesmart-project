@@ -139,7 +139,9 @@ class StaffController extends Controller
             }
 
             // Retrieve leave requests associated with the authenticated user's staff ID
-            $staff = Staff::where('id', $user->id)->get();
+            $staff = Staff::with('company', 'jobPosition', 'admin')
+                ->where('id', $user->id)
+                ->get();
 
             // Return a response with leave requests
             return response()->json(['data' => $staff], 200);
@@ -152,6 +154,7 @@ class StaffController extends Controller
             ], 500);
         }
     }
+
 
     public function indexAdmin()
     {

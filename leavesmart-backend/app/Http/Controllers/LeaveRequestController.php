@@ -21,8 +21,9 @@ class LeaveRequestController extends Controller
                 'start_date' => 'required|date',
                 'end_date' => 'required|date',
                 'total_days' => 'required|integer',
+                'reason' => 'required|string',
                 'manager_comments' => 'nullable|string',
-                'status' => 'required|string|in:pending,approved,rejected',
+                'status' => 'required|string',
                 'staff_id' => 'required|exists:staff,id',
                 'company_id' => 'required|exists:companies,id',
                 'leave_type_id' => 'required|exists:leave_types,id',
@@ -73,8 +74,9 @@ class LeaveRequestController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
-            // Retrieve leave requests associated with the authenticated user's leaveRequest ID
-            $leaveRequests = LeaveRequest::where('staff_id', $user->id)->get();
+            $leaveRequests = LeaveRequest::with('leaveType')
+                           ->where('staff_id', $user->id)
+                           ->get();
 
             // Return a response with leave requests
             return response()->json(['data' => $leaveRequests], 200);

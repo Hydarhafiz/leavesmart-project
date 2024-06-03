@@ -22,6 +22,7 @@ class Staff extends Authenticatable implements JWTSubject
         'password',
         'company_id',
         'job_position_id',
+        'admin_id'
     ];
 
     public function company()
@@ -32,6 +33,11 @@ class Staff extends Authenticatable implements JWTSubject
     public function jobPosition()
     {
         return $this->belongsTo(JobPosition::class);
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
     }
 
     use Notifiable;

@@ -85,6 +85,9 @@ Route::get('view-leave-balances', [LeaveBalanceController::class, 'indexUser']);
 Route::post('create-leave-request', [LeaveRequestController::class, 'store']);
 Route::get('get-leave-requests', [LeaveRequestController::class, 'indexUser']);
 
+//admin
+Route::get('get-admins', [AdminController::class, 'indexUser']);
+
 
 
 
