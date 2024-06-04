@@ -1,19 +1,19 @@
 <div class="staff-list">
     <h2>Staff Account Manager List</h2>
-    <div class="filter">
+    <!-- <div class="filter">
         <label for="jobPositionFilter">Filter by Job Position:</label>
         <select id="jobPositionFilter" [(ngModel)]="selectedJobPosition">
             <option value="all">All</option>
             <option *ngFor="let position of jobPositions" [value]="position.id">{{ position.position_name }}</option>
         </select>
-    </div>
+    </div> -->
     <div *ngFor="let staff of staffList" class="staff-box">
         <div class="staff-details">
             <div><strong>Name:</strong> {{ staff.FullName }}</div>
             <div><strong>Gender:</strong> {{ staff.gender }}</div>
             <div><strong>Contact Number:</strong> {{ staff.contact_number }}</div>
             <div><strong>Email:</strong> {{ staff.email }}</div>
-            <div><strong>Job Position:</strong> {{ staff.job_position_id }}</div>
+            <div><strong>Job Position:</strong> {{ staff.job_position?.position_name }}</div>
             <div class="action-buttons">
                 <button class="edit-button">Edit</button>
                 <button class="remove-button">Remove</button>

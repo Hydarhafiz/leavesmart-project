@@ -1,39 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ILeaveRequest } from '../interface/leave-request';
+import { LeaveRequestService } from '../services/leave-request.service';
 
 @Component({
   selector: 'app-view-leave-request-manager',
   templateUrl: './view-leave-request-manager.component.html',
   styleUrl: './view-leave-request-manager.component.css'
 })
-export class ViewLeaveRequestManagerComponent {
+export class ViewLeaveRequestManagerComponent implements OnInit{
+  leaveRequests: ILeaveRequest[] = [];
 
+  constructor(
+    private leaveRequestService: LeaveRequestService
+  ) { }
 
-  leaveRequests: ILeaveRequest[] = [
-    {
-      leave_title: 'Vacation',
-      start_date: new Date('2024-06-01'),
-      end_date: new Date('2024-06-05'),
-      total_days: 4,
-      manager_comments: "string",
-      status: 'Pending',
-      staff_id: 1,
-      leave_type_id: 1,
-      company_id: 1,
-    },
-    {
-      leave_title: 'Vacation',
-      start_date: new Date('2024-06-01'),
-      end_date: new Date('2024-06-05'),
-      total_days: 4,
-      manager_comments: "string",
-      status: 'Approved',
-      staff_id: 1,
-      leave_type_id: 1,
-      company_id: 1
-    },
-    // Add more leave requests as needed
-  ];
+  ngOnInit(): void {
+    this.fetchLeaveRequestData();
+  }
+
+  fetchLeaveRequestData() {
+    this.leaveRequestService.fetchLeaveRequests().subscribe(
+      (response: any) => {
+        if (response) {
+          this.leaveRequests = response.data;
+        } else {
+          console.error('Invalid response format:', response);
+        }
+      },
+      error => {
+        console.error('Error fetching leave request data:', error);
+        // Handle error
+      }
+    );
+  }
 
   getStatusColor(status: string): string {
     switch (status) {

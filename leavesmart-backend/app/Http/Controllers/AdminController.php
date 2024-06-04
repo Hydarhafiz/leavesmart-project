@@ -154,11 +154,12 @@ class AdminController extends Controller
             }
 
             // Retrieve admin and company data associated with the authenticated admin's company ID
-            $adminData = Admin::where('company_id', $admin->company_id)->get();
-            $companyData = Company::findOrFail($admin->company_id);
+            $adminData = Admin::with('company')
+                        ->where('company_id', $admin->company_id)
+                        ->get();
 
             // Return a response with admin and company data
-            return response()->json(['adminData' => $adminData, 'companyData' => $companyData], 200);
+            return response()->json(['data' => $adminData], 200);
         } catch (\Exception $e) {
             // Log the exception
             return response()->json([

@@ -1,1 +1,25 @@
-<p>view-job-position-setting works!</p>
+<div class="leave-types-setting">
+    <h2>Job Position Setting</h2>
+    <div class="job-position-dropdown">
+        <label for="jobPosition">Select Job Position: </label>
+        <select id="jobPosition" name="jobPosition" [(ngModel)]="selectedJobPositionId" (ngModelChange)="updateLeaveTypes($event)">
+            <option *ngFor="let jobPosition of jobPositions" [value]="jobPosition.id">{{ jobPosition.position_name }}</option>
+        </select>
+    </div>
+    <div *ngFor="let jobPosition of jobPositionByLeaveTypes" class="leave-type">
+        <div class="leave-details">
+            <div><strong>Leave Name:</strong> {{ jobPosition.leave_type?.leave_name }}</div>
+            <div><strong>Days Allocated:</strong> {{ jobPosition.max_allowed_days }}</div>
+        </div>
+        <div class="action-buttons">
+            <div class="button-container">
+                <button class="edit-button">Edit</button>
+                <button class="remove-button">Remove</button>
+            </div>
+        </div>
+    </div>
+    <div class="button-container">
+        <button class="add-button">Add Job Position</button>
+        <button class="add-button">Add Leave Type</button>
+    </div>
+</div>

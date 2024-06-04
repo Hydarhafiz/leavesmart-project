@@ -1,14 +1,14 @@
-<div class="profile">
+<div *ngFor="let admin of adminProfile" class="profile">
     <img src="assets/admin.png" alt="Profile Picture" class="profile-pic">
     <h2>Profile Information</h2>
       <div class="profile-info">
-        <div><strong>Name:</strong> John Doe</div>
-        <div><strong>Gender:</strong> Male</div>
-        <div><strong>Contact Number:</strong> +1234567890</div>
-        <div><strong>Email:</strong> johndoe.com</div>
+        <div><strong>Name:</strong> {{admin.username}}</div>
+        <div><strong>Gender:</strong> {{admin.gender}}</div>
+        <div><strong>Contact Number:</strong> {{admin.contact_number}}</div>
+        <div><strong>Email:</strong> {{admin.email}}</div>
         <div><strong>Max staffs:</strong> 15</div>        
         <div><strong>Total current staffs:</strong> 12</div>
-        <div><strong>Company Name:</strong> Example Inc.</div>
+        <div><strong>Company Name:</strong> {{admin.company?.company_name}}</div>
         <button class="edit-profile-btn">Edit Profile</button> <!-- New button -->
       </div>
     </div>

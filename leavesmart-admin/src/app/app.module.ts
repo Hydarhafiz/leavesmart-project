@@ -16,6 +16,9 @@ import { CreateStaffComponent } from './create-staff/create-staff.component';
 import { ViewLeaveRequestManagerComponent } from './view-leave-request-manager/view-leave-request-manager.component';
 import { ViewLeaveTypesSettingComponent } from './view-leave-types-setting/view-leave-types-setting.component';
 import { ViewJobPositionSettingComponent } from './view-job-position-setting/view-job-position-setting.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarComponent } from './calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,7 @@ import { ViewJobPositionSettingComponent } from './view-job-position-setting/vie
     ViewLeaveRequestManagerComponent,
     ViewLeaveTypesSettingComponent,
     ViewJobPositionSettingComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +42,10 @@ import { ViewJobPositionSettingComponent } from './view-job-position-setting/vie
     HttpClientModule, // Add this line
     BrowserAnimationsModule, // Add this line
     FormsModule, // Add this line
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [
     provideClientHydration()

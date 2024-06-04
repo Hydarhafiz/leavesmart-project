@@ -64,7 +64,7 @@ Route::get('view-job-positions-setting', [JobPositionController::class, 'indexAd
 
 //job-position-leave-type
 Route::post('/create-job-position-by-leave-type', [JobPositionLeaveTypeController::class, 'store']);
-Route::get('view-job-position-by-leave-types', [JobPositionLeaveTypeController::class, 'indexAdmin']);
+Route::get('view-job-position-by-leave-types/{id}', [JobPositionLeaveTypeController::class, 'indexAdmin']);
 
 
 

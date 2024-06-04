@@ -54,7 +54,7 @@ class JobPositionLeaveTypeController extends Controller
         }
     }
 
-    public function indexAdmin()
+    public function indexAdmin($jobPositionId)
     {
         try {
             // Authenticate admin
@@ -63,8 +63,13 @@ class JobPositionLeaveTypeController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
+            // $leaveRequest = LeaveRequest::where('company_id', $admin->company_id)
+            //     ->where('id', $id)
+            //     ->first();
             // Retrieve JobPositionLeaveTypes associated with the authenticated admin's company ID
-            $JobPositionLeaveTypes = JobPositionLeaveTypes::where('company_id', $admin->company_id)->get();
+            $JobPositionLeaveTypes = JobPositionLeaveTypes::where('company_id', $admin->company_id)
+                                ->where('job_position_id', $jobPositionId)
+                                ->get();
 
             // Return a response with JobPositionLeaveTypes data
             return response()->json(['data' => $JobPositionLeaveTypes], 200);

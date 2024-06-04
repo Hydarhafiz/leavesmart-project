@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ILeaveType } from '../interface/leave-type';
+import { LeaveTypeService } from '../services/leave-type.service';
 
 @Component({
   selector: 'app-view-leave-types-setting',
@@ -7,21 +8,31 @@ import { ILeaveType } from '../interface/leave-type';
   styleUrl: './view-leave-types-setting.component.css'
 })
 export class ViewLeaveTypesSettingComponent {
-  leaveTypes: ILeaveType[] = [
-    {
-      leave_name: 'Annual leave',
-      desc: 'Paid time off for employee to take annual leave.',
-      company_id:1
-    },
-    {
-      leave_name: 'Annual leave',
-      desc: 'Paid time off for employee to take annual leave.',
-      company_id:1
-    },
-    {
-      leave_name: 'Annual leave',
-      desc: 'Paid time off for employee to take annual leave.',
-      company_id:1
-    }
-  ]
+  
+
+  leaveTypes: ILeaveType[] = [];
+
+  constructor(
+    private leaveTypeService: LeaveTypeService
+  ) { }
+
+  ngOnInit(): void {
+    this.fetchLeaveRequestData();
+  }
+
+  fetchLeaveRequestData() {
+    this.leaveTypeService.fetchLeaveTypes().subscribe(
+      (response: any) => {
+        if (response) {
+          this.leaveTypes = response.data;
+        } else {
+          console.error('Invalid response format:', response);
+        }
+      },
+      error => {
+        console.error('Error fetching leave types data:', error);
+        // Handle error
+      }
+    );
+  }
 }

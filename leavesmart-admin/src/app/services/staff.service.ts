@@ -1,0 +1,56 @@
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LocalStorageService } from './local-storage.service';
+import { Observable, catchError, throwError } from 'rxjs';
+import { IStaff } from '../interface/staff';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StaffService {
+  private viewStaffsUrl  = environment.url + '/view-staff-manager';
+  private postStaffUrl  = environment.url + '/staff/register';
+
+
+  constructor(
+    private http: HttpClient,
+    private localStorage: LocalStorageService,
+
+  ) { }
+
+  fetchStaffs(): Observable<IStaff[]> {
+    // Retrieve token from local storage
+    const token = this.localStorage.get('token');
+
+    // Set up HTTP headers with the token
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    // Make HTTP GET request with headers
+    return this.http.get<IStaff[]>(this.viewStaffsUrl, { headers })
+      .pipe(
+        catchError(error => {
+          console.error('Error fetching staff data:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  postNewStaff(staff: IStaff): Observable<any> {
+    // Retrieve token from local storage
+    const token = this.localStorage.get('token');
+
+    // Set up HTTP headers with the token
+    const headers = { 'Authorization': `Bearer ${token}` };
+
+    return this.http.post<any>(this.postStaffUrl, staff, { headers })
+      .pipe(
+        catchError(error => {
+          console.error('Error creating new staff:', error);
+          return throwError(error);
+        })
+      );
+  }
+}

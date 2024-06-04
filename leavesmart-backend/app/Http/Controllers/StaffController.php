@@ -166,7 +166,9 @@ class StaffController extends Controller
             }
 
             // Retrieve staff associated with the authenticated admin's company ID
-            $staff = Staff::where('company_id', $admin->company_id)->get();
+            $staff = Staff::with('company', 'jobPosition', 'admin')
+                ->where('admin_id', $admin->id)
+                ->get();
 
             // Return a response with staff data
             return response()->json(['data' => $staff], 200);

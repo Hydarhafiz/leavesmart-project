@@ -82,7 +82,7 @@
 .button-container{
     text-align: center;
     justify-content: center;
-    margin: 0;
+    gap: 10px;
 }
 
 .add-button:hover {

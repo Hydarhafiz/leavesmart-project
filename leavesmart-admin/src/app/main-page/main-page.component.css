@@ -28,12 +28,18 @@
     margin-right: 8px;
 }
 
+.calendar {
+    flex-basis: calc(100%); /* Calculate the width of the element */
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
 .leave-types-setting {
     flex-basis: calc(50%); /* Calculate the width of the element */
     margin-left: 8px;
 }
 
 .job-position-setting {
-    flex-basis: calc(47%); /* Calculate the width of the element */
     margin-right: 8px;
+    flex-grow: 1;
 }
