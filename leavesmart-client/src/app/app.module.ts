@@ -13,7 +13,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { LeaveBalanceComponent } from './leave-balance/leave-balance.component';
 import { ViewLeaveRequestComponent } from './view-leave-request/view-leave-request.component';
 import { LeaveRequestFormComponent } from './leave-request-form/leave-request-form.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CalendarComponent } from './calendar/calendar.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     LeaveBalanceComponent,
     ViewLeaveRequestComponent,
     LeaveRequestFormComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     HttpClientModule, // Add this line
     BrowserAnimationsModule, // Add this line
     FormsModule, // Add this line
-    MatSnackBarModule
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
 
   ],
   providers: [

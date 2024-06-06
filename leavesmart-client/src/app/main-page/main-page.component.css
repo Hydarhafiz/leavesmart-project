@@ -26,6 +26,13 @@
     margin-right: 8px;
 }
 
+.calendar {
+    margin-left: 8px;
+    flex-basis: calc(100%);
+    margin-right: 8px;
+
+}
+
 .leave-request-form {
     margin-left: 8px;
     flex-basis: calc(100%);

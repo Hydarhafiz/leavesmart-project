@@ -9,7 +9,7 @@ import { LeaveRequestService } from '../services/leave-request.service';
 })
 export class ViewLeaveRequestComponent {
 
-  leaveRequests: ILeaveRequest[] = [];
+  leaveRequests: any;
 
   constructor(private leaveRequestService: LeaveRequestService) { }
 
