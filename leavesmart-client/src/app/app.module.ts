@@ -16,6 +16,8 @@ import { LeaveRequestFormComponent } from './leave-request-form/leave-request-fo
 import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -40,11 +42,14 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    ToastrModule.forRoot(), // Import ToastrModule.forRoot() here
+
+    
 
   ],
   providers: [
     provideClientHydration(),
-
+    ToastrService
   ],
   bootstrap: [AppComponent]
 })

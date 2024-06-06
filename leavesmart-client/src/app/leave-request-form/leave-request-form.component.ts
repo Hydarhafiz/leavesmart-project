@@ -4,6 +4,7 @@ import { LeaveBalanceService } from '../services/leave-balance.service';
 import { ILeaveRequest } from '../interface/leave-request';
 import { LeaveRequestService } from '../services/leave-request.service';
 import { StaffService } from '../services/staff.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class LeaveRequestFormComponent implements OnInit{
   constructor(
     private leaveBalanceService: LeaveBalanceService,
     private leaveRequestService: LeaveRequestService,
-    private staffService: StaffService
+    private staffService: StaffService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -102,19 +104,24 @@ export class LeaveRequestFormComponent implements OnInit{
   }
   
   submitLeaveRequest() {
-    console.log(this.leaveRequest)
+    console.log(this.leaveRequest);
     this.leaveRequestService.postLeaveRequest(this.leaveRequest).subscribe(
       (response: any) => {
         console.log('Leave request submitted successfully:', response);
+        this.toastr.success(response.message, 'Success');
         this.formSubmitted.emit();
-
       },
-      error => {
+      (error: any) => {
         console.error('Error submitting leave request:', error);
-        // Handle error
+        if (error.error && error.error.message) {
+          this.toastr.error(error.error.message, 'Error');
+        } else {
+          this.toastr.error('An unexpected error occurred', 'Error');
+        }
       }
     );
   }
+  
 
   
 }

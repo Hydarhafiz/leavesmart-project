@@ -4,6 +4,8 @@ import { LoginService } from '../services/login.service';
 import { LocalStorageService } from '../services/local-storage.service';
 import { Router } from '@angular/router';
 import { ILogin } from '../interface/login';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-login-page',
@@ -18,8 +20,10 @@ export class LoginPageComponent {
   constructor(
     private loginService: LoginService,
     private localStorage: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
+  
   
 
   submitted: any;
@@ -31,11 +35,14 @@ export class LoginPageComponent {
         const token = response.token; 
         this.localStorage.set('token', token); 
         this.router.navigate(['/main-page']);
+        this.toastr.success('Login successful', 'Success');
       },
       error: (error: any) => {
         console.log(error);
+        this.toastr.error('Invalid email or password', 'Error');
       }
     });
   }
+  
 
 }
