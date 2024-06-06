@@ -10,6 +10,7 @@ import { IJobPositionLeaveType } from '../interface/job-position-leave-type';
 })
 export class JobPositionLeaveTypeService {
   private viewJobPositionLeaveTypes  = environment.url + '/view-job-position-by-leave-types';
+  private createJobPositionLeaveTypes  = environment.url + '/create-job-position-by-leave-type';
 
   constructor(
     private http: HttpClient,
@@ -32,6 +33,22 @@ export class JobPositionLeaveTypeService {
     .pipe(
         catchError(error => {
           console.error('Error fetching job position data:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  postNewjobPositionByLeaveType(jobPositionByLeaveType: IJobPositionLeaveType): Observable<any> {
+    // Retrieve token from local storage
+    const token = this.localStorage.get('token');
+
+    // Set up HTTP headers with the token
+    const headers = { 'Authorization': `Bearer ${token}` };
+
+    return this.http.post<any>(this.createJobPositionLeaveTypes, jobPositionByLeaveType, { headers })
+      .pipe(
+        catchError(error => {
+          console.error('Error creating new job position by selected leave type:', error);
           return throwError(error);
         })
       );

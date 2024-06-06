@@ -1,0 +1,34 @@
+<div class="leave-request-container" *ngIf="leaveRequest">
+  <div class="leave-request-details staff-details">
+    <h2>Staff Details</h2>
+    <div><strong>Full Name:</strong> {{ staff?.FullName }}</div>
+    <div><strong>Gender:</strong> {{ staff?.gender }}</div>
+    <div><strong>Contact Number:</strong> {{ staff?.contact_number }}</div>
+    <div><strong>Email:</strong> {{ staff?.email }}</div>
+    <div><strong>Job Position:</strong> {{ staff?.job_position?.position_name }}</div>
+  </div>
+
+  <div class="leave-request-details request-details">
+      <div class="request-details-content">
+        <h2>Request Details</h2>
+        <div><strong>Leave Title:</strong> {{ leaveRequest.leave_title }}</div>
+        <div><strong>Start Date:</strong> {{ leaveRequest.start_date | date: 'yyyy-MM-dd' }}</div>
+        <div><strong>End Date:</strong> {{ leaveRequest.end_date | date: 'yyyy-MM-dd' }}</div>
+        <div><strong>Total Days:</strong> {{ leaveRequest.total_days }}</div>
+        <div><strong>Reason:</strong> {{ leaveRequest.reason }}</div>
+
+      </div>
+      <div class="status-wrapper">
+        <span><strong>Status:</strong> {{ leaveRequest.status }}</span>
+      </div>
+    </div>
+
+  <div class="manager-comments">
+      <h2>Manager Comments</h2>
+      <textarea [(ngModel)]="leaveRequest.manager_comments" rows="4" cols="50"></textarea>
+    </div>
+    <div class="button-container text-center">
+      <button type="button" class="btn btn-success" (click)="approveLeaveRequest()">Approve</button>
+      <button type="button" class="btn btn-danger" (click)="rejectLeaveRequest()">Reject</button>
+    </div>
+</div>

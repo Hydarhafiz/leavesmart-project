@@ -1,0 +1,26 @@
+<form (ngSubmit)="onSubmit()" class="smaller-form">
+    <h3 class="form-heading">Edit Staff</h3>
+    <div class="form-group">
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" name="FullName" class="form-control bigger-input" [(ngModel)]="staff.FullName" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" class="form-control bigger-input" [(ngModel)]="staff.email" required>
+    </div>
+    <div class="form-group">
+      <label for="gender">Gender</label>
+      <select id="gender" name="gender" class="form-control bigger-input" [(ngModel)]="staff.gender" required>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="contact_number">Contact Number</label>
+      <input type="text" id="contact_number" name="contact_number" class="form-control bigger-input" [(ngModel)]="staff.contact_number" required>
+    </div>
+    <div class="button-submit">
+        <button type="submit" class="custom-button">Update Staff</button>
+    </div>
+  </form>
+  

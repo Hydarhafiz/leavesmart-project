@@ -63,11 +63,9 @@ class JobPositionLeaveTypeController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
-            // $leaveRequest = LeaveRequest::where('company_id', $admin->company_id)
-            //     ->where('id', $id)
-            //     ->first();
             // Retrieve JobPositionLeaveTypes associated with the authenticated admin's company ID
-            $JobPositionLeaveTypes = JobPositionLeaveTypes::where('company_id', $admin->company_id)
+            $JobPositionLeaveTypes = JobPositionLeaveTypes::with('leaveType')
+                                ->where('company_id', $admin->company_id)
                                 ->where('job_position_id', $jobPositionId)
                                 ->get();
 

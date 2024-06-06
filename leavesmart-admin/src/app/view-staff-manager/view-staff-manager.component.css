@@ -2,8 +2,8 @@
     background-color: #fff;
     border: 2px solid black;
     padding: 20px;
-    min-height: 514px; /* Set max height */
-    max-height: 514px; /* Set max height */
+    min-height: 549px; /* Set max height */
+    max-height: 549px; /* Set max height */
     overflow-y: auto; /* Add scrollbar if content exceeds max height */
   }
   

@@ -213,6 +213,41 @@ class StaffController extends Controller
         }
     }
 
+    public function editStaffById(Request $request, $id)
+    {
+        try {
+            // Authenticate admin
+            $admin = auth()->guard('admin-api')->user();
+            if (!$admin) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+
+            // Retrieve staff associated with the authenticated admin's company ID and the provided ID
+            $staff = Staff::where('company_id', $admin->company_id)
+                ->where('id', $id)
+                ->first();
+
+            // Check if staff with the provided ID exists
+            if (!$staff) {
+                return response()->json(['error' => 'Staff not found'], 404);
+            }
+
+            // Update staff information based on request data
+            $staff->update($request->all());
+
+            // Return a response with updated staff data
+            return response()->json(['data' => $staff], 200);
+        } catch (\Exception $e) {
+            // Log the exception
+            return response()->json([
+                'status' => 'error',
+                'code' => 500,
+                'message' => 'Internal Server Error'
+            ], 500);
+        }
+    }
+
+
 
     public function logout()
     {

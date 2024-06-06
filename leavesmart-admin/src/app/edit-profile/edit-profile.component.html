@@ -1,0 +1,33 @@
+<form (ngSubmit)="onSubmit()" class="smaller-form">
+    <h3 class="form-heading">Edit Admin Profile</h3>
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" class="form-control bigger-input" [(ngModel)]="updatedAdminProfile.username"
+            required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" class="form-control bigger-input" [(ngModel)]="updatedAdminProfile.email"
+            required>
+    </div>
+    <div class="form-group custom-dropdown">
+        <label for="gender">Gender</label>
+        <div class="dropdown">
+            <select id="gender" name="gender" class="form-control bigger-input" [(ngModel)]="updatedAdminProfile.gender"
+                required>
+                <option value="" disabled selected hidden>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            <span class="caret"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="contact_number">Contact Number</label>
+        <input type="text" id="contact_number" name="contact_number" class="form-control bigger-input"
+            [(ngModel)]="updatedAdminProfile.contact_number" required>
+    </div>
+    <div class="button-submit">
+        <button type="submit" class="custom-button">Update Profile</button>
+    </div>
+</form>

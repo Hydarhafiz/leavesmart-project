@@ -1,0 +1,12 @@
+<form (ngSubmit)="submitjobPositionForm()" class="smaller-form">
+    <h3 class="form-heading">Create Job Position</h3>
+    <div class="form-group">
+      <label for="positionName">Position Name</label>
+      <input type="text" id="positionName" name="positionName" class="form-control bigger-input" [(ngModel)]="jobPositionForm.position_name" required>
+    </div>
+    <div class="button-submit">
+        <button type="submit" class="custom-button">Submit</button>
+
+    </div>
+  </form>
+  

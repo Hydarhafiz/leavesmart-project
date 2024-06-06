@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ILeaveRequest } from '../interface/leave-request';
 import { LeaveRequestService } from '../services/leave-request.service';
 
 @Component({
@@ -8,14 +7,27 @@ import { LeaveRequestService } from '../services/leave-request.service';
   styleUrl: './view-leave-request-manager.component.css'
 })
 export class ViewLeaveRequestManagerComponent implements OnInit{
-  leaveRequests: ILeaveRequest[] = [];
+  leaveRequests: any;
 
   constructor(
-    private leaveRequestService: LeaveRequestService
+    private leaveRequestService: LeaveRequestService,
   ) { }
 
   ngOnInit(): void {
     this.fetchLeaveRequestData();
+  }
+
+  getStatusColor(status: string): string {
+    switch (status) {
+      case 'Approved':
+        return '#04EC1B';
+      case 'Pending':
+        return '#ECD504';
+      case 'Rejected':
+        return '#EC0404';
+      default:
+        return '#000'; // default color if status not recognized
+    }
   }
 
   fetchLeaveRequestData() {
@@ -34,16 +46,10 @@ export class ViewLeaveRequestManagerComponent implements OnInit{
     );
   }
 
-  getStatusColor(status: string): string {
-    switch (status) {
-      case 'Approved':
-        return '#04EC1B';
-      case 'Pending':
-        return '#ECD504';
-      case 'Rejected':
-        return '#EC0404';
-      default:
-        return '#000'; // default color if status not recognized
-    }
+  editLeaveRequestInNewTab(id: number) {
+    const editUrl = `/view-leave-request/${id}`; // Adjust the URL as per your routing configuration
+    window.open(editUrl, '_blank'); // Open URL in a new tab
   }
+
+  
 }

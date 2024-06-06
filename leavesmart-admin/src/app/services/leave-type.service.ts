@@ -10,7 +10,9 @@ import { ILeaveType } from '../interface/leave-type';
 })
 export class LeaveTypeService {
 
-  private viewLeaveTypes  = environment.url + '/view-leave-types-manager';
+  private viewLeaveTypesUrl  = environment.url + '/view-leave-types-manager';
+  private postLeaveTypesUrl  = environment.url + '/create-leave-types';
+
 
   constructor(
     private http: HttpClient,
@@ -28,10 +30,27 @@ export class LeaveTypeService {
     });
 
     // Make HTTP GET request with headers
-    return this.http.get<ILeaveType[]>(this.viewLeaveTypes, { headers })
+    return this.http.get<ILeaveType[]>(this.viewLeaveTypesUrl, { headers })
       .pipe(
         catchError(error => {
           console.error('Error fetching job position data:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+
+  postNewLeaveType(leaveType: ILeaveType): Observable<any> {
+    // Retrieve token from local storage
+    const token = this.localStorage.get('token');
+
+    // Set up HTTP headers with the token
+    const headers = { 'Authorization': `Bearer ${token}` };
+
+    return this.http.post<any>(this.postLeaveTypesUrl, leaveType, { headers })
+      .pipe(
+        catchError(error => {
+          console.error('Error creating new leaveType:', error);
           return throwError(error);
         })
       );

@@ -41,6 +41,7 @@ Route::put('update-profile', [AdminController::class, 'updateAdmin']);
 Route::post('staff/register', [StaffController::class, 'register'])->name('register');
 Route::get('view-staff-manager', [StaffController::class, 'indexAdmin']);
 Route::get('view-staff-manager/{id}', [StaffController::class, 'getStaffById']);
+Route::put('edit-staff-manager/{id}', [StaffController::class, 'editStaffById']);
 
 
 

@@ -1,0 +1,21 @@
+<form (ngSubmit)="submitjobPositionByLeaveTypesForm()" class="smaller-form">
+    <h3 class="form-heading">Create Job Position By Leave Type</h3>
+    <div class="form-group">
+      <label for="jobPosition">Job Position</label>
+      <select id="jobPosition" name="jobPosition" class="form-control bigger-input" [(ngModel)]="jobPositionByLeaveTypesForm.job_position_id" required>
+        <option *ngFor="let option of jobPositionOptions" [value]="option.value">{{ option.display }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="leaveType">Leave Type</label>
+      <select id="leaveType" name="leaveType" class="form-control bigger-input" [(ngModel)]="jobPositionByLeaveTypesForm.leave_type_id" required>
+        <option *ngFor="let option of leaveTypesOptions" [value]="option.value">{{ option.display }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="maxAllowedDays">Max Allowed Days</label>
+      <input type="number" id="maxAllowedDays" name="maxAllowedDays" class="form-control bigger-input" [(ngModel)]="jobPositionByLeaveTypesForm.max_allowed_days" required>
+    </div>
+    <button type="submit" class="custom-button">Submit</button>
+  </form>
+  

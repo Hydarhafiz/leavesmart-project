@@ -35,4 +35,9 @@ export class ViewLeaveTypesSettingComponent {
       }
     );
   }
+
+  createLeaveTypeInNewTab() {
+    const editUrl = `/create-new-leave-type`; // Adjust the URL as per your routing configuration
+    window.open(editUrl, '_blank'); // Open URL in a new tab
+  }
 }

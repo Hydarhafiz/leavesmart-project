@@ -10,7 +10,8 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 })
 export class LeaveRequestService {
 
-  private viewLeaveRequests  = environment.url + '/view-leave-request-manager';
+  private viewLeaveRequests = environment.url + '/view-leave-request-manager';
+  private editLeaveRequests = environment.url + '/edit-leave-request-manager'
 
   constructor(
     private http: HttpClient,
@@ -44,7 +45,7 @@ export class LeaveRequestService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.get<{ data: ILeaveRequest[] }>(this.viewLeaveRequests, {headers})
+    return this.http.get<{ data: ILeaveRequest[] }>(this.viewLeaveRequests, { headers })
       .pipe(
         map(response => response.data),
         catchError(error => {
@@ -52,5 +53,41 @@ export class LeaveRequestService {
           throw error;
         })
       );
+  }
+
+  fetchLeaveRequestById(id: number): Observable<ILeaveRequest> {
+    // Retrieve token from local storage
+    const token = this.localStorage.get('token');
+
+    // Set up HTTP headers with the token
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    // Construct the URL with the ID
+    const url = `${this.viewLeaveRequests}/${id}`;
+
+    // Make HTTP GET request with headers
+    return this.http.get<ILeaveRequest>(url, { headers })
+      .pipe(
+        catchError(error => {
+          console.error(`Error fetching leave request with ID ${id}:`, error);
+          return throwError(error);
+        })
+      );
+  }
+
+  editLeaveRequestById(id: number, updatedLeaveRequest: ILeaveRequest): Observable<ILeaveRequest> {
+    const token = this.localStorage.get('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const url = `${this.editLeaveRequests}/${id}`;
+    return this.http.put<ILeaveRequest>(url, updatedLeaveRequest, { headers }).pipe(
+      catchError(error => {
+        console.error(`Error editing leave request with ID ${id}:`, error);
+        return throwError(error);
+      })
+    );
   }
 }

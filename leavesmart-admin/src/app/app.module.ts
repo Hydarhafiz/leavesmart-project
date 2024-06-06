@@ -19,6 +19,15 @@ import { ViewJobPositionSettingComponent } from './view-job-position-setting/vie
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarComponent } from './calendar/calendar.component';
+import { ViewLeaveRequestByIdComponent } from './view-leave-request-by-id/view-leave-request-by-id.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { EditStaffsManagerComponent } from './edit-staffs-manager/edit-staffs-manager.component';
+import { CreateLeaveTypeComponent } from './create-leave-type/create-leave-type.component';
+import { CreateJobPositionComponent } from './create-job-position/create-job-position.component';
+import { CreateJobPositionByLeaveTypeComponent } from './create-job-position-by-leave-type/create-job-position-by-leave-type.component';
+
+
 
 @NgModule({
   declarations: [
@@ -34,6 +43,12 @@ import { CalendarComponent } from './calendar/calendar.component';
     ViewLeaveTypesSettingComponent,
     ViewJobPositionSettingComponent,
     CalendarComponent,
+    ViewLeaveRequestByIdComponent,
+    EditProfileComponent,
+    EditStaffsManagerComponent,
+    CreateLeaveTypeComponent,
+    CreateJobPositionComponent,
+    CreateJobPositionByLeaveTypeComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,13 +57,15 @@ import { CalendarComponent } from './calendar/calendar.component';
     HttpClientModule, // Add this line
     BrowserAnimationsModule, // Add this line
     FormsModule, // Add this line
+
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

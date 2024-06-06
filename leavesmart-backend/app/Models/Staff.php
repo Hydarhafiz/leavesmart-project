@@ -15,7 +15,7 @@ class Staff extends Authenticatable implements JWTSubject
     use HasFactory, HasApiTokens, Notifiable;
 
     protected $fillable = [
-        'Fullname',
+        'FullName',
         'gender',
         'contact_number',
         'email',

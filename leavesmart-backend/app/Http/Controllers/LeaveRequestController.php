@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\LeaveRequest;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
-
+use App\Models\Staff;
+use App\Models\LeaveBalance;
+use App\Models\LeaveType;
 
 class LeaveRequestController extends Controller
 {
@@ -103,28 +104,30 @@ class LeaveRequestController extends Controller
     }
 
     public function indexAdmin()
-    {
-        try {
-            // Authenticate admin
-            $admin = auth()->guard('admin-api')->user();
-            if (!$admin) {
-                return response()->json(['error' => 'Unauthorized'], 401);
-            }
-
-            // Retrieve leaveRequest associated with the authenticated admin's company ID
-            $leaveRequest = LeaveRequest::where('company_id', $admin->company_id)->get();
-
-            // Return a response with leaveRequest data
-            return response()->json(['data' => $leaveRequest], 200);
-        } catch (\Exception $e) {
-            // Log the exception
-            return response()->json([
-                'status' => 'error',
-                'code' => 500,
-                'message' => 'Internal Server Error'
-            ], 500);
+{
+    try {
+        // Authenticate admin
+        $admin = auth()->guard('admin-api')->user();
+        if (!$admin) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
+
+        // Retrieve leaveRequest associated with the authenticated admin's company ID
+        $leaveRequest = LeaveRequest::with('staff', 'staff.jobPosition', 'leaveType')
+                        ->where('company_id', $admin->company_id)->get();
+
+        // Return a response with leaveRequest data
+        return response()->json(['data' => $leaveRequest], 200);
+    } catch (\Exception $e) {
+        // Log the exception
+        return response()->json([
+            'status' => 'error',
+            'code' => 500,
+            'message' => 'Internal Server Error'
+        ], 500);
     }
+}
+
 
     public function getLeaveRequestById($id)
     {
@@ -135,8 +138,8 @@ class LeaveRequestController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
-            // Retrieve the leave request associated with the provided ID and the authenticated admin's company ID
-            $leaveRequest = LeaveRequest::where('company_id', $admin->company_id)
+            $leaveRequest = LeaveRequest::with('staff', 'staff.jobPosition', 'leaveType')
+                ->where('company_id', $admin->company_id)
                 ->where('id', $id)
                 ->first();
 
@@ -182,11 +185,30 @@ class LeaveRequestController extends Controller
                 'total_days' => 'integer',
                 'manager_comments' => 'nullable|string',
                 'status' => 'string',
+                'staff_id' => 'required',
+                'leave_type_id' => 'required'
             ]);
 
             // Update the leave request with the validated data
             $leaveRequest->fill($validatedData);
             $leaveRequest->save();
+
+            // If the status is Approved, update the leave balance
+            if ($validatedData['status'] === 'Approved') {
+                $staff = Staff::where('id', $validatedData['staff_id'])->first();
+                if ($staff) {
+                    $leaveBalance = LeaveBalance::where('staff_id', $staff->id)
+                                                 ->where('leave_type_id', $validatedData['leave_type_id'])
+                                                 ->first(); // Retrieve the first model instance
+                    if ($leaveBalance) {
+                        // Update the leave balance based on your requirements
+                        // For example, you might want to decrease the available balance by the number of days approved
+                        $leaveBalance->days_left -= $validatedData['total_days'];
+                        $leaveBalance->save();
+                    }
+                }
+            }
+            
 
             // Return a response indicating success
             return response()->json(['message' => 'Leave request updated successfully', 'data' => $leaveRequest], 200);
@@ -195,8 +217,11 @@ class LeaveRequestController extends Controller
             return response()->json([
                 'status' => 'error',
                 'code' => 500,
-                'message' => 'Internal Server Error'
+                'exception' => $e->getMessage(), // Include the exception message
+                'stack_trace' => $e->getTrace(), // Include the stack trace if needed
+                // You can include more details from the exception object as needed
             ], 500);
         }
+        
     }
 }

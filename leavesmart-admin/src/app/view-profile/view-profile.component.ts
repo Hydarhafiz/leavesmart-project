@@ -8,7 +8,7 @@ import { AdminService } from '../services/admin.service';
   styleUrl: './view-profile.component.css'
 })
 export class ViewProfileComponent implements OnInit {
-  adminProfile: IAdmin[] = [];
+  adminProfile: any;
 
   constructor(private adminService: AdminService) { }
 
@@ -30,5 +30,10 @@ export class ViewProfileComponent implements OnInit {
         // Handle error
       }
     );
+  }
+
+  editLeaveRequestInNewTab() {
+    const editUrl = `/edit-profile`; // Adjust the URL as per your routing configuration
+    window.open(editUrl, '_blank'); // Open URL in a new tab
   }
 }

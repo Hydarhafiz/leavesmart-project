@@ -182,7 +182,7 @@ class AdminController extends Controller
             // Validate incoming request data for admin
             $validatedAdminData = $request->validate([
                 'username' => 'required|string',
-                'gender' => 'required|string|in:Male,Female,Other',
+                'gender' => 'required|string',
                 'contact_number' => 'required|string',
                 'email' => 'required|email|unique:admins,email,' . $admin->id,
                 'password' => 'nullable|string',

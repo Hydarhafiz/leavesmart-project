@@ -45,8 +45,14 @@ export class CreateStaffComponent implements OnInit {
 
           // Create leave options array with value (leave_type_id) and display (leave_name)
           this.jobPositionOptions = this.jobPosition.map(jobPosition => {
-            return { value: jobPosition.id, display: jobPosition.position_name };
+            if (jobPosition.id !== undefined) {
+              return { value: jobPosition.id, display: jobPosition.position_name };
+            } else {
+              // handle the case where id is undefined, maybe log an error or handle it differently
+              return { value: 0, display: 'Undefined Position' }; // Default value for example
+            }
           });
+          
         } else {
           console.error('Invalid response format:', response);
         }

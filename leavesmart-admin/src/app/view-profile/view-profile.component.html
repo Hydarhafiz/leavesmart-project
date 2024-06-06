@@ -6,10 +6,11 @@
         <div><strong>Gender:</strong> {{admin.gender}}</div>
         <div><strong>Contact Number:</strong> {{admin.contact_number}}</div>
         <div><strong>Email:</strong> {{admin.email}}</div>
-        <div><strong>Max staffs:</strong> 15</div>        
         <div><strong>Total current staffs:</strong> 12</div>
-        <div><strong>Company Name:</strong> {{admin.company?.company_name}}</div>
-        <button class="edit-profile-btn">Edit Profile</button> <!-- New button -->
+        <div><strong>Total current admins:</strong> 12</div>
+        <div><strong>Max staffs and admins:</strong> 15</div>
+        <div><strong>Company Name:</strong> {{admin.company.company_name}}</div>
+        <button class="edit-profile-btn" (click)="editLeaveRequestInNewTab()">Edit Profile</button> <!-- New button -->
       </div>
     </div>
     

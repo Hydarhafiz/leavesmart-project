@@ -11,6 +11,7 @@ import { IStaff } from '../interface/staff';
 export class StaffService {
   private viewStaffsUrl  = environment.url + '/view-staff-manager';
   private postStaffUrl  = environment.url + '/staff/register';
+  private editStaffUrl  = environment.url + '/edit-staff-manager';
 
 
   constructor(
@@ -36,6 +37,42 @@ export class StaffService {
           return throwError(error);
         })
       );
+  }
+
+  fetchStaffById(id: number): Observable<IStaff> {
+    // Retrieve token from local storage
+    const token = this.localStorage.get('token');
+
+    // Set up HTTP headers with the token
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    // Construct the URL with the ID
+    const url = `${this.viewStaffsUrl}/${id}`;
+
+    // Make HTTP GET request with headers
+    return this.http.get<IStaff>(url, { headers })
+      .pipe(
+        catchError(error => {
+          console.error(`Error fetching staff with ID ${id}:`, error);
+          return throwError(error);
+        })
+      );
+  }
+
+  editStaffProfile(id: number, updatedStaff: IStaff): Observable<IStaff> {
+    const token = this.localStorage.get('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const url = `${this.editStaffUrl}/${id}`;
+    return this.http.put<IStaff>(url, updatedStaff, { headers }).pipe(
+      catchError(error => {
+        console.error(`Error editing staff with ID ${id}:`, error);
+        return throwError(error);
+      })
+    );
   }
 
   postNewStaff(staff: IStaff): Observable<any> {

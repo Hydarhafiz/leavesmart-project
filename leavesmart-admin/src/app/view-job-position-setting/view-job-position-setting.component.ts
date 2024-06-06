@@ -11,8 +11,8 @@ import { JobPositionLeaveTypeService } from '../services/job-position-leave-type
 })
 export class ViewJobPositionSettingComponent implements OnInit {
   selectedJobPositionId: number | undefined;
-  jobPositions: IJobPosition[] = [];
-  jobPositionByLeaveTypes: IJobPositionLeaveType[] = [];
+  jobPositions: any;
+  jobPositionByLeaveTypes: any;
 
   constructor(
     private jobPositionService: JobPositionService,
@@ -57,5 +57,15 @@ export class ViewJobPositionSettingComponent implements OnInit {
         }
       );
     }
+  }
+
+  CreateJobPositionNewTab() {
+    const editUrl = `/create-new-job-position`; // Adjust the URL as per your routing configuration
+    window.open(editUrl, '_blank'); // Open URL in a new tab
+  }
+
+  CreateJobPositionByLeaveTypeNewTab() {
+    const editUrl = `/create-new-job-position-by-leave-type`; // Adjust the URL as per your routing configuration
+    window.open(editUrl, '_blank'); // Open URL in a new tab
   }
 }

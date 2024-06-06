@@ -33,6 +33,11 @@ export class ViewStaffManagerComponent {
       }
     );
   }
+
+  editStaffInNewTab(id: any) {
+    const editUrl = `/view-staff-manager/${id}`; // Adjust the URL as per your routing configuration
+    window.open(editUrl, '_blank'); // Open URL in a new tab
+  }
 }
 
 

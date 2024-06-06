@@ -10,6 +10,7 @@ import { IJobPosition } from '../interface/job-position';
 })
 export class JobPositionService {
   private viewJobPosition  = environment.url + '/view-job-positions-setting';
+  private createJobPosition  = environment.url + '/create-job-positions'
 
   constructor(
     private http: HttpClient,
@@ -31,6 +32,23 @@ export class JobPositionService {
       .pipe(
         catchError(error => {
           console.error('Error fetching job position data:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+
+  postNewjobPosition(jobPosition: IJobPosition): Observable<any> {
+    // Retrieve token from local storage
+    const token = this.localStorage.get('token');
+
+    // Set up HTTP headers with the token
+    const headers = { 'Authorization': `Bearer ${token}` };
+
+    return this.http.post<any>(this.createJobPosition, jobPosition, { headers })
+      .pipe(
+        catchError(error => {
+          console.error('Error creating new job position:', error);
           return throwError(error);
         })
       );

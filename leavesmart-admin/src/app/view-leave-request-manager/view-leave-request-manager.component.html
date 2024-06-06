@@ -1,16 +1,17 @@
 <div class="leave-request-manager">
-  <h1 class="title">Leave Request Manager</h1>
-  <div *ngFor="let request of leaveRequests" class="leave-request">
-      <div class="request-details">
-          <div><strong>Leave Title:</strong> {{ request.leave_title }}</div>
-          <div><strong>Staff Name:</strong> {{ request.staff_id }}</div>
-          <div><strong>Leave Type:</strong> {{ request.leave_type_id }}</div>
-          <div><strong>Dates:</strong> {{ request.start_date | date: 'yyyy-MM-dd' }} - {{ request.end_date | date: 'yyyy-MM-dd' }}</div>
-          <div><strong>Job Position:</strong> {{ request.staff_id }}</div>
-          <div class="status" [ngStyle]="{ 'background-color': getStatusColor(request.status), 'color': 'white' }">
-              <span>{{ request.status }}</span>
-          </div>
-          <button class="edit-button">Edit</button> <!-- Edit button -->
-      </div>
+    <h1 class="title">Leave Request Manager</h1>
+    <div *ngFor="let request of leaveRequests" class="leave-request">
+        <div class="request-details">
+            <div><strong>Leave Title:</strong> {{ request.leave_title }}</div>
+            <div><strong>Staff Name:</strong> {{ request.staff.FullName }}</div>
+            <div><strong>Leave Type:</strong> {{ request.leave_type.leave_name }}</div>
+            <div><strong>Dates:</strong> {{ request.start_date | date: 'yyyy-MM-dd' }} - {{ request.end_date | date: 'yyyy-MM-dd' }}</div>
+            <div><strong>Job Position:</strong> {{ request.staff.job_position.position_name }}</div>
+            <div class="status" [ngStyle]="{ 'background-color': getStatusColor(request.status), 'color': 'white' }">
+                <span>{{ request.status }}</span>
+            </div>
+            <button class="edit-button" (click)="editLeaveRequestInNewTab(request.id)">Edit</button> <!-- Edit button -->
+        </div>
+    </div>
   </div>
-</div>
+  
