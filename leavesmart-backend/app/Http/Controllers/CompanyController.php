@@ -26,4 +26,22 @@ class CompanyController extends Controller
         // Return a response indicating success
         return response()->json(['message' => 'Company created successfully', 'data' => $company], 201);
     }
+
+    public function index()
+    {
+        try {            
+
+            $company = Company::all();
+
+            // Return a response with leave types
+            return response()->json(['data' => $company], 200);
+        } catch (\Exception $e) {
+            // Log the exception
+            return response()->json([
+                'status' => 'error',
+                'code' => 500,
+                'message' => 'Internal Server Error'
+            ], 500);
+        }
+    }
 }

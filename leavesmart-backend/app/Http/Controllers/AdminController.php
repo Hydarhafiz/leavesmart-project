@@ -11,7 +11,7 @@ use App\Models\Company;
 
 class AdminController extends Controller
 {
-    public function register(Request $request)
+    public function registerAdminAndCompany(Request $request)
     {
         try {
             // Validate incoming request data for admin
@@ -43,6 +43,8 @@ class AdminController extends Controller
             $company->industry = $validatedCompanyData['industry'];
             $company->website = $validatedCompanyData['website'];
             $company->package_type_id = $validatedCompanyData['package_type_id'];
+            $company->total_staffs = 0;
+            $company->total_admins = 1;
             $company->save();
 
             // Create a new admin account associated with the company
@@ -57,6 +59,62 @@ class AdminController extends Controller
 
             // Return a response indicating success
             return response()->json(['message' => 'Admin account and company created successfully', 'admin' => $admin, 'company' => $company], 201);
+        } catch (ValidationException $e) {
+            // Check if the error is due to duplicate username or email for admin or duplicate company data
+            $errors = $e->validator->errors();
+            $errorMessage = '';
+            if ($errors->has('username')) {
+                $errorMessage = 'The username is already taken.';
+            } elseif ($errors->has('email')) {
+                $errorMessage = 'The email is already taken.';
+            } elseif ($errors->has('company_name')) {
+                $errorMessage = 'The company name is already taken.';
+            } elseif ($errors->has('registration_number')) {
+                $errorMessage = 'The registration number is already taken.';
+            } else {
+                $errorMessage = $e->getMessage();
+            }
+
+            // Return the specific error message
+            return response()->json(['error' => $errorMessage], 422);
+        }
+    }
+
+    public function registerAdmin(Request $request)
+    {
+        try {
+            // Validate incoming request data for admin
+            $validatedAdminData = $request->validate([
+                'username' => 'required|string|unique:admins',
+                'email' => 'required|email|unique:admins',
+                'password' => 'required|string',
+                'gender' => 'required',
+                'contact_number' => 'required|string',
+                'company_id' => 'required|exists:companies,id',
+            ]);
+
+
+            // Create a new admin account associated with the company
+            $admin = new Admin();
+            $admin->username = $validatedAdminData['username'];
+            $admin->email = $validatedAdminData['email'];
+            $admin->password = bcrypt($validatedAdminData['password']);
+            $admin->gender = $validatedAdminData['gender'];
+            $admin->contact_number = $validatedAdminData['contact_number'];
+            $admin->company_id = $validatedAdminData['company_id']; // Associate the admin with the newly created company
+            $admin->save();
+
+            $company = Company::find($admin->company_id);
+            if ($company) {
+                // Increment the total_admins field
+                $company->total_admins += 1;
+                $company->save();
+            } else {
+                // Handle the case where the company is not found (if necessary)
+            }
+
+            // Return a response indicating success
+            return response()->json(['message' => 'Admin account created successfully', 'admin' => $admin], 201);
         } catch (ValidationException $e) {
             // Check if the error is due to duplicate username or email for admin or duplicate company data
             $errors = $e->validator->errors();
@@ -154,9 +212,10 @@ class AdminController extends Controller
             }
 
             // Retrieve admin and company data associated with the authenticated admin's company ID
-            $adminData = Admin::with('company')
-                        ->where('company_id', $admin->company_id)
-                        ->get();
+            $adminData = Admin::with('company', 'company.packageType')
+                ->where('company_id', $admin->company_id)
+                ->where('id', $admin->id) // Filter by the authenticated admin's ID
+                ->get();
 
             // Return a response with admin and company data
             return response()->json(['data' => $adminData], 200);

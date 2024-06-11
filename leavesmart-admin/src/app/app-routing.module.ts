@@ -9,6 +9,7 @@ import { EditStaffsManagerComponent } from './edit-staffs-manager/edit-staffs-ma
 import { CreateLeaveTypeComponent } from './create-leave-type/create-leave-type.component';
 import { CreateJobPositionComponent } from './create-job-position/create-job-position.component';
 import { CreateJobPositionByLeaveTypeComponent } from './create-job-position-by-leave-type/create-job-position-by-leave-type.component';
+import { RegisterPageComponent } from './register-page/register-page.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'create-new-leave-type', component: CreateLeaveTypeComponent, canActivate: [AuthGuard] },
   { path: 'create-new-job-position', component: CreateJobPositionComponent, canActivate: [AuthGuard] },
   { path: 'create-new-job-position-by-leave-type', component: CreateJobPositionByLeaveTypeComponent, canActivate: [AuthGuard] },
+  { path: 'register-admin', component: RegisterPageComponent },
 
 
 ];

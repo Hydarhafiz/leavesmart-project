@@ -26,7 +26,7 @@ import { EditStaffsManagerComponent } from './edit-staffs-manager/edit-staffs-ma
 import { CreateLeaveTypeComponent } from './create-leave-type/create-leave-type.component';
 import { CreateJobPositionComponent } from './create-job-position/create-job-position.component';
 import { CreateJobPositionByLeaveTypeComponent } from './create-job-position-by-leave-type/create-job-position-by-leave-type.component';
-
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 
 @NgModule({
@@ -62,10 +62,13 @@ import { CreateJobPositionByLeaveTypeComponent } from './create-job-position-by-
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    ToastrModule.forRoot(), // Import ToastrModule.forRoot() here
+
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    ToastrService
   ],
   bootstrap: [AppComponent]
 })

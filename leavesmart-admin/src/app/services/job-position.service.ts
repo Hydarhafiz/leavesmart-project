@@ -37,13 +37,9 @@ export class JobPositionService {
       );
   }
 
-
-  postNewjobPosition(jobPosition: IJobPosition): Observable<any> {
-    // Retrieve token from local storage
+  postNewJobPosition(jobPosition: IJobPosition): Observable<any> {
     const token = this.localStorage.get('token');
-
-    // Set up HTTP headers with the token
-    const headers = { 'Authorization': `Bearer ${token}` };
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
     return this.http.post<any>(this.createJobPosition, jobPosition, { headers })
       .pipe(

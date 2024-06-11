@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IJobPosition } from '../interface/job-position';
 import { JobPositionService } from '../services/job-position.service';
 import { AdminService } from '../services/admin.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-job-position',
@@ -17,7 +18,8 @@ export class CreateJobPositionComponent {
 
   constructor(
     private jobPositionService: JobPositionService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -40,7 +42,7 @@ export class CreateJobPositionComponent {
       },
       error => {
         console.error('Error fetching staff data:', error);
-        // Handle error
+        this.toastr.error('Failed to fetch admin and company details.', 'Error');
       }
     );
   }
@@ -53,18 +55,23 @@ export class CreateJobPositionComponent {
     };
   }
   
-  submitjobPositionForm() {
-    //console.log(this.staff)
-    this.jobPositionService.postNewjobPosition(this.jobPositionForm).subscribe(
+
+  submitJobPositionForm() {
+    this.jobPositionService.postNewJobPosition(this.jobPositionForm).subscribe(
       (response: any) => {
         console.log('Job position submitted successfully:', response);
-        //this.formSubmitted.emit();
-
+        this.toastr.success('Job position created successfully.', 'Success');
       },
       error => {
-        console.error('Error submitting staff:', error);
-        // Handle error
+        console.error('Error submitting job position:', error);
+        if (error.error && error.error.message) {
+          console.log('Extracted error message:', error.error.message);
+        } else {
+          console.log('Generic error message');
+        }
+        this.toastr.error('Failed to create job position.', 'Error');
       }
     );
   }
+  
 }

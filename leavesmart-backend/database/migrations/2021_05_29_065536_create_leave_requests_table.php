@@ -23,10 +23,12 @@ return new class extends Migration
             $table->unsignedBigInteger('staff_id');
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('leave_type_id');
+            $table->unsignedBigInteger('admin_id');
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade');
             $table->foreign('leave_type_id')->references('id')->on('leave_types')->onDelete('cascade');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
 
         });
     }

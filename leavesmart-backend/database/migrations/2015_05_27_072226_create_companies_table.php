@@ -16,6 +16,9 @@ class CreateCompaniesTable extends Migration
             $table->string('email')->unique();
             $table->string('industry');
             $table->string('website')->nullable();
+            $table->integer('total_staffs');
+            $table->integer('total_admins');
+
             //$table->string('photo_company')->nullable();
             $table->unsignedBigInteger('package_type_id');
             $table->timestamps();

@@ -26,6 +26,7 @@ export class LeaveRequestFormComponent implements OnInit{
     status: 'Pending',
     staff_id: 0, 
     leave_type_id: 0,
+    admin_id: 0,
     company_id: 0,
   };
   leaveBalances: ILeaveBalance[] = [];
@@ -74,6 +75,7 @@ export class LeaveRequestFormComponent implements OnInit{
           if (staffData) {
             this.leaveRequest.staff_id = staffData.id; // Set staff_id
             this.leaveRequest.company_id = staffData.company_id; // Set company_id
+            this.leaveRequest.admin_id = staffData.admin_id; // Set company_id
           } else {
             console.error('Invalid staff data:', response.data);
           }
@@ -99,6 +101,7 @@ export class LeaveRequestFormComponent implements OnInit{
       status: 'Pending',
       staff_id: 0,
       leave_type_id: 0,
+      admin_id:0,
       company_id: 0,
     };
   }

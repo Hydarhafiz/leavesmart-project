@@ -30,6 +30,7 @@ class LeaveRequestController extends Controller
                 'staff_id' => 'required|exists:staff,id',
                 'company_id' => 'required|exists:companies,id',
                 'leave_type_id' => 'required|exists:leave_types,id',
+                'admin_id' => 'required|exists:admins,id'
             ]);
 
             // Calculate total days
@@ -114,7 +115,10 @@ class LeaveRequestController extends Controller
 
         // Retrieve leaveRequest associated with the authenticated admin's company ID
         $leaveRequest = LeaveRequest::with('staff', 'staff.jobPosition', 'leaveType')
-                        ->where('company_id', $admin->company_id)->get();
+                        ->where('company_id', $admin->company_id)
+                        ->where('admin_id', $admin->id) // Filter by the authenticated admin's ID
+
+                        ->get();
 
         // Return a response with leaveRequest data
         return response()->json(['data' => $leaveRequest], 200);

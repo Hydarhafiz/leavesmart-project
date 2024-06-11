@@ -8,6 +8,7 @@ export interface ILeaveRequest {
     status: string;
     staff_id: number;
     leave_type_id: number;
+    admin_id: number;
     company_id: number;
     leave_type?: { leave_name: string }; // Include job_position property
   }

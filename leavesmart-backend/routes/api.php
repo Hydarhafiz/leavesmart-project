@@ -10,7 +10,7 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\JobPositionLeaveTypeController;
 use App\Http\Controllers\LeaveBalanceController;
-use App\Models\LeaveRequest;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,11 +27,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//package type
 Route::post('/package-types', [PackageTypeController::class, 'store']);
+Route::get('/get-package-types', [PackageTypeController::class, 'index']);
+
+//company
+Route::get('/get-companies', [CompanyController::class, 'index']);
+
+
 
 //ADMIN
 //register/login
-Route::post('/register', [AdminController::class, 'register']);
+Route::post('/register-admin-company', [AdminController::class, 'registerAdminAndCompany']);
+Route::post('/register-admin', [AdminController::class, 'registerAdmin']);
+
 Route::post('admin/login', [AdminController::class, 'adminLogin']);
 Route::get('view-profile', [AdminController::class, 'indexAdmin']);
 Route::put('update-profile', [AdminController::class, 'updateAdmin']);

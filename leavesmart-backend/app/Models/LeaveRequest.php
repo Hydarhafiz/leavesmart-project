@@ -20,6 +20,7 @@ class LeaveRequest extends Model
         'staff_id',
         'company_id',
         'leave_type_id',
+        'admin_id'
 
     ];
 

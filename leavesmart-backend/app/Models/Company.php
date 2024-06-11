@@ -17,10 +17,12 @@ class Company extends Model
         'industry',
         'website',
         'package_type_id',
+        'total_staffs',
+        'total_admins',
     ];
 
     public function packageType()
     {
-        return $this->belongsTo(PackageType::class);
+        return $this->belongsTo(PackageType::class, 'package_type_id');
     }
 }

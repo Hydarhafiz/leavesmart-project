@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ILeaveRequest } from '../interface/leave-request';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LeaveRequestService } from '../services/leave-request.service';
 import { IStaff } from '../interface/staff';
 import { IJobPosition } from '../interface/job-position';
@@ -31,11 +31,15 @@ export class ViewLeaveRequestByIdComponent {
     company_id: 0,
   } 
 
+
+
   constructor(
     private route: ActivatedRoute,
-    private leaveRequestService: LeaveRequestService
+    private leaveRequestService: LeaveRequestService,
+
   ) { }
 
+  
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.leaveRequestId = +params['id']; // (+) converts string 'id' to a number
@@ -80,6 +84,8 @@ export class ViewLeaveRequestByIdComponent {
     this.leaveRequestService.editLeaveRequestById(this.leaveRequestId, this.updatedLeaveRequest).subscribe(
       (response: ILeaveRequest) => {
         console.log("Leave request approved successfully:", response);
+        this.fetchLeaveRequestById(this.leaveRequestId);
+
         // Optionally, you can update this.leaveRequest with the updated data if needed
       },
       error => {
@@ -109,6 +115,8 @@ export class ViewLeaveRequestByIdComponent {
     this.leaveRequestService.editLeaveRequestById(this.leaveRequestId, this.updatedLeaveRequest).subscribe(
       (response: ILeaveRequest) => {
         console.log("Leave request rejected successfully:", response);
+        this.fetchLeaveRequestById(this.leaveRequestId);
+
         // Optionally, you can update this.leaveRequest with the updated data if needed
       },
       error => {
@@ -117,4 +125,5 @@ export class ViewLeaveRequestByIdComponent {
       }
     );
   }
+
 }

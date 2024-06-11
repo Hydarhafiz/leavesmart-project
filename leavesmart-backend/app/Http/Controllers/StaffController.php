@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Staff;
@@ -9,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use App\Models\LeaveBalance;
 use App\Models\JobPositionLeaveTypes;
 use App\Models\LeaveType;
+use App\Models\PackageType;
 
 
 
@@ -33,6 +35,24 @@ class StaffController extends Controller
                 'job_position_id' => 'required|exists:job_positions,id',
                 'admin_id' => 'required|exists:admins,id',
             ]);
+
+            $company = Company::find($validatedStaffData['company_id']);
+            if (!$company) {
+                return response()->json(['error' => 'Company not found'], 404);
+            }
+
+            // Fetch the package type data
+            $packageType = PackageType::find($company->package_type_id);
+            if (!$packageType) {
+                return response()->json(['error' => 'Package type not found'], 404);
+            }
+
+            // Check if adding the new staff member would exceed the max staff count
+            $currentTotalStaffsAndAdmins = $company->total_staffs + $company->total_admins;
+            if ($currentTotalStaffsAndAdmins + 1 > $packageType->max_staff_count) {
+                return response()->json(['error' => 'Max staff exceed'], 400);
+            }
+
 
             // Create a new staff member
             $staff = new Staff();
@@ -72,6 +92,14 @@ class StaffController extends Controller
             } else {
                 // Handle the case where no matching job_position_id is found in job_position_leave_types
                 // For now, you can set default values for title and days_left or handle it based on your application logic
+            }
+
+            if ($company) {
+                // Increment the total_staffs field
+                $company->total_staffs += 1;
+                $company->save();
+            } else {
+                // Handle the case where the company is not found (if necessary)
             }
 
             // Return a response indicating success
