@@ -11,7 +11,9 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 export class LeaveRequestService {
 
   private viewLeaveRequests = environment.url + '/view-leave-request-manager';
-  private editLeaveRequests = environment.url + '/edit-leave-request-manager'
+  private editLeaveRequests = environment.url + '/edit-leave-request-manager';
+  private attachments = environment.url;
+
 
   constructor(
     private http: HttpClient,
@@ -36,6 +38,10 @@ export class LeaveRequestService {
           return throwError(error);
         })
       );
+  }
+
+  getAttachmentUrl(filename: string): string {
+    return `${this.attachments}/${filename}`;
   }
 
   fetchLeaveRequestsCalendar(): Observable<ILeaveRequest[]> {

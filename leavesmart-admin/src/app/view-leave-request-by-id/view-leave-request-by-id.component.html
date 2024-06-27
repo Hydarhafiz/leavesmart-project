@@ -7,6 +7,13 @@
     <div><strong>Contact Number:</strong> {{ staff?.contact_number }}</div>
     <div><strong>Email:</strong> {{ staff?.email }}</div>
     <div><strong>Job Position:</strong> {{ staff?.job_position?.position_name }}</div>
+    <h2>Attachment</h2>
+  <div *ngIf="leaveRequest?.attachment">
+    <a [href]="leaveRequest.attachment" target="_blank" class="btn btn-primary">View Attachment</a>
+  </div>
+  <div *ngIf="!leaveRequest?.attachment">
+    No attachment available.
+  </div>
   </div>
 
   <!-- Request Details -->

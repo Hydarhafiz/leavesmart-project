@@ -12,9 +12,9 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './leave-request-form.component.html',
   styleUrl: './leave-request-form.component.css'
 })
-export class LeaveRequestFormComponent implements OnInit{
-  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
+export class LeaveRequestFormComponent implements OnInit {
 
+  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
 
   leaveRequest: ILeaveRequest = {
     leave_title: '',
@@ -24,13 +24,14 @@ export class LeaveRequestFormComponent implements OnInit{
     reason: '',
     manager_comments: '',
     status: 'Pending',
-    staff_id: 0, 
+    staff_id: 0,
     leave_type_id: 0,
     admin_id: 0,
     company_id: 0,
+    attachment: null
   };
   leaveBalances: ILeaveBalance[] = [];
-  leaveOptions: { value: number, display: string }[] = []; // Array to store leave options
+  leaveOptions: { value: number, display: string }[] = [];
 
   constructor(
     private leaveBalanceService: LeaveBalanceService,
@@ -49,8 +50,6 @@ export class LeaveRequestFormComponent implements OnInit{
       (response: any) => {
         if (response && response.data) {
           this.leaveBalances = response.data;
-
-          // Create leave options array with value (leave_type_id) and display (leave_name)
           this.leaveOptions = this.leaveBalances.map(balance => {
             return { value: balance.leave_type_id, display: balance.title };
           });
@@ -60,22 +59,19 @@ export class LeaveRequestFormComponent implements OnInit{
       },
       error => {
         console.error('Error fetching leave balances:', error);
-        // Handle error
       }
     );
   }
-
-  
 
   fetchStaffData() {
     this.staffService.fetchProfile().subscribe(
       (response: any) => {
         if (response && response.data) {
-          const staffData = response.data[0]; // Assuming you only expect one staff member's data
+          const staffData = response.data[0];
           if (staffData) {
-            this.leaveRequest.staff_id = staffData.id; // Set staff_id
-            this.leaveRequest.company_id = staffData.company_id; // Set company_id
-            this.leaveRequest.admin_id = staffData.admin_id; // Set company_id
+            this.leaveRequest.staff_id = staffData.id;
+            this.leaveRequest.company_id = staffData.company_id;
+            this.leaveRequest.admin_id = staffData.admin_id;
           } else {
             console.error('Invalid staff data:', response.data);
           }
@@ -85,7 +81,6 @@ export class LeaveRequestFormComponent implements OnInit{
       },
       error => {
         console.error('Error fetching staff data:', error);
-        // Handle error
       }
     );
   }
@@ -101,21 +96,45 @@ export class LeaveRequestFormComponent implements OnInit{
       status: 'Pending',
       staff_id: 0,
       leave_type_id: 0,
-      admin_id:0,
+      admin_id: 0,
       company_id: 0,
+      attachment: null
     };
   }
-  
+
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.leaveRequest.attachment = file;
+    }
+  }
+
   submitLeaveRequest() {
-    console.log(this.leaveRequest);
-    this.leaveRequestService.postLeaveRequest(this.leaveRequest).subscribe(
+    const startDate = this.formatDate(this.leaveRequest.start_date);
+    const endDate = this.formatDate(this.leaveRequest.end_date);
+
+    const formData = new FormData();
+    if (this.leaveRequest.attachment) {
+      formData.append('attachment', this.leaveRequest.attachment);
+    }
+    formData.append('leave_title', this.leaveRequest.leave_title);
+    formData.append('start_date', startDate);
+    formData.append('end_date', endDate);
+    formData.append('total_days', this.leaveRequest.total_days.toString());
+    formData.append('reason', this.leaveRequest.reason);
+    formData.append('manager_comments', this.leaveRequest.manager_comments);
+    formData.append('status', this.leaveRequest.status);
+    formData.append('staff_id', this.leaveRequest.staff_id.toString());
+    formData.append('leave_type_id', this.leaveRequest.leave_type_id.toString());
+    formData.append('admin_id', this.leaveRequest.admin_id.toString());
+    formData.append('company_id', this.leaveRequest.company_id.toString());
+
+    this.leaveRequestService.postLeaveRequest(formData).subscribe(
       (response: any) => {
-        console.log('Leave request submitted successfully:', response);
         this.toastr.success(response.message, 'Success');
         this.formSubmitted.emit();
       },
       (error: any) => {
-        console.error('Error submitting leave request:', error);
         if (error.error && error.error.message) {
           this.toastr.error(error.error.message, 'Error');
         } else {
@@ -123,8 +142,18 @@ export class LeaveRequestFormComponent implements OnInit{
         }
       }
     );
-  }
-  
+}
 
-  
+private formatDate(date: Date): string {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
 }

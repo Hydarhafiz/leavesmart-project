@@ -12,5 +12,6 @@ export interface ILeaveRequest {
     staff_id: number;
     leave_type_id: number;
     company_id: number;
+    attachment?: string; // Add this line
 
 }

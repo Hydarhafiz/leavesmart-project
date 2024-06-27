@@ -1,4 +1,5 @@
 export interface ILeaveRequest {
+  attachment: File | null; // Use File type for the file object
     leave_title: string;
     start_date: Date;
     end_date: Date;

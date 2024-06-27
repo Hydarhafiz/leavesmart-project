@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PackageTypeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LeaveRequestController;
@@ -11,6 +10,10 @@ use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\JobPositionLeaveTypeController;
 use App\Http\Controllers\LeaveBalanceController;
 use App\Http\Controllers\CompanyController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +61,26 @@ Route::put('edit-staff-manager/{id}', [StaffController::class, 'editStaffById'])
 Route::get('view-leave-request-manager', [LeaveRequestController::class, 'indexAdmin']);
 Route::get('view-leave-request-manager/{id}', [LeaveRequestController::class, 'getLeaveRequestById']);
 Route::put('edit-leave-request-manager/{id}', [LeaveRequestController::class, 'updateLeaveRequestById']);
+Route::get('/attachments', [LeaveRequestController::class, 'listAttachments']);
+Route::get('/attachments/{filename}', [LeaveRequestController::class, 'getAttachment']);
+
+
+//attachment request
+// Route::get('/attachments/{filename}', function ($filename) {
+//     $path = storage_path('app/public/storage/attachments/' . $filename);
+
+//     // if (!File::exists($path)) {
+//     //     abort(404);
+//     // }
+
+//     $file = File::get($path);
+//     $type = File::mimeType($path);
+
+//     $response = Response::make($file, 200);
+//     $response->header("Content-Type", $type);
+
+//     return $response;
+// })->name('attachment.view');
 
 
 

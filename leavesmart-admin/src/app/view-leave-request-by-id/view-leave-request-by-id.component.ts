@@ -55,6 +55,9 @@ export class ViewLeaveRequestByIdComponent {
         this.staff = response.data.staff;
         this.jobPosition = this.staff ? <IJobPosition>this.staff.job_position : null;
         this.leaveType = response.data.leave_type;
+        if (this.leaveRequest.attachment) {
+          this.leaveRequest.attachment = this.leaveRequestService.getAttachmentUrl(this.leaveRequest.attachment);
+        }
 
       },
       error => {

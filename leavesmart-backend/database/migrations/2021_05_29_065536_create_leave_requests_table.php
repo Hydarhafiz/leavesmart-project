@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('end_date');
             $table->integer('total_days');
             $table->string('reason');
+            $table->string('attachment');
             $table->string('manager_comments')->nullable();
             $table->string('status');
             $table->unsignedBigInteger('staff_id');

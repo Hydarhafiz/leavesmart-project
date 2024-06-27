@@ -1,32 +1,34 @@
 <div class="leave-request-form">
-    <h3>Leave Request Form</h3>
-    <form (ngSubmit)="submitLeaveRequest()">
-      <div class="form-group">
-        <label for="leaveTitle">Title:</label>
-        <input type="text" id="leaveTitle" name="leaveTitle" required [(ngModel)]="leaveRequest.leave_title">
-      </div>
-      <div class="form-group">
-        <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate" name="startDate" required [(ngModel)]="leaveRequest.start_date">
-      </div>
-      <div class="form-group">
-        <label for="endDate">End Date:</label>
-        <input type="date" id="endDate" name="endDate" required [(ngModel)]="leaveRequest.end_date">
-      </div>
-      <div class="form-group">
-        <label for="leaveType">Leave Type:</label>
-        <select id="leaveType" name="leaveType" required [(ngModel)]="leaveRequest.leave_type_id">
-          <option *ngFor="let option of leaveOptions" [value]="option.value">{{ option.display }}</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label for="reason">Reason:</label>
-        <textarea id="reason" name="reason" required [(ngModel)]="leaveRequest.reason"></textarea>
-      </div>
-      <div class="button-container">
-        <button type="submit">Submit</button>
-      </div>
-    </form>
-  </div>
-  
+  <h3>Leave Request Form</h3>
+  <form (ngSubmit)="submitLeaveRequest()" #leaveRequestForm="ngForm">
+    <div class="form-group">
+      <label for="leaveTitle">Title:</label>
+      <input type="text" id="leaveTitle" name="leaveTitle" required [(ngModel)]="leaveRequest.leave_title">
+    </div>
+    <div class="form-group">
+      <label for="startDate">Start Date:</label>
+      <input type="date" id="startDate" name="startDate" required [(ngModel)]="leaveRequest.start_date">
+    </div>
+    <div class="form-group">
+      <label for="endDate">End Date:</label>
+      <input type="date" id="endDate" name="endDate" required [(ngModel)]="leaveRequest.end_date">
+    </div>
+    <div class="form-group">
+      <label for="leaveType">Leave Type:</label>
+      <select id="leaveType" name="leaveType" required [(ngModel)]="leaveRequest.leave_type_id">
+        <option *ngFor="let option of leaveOptions" [value]="option.value">{{ option.display }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="reason">Reason:</label>
+      <textarea id="reason" name="reason" required [(ngModel)]="leaveRequest.reason"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="attachment">Attachment:</label>
+      <input type="file" id="attachment" name="attachment" (change)="onFileChange($event)">
+    </div>
+    <div class="button-container">
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+</div>
