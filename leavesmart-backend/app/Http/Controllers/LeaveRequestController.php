@@ -171,14 +171,8 @@ class LeaveRequestController extends Controller
         $leaveRequests = LeaveRequest::with(['staff', 'staff.jobPosition', 'leaveType'])
             ->where('company_id', $admin->company_id)
             ->where('admin_id', $admin->id)
-            ->get()
-            ->map(function ($leaveRequest) {
-                // Add full URL to attachment
-                if ($leaveRequest->attachment) {
-                    $leaveRequest->attachment = route('attachment.view', ['filename' => basename($leaveRequest->attachment)]);
-                }
-                return $leaveRequest;
-            });
+            ->get();
+            
 
         // Return a response with leave requests data
         return response()->json(['data' => $leaveRequests], 200);
