@@ -43,10 +43,12 @@ Route::get('/get-companies', [CompanyController::class, 'index']);
 //register/login
 Route::post('/register-admin-company', [AdminController::class, 'registerAdminAndCompany']);
 Route::post('/register-admin', [AdminController::class, 'registerAdmin']);
-
 Route::post('admin/login', [AdminController::class, 'adminLogin']);
+
+//profile-admin
 Route::get('view-profile', [AdminController::class, 'indexAdmin']);
 Route::put('update-profile', [AdminController::class, 'updateAdmin']);
+Route::get('/photo_admins/{filename}', [AdminController::class, 'getPhotoAdmin']);
 
 
 //staff
@@ -61,27 +63,7 @@ Route::put('edit-staff-manager/{id}', [StaffController::class, 'editStaffById'])
 Route::get('view-leave-request-manager', [LeaveRequestController::class, 'indexAdmin']);
 Route::get('view-leave-request-manager/{id}', [LeaveRequestController::class, 'getLeaveRequestById']);
 Route::put('edit-leave-request-manager/{id}', [LeaveRequestController::class, 'updateLeaveRequestById']);
-Route::get('/attachments', [LeaveRequestController::class, 'listAttachments']);
 Route::get('/attachments/{filename}', [LeaveRequestController::class, 'getAttachment']);
-
-
-//attachment request
-// Route::get('/attachments/{filename}', function ($filename) {
-//     $path = storage_path('app/public/storage/attachments/' . $filename);
-
-//     // if (!File::exists($path)) {
-//     //     abort(404);
-//     // }
-
-//     $file = File::get($path);
-//     $type = File::mimeType($path);
-
-//     $response = Response::make($file, 200);
-//     $response->header("Content-Type", $type);
-
-//     return $response;
-// })->name('attachment.view');
-
 
 
 //leave-type
@@ -108,6 +90,8 @@ Route::post('staff/login', [StaffController::class, 'login'])->name('login');
 
 //profile
 Route::get('view-staff-profile', [StaffController::class, 'index']);
+Route::put('update-staff-profile', [StaffController::class, 'updateStaff']);
+
 
 
 //balance

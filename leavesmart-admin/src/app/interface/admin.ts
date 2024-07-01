@@ -1,4 +1,5 @@
 export interface IAdmin {
+  photo_admin: File | null; // Use File type for the file object
     id?: number;
     username: string;
     email: string;

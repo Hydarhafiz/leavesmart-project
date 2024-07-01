@@ -11,8 +11,8 @@ use App\Models\LeaveBalance;
 use App\Models\JobPositionLeaveTypes;
 use App\Models\LeaveType;
 use App\Models\PackageType;
-
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 
 class StaffController extends Controller
@@ -20,7 +20,7 @@ class StaffController extends Controller
     public function register(Request $request)
     {
         try {
-            if (!Auth::guard('admin-api')->check()) {
+            if (!Auth::guard('staff-api')->check()) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
@@ -33,7 +33,7 @@ class StaffController extends Controller
                 'password' => 'required|string',
                 'company_id' => 'required|exists:companies,id',
                 'job_position_id' => 'required|exists:job_positions,id',
-                'admin_id' => 'required|exists:admins,id',
+                'staff_id' => 'required|exists:staffs,id',
             ]);
 
             $company = Company::find($validatedStaffData['company_id']);
@@ -48,8 +48,8 @@ class StaffController extends Controller
             }
 
             // Check if adding the new staff member would exceed the max staff count
-            $currentTotalStaffsAndAdmins = $company->total_staffs + $company->total_admins;
-            if ($currentTotalStaffsAndAdmins + 1 > $packageType->max_staff_count) {
+            $currentTotalStaffsAndstaffs = $company->total_staffs + $company->total_staffs;
+            if ($currentTotalStaffsAndstaffs + 1 > $packageType->max_staff_count) {
                 return response()->json(['error' => 'Max staff exceed'], 400);
             }
 
@@ -63,7 +63,7 @@ class StaffController extends Controller
             $staff->password = bcrypt($validatedStaffData['password']);
             $staff->company_id = $validatedStaffData['company_id'];
             $staff->job_position_id = $validatedStaffData['job_position_id'];
-            $staff->admin_id = $validatedStaffData['admin_id'];
+            $staff->staff_id = $validatedStaffData['staff_id'];
             $staff->save();
 
             // Fetch all job position leave types based on job_position_id
@@ -183,19 +183,64 @@ class StaffController extends Controller
         }
     }
 
+    public function updateStaff(Request $request)
+    {
+        try {
+            // Authenticate user
+            $user = auth()->guard('user-api')->user();
+            if (!$user) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+
+            // Validate incoming request data for staff
+            $validatedStaffData = $request->validate([
+                'FullName' => 'required|string',
+                'gender' => 'required|string',
+                'contact_number' => 'required|string',
+                'email' => 'required|email|unique:staff,email',
+                'password' => 'nullable|string',
+            ]);
+
+
+
+            // Update staff data
+            $staff = Staff::find($user->id); // Retrieve the staff record from the database
+            $staff->username = $validatedStaffData['FullName'];
+            $staff->gender = $validatedStaffData['gender'];
+            $staff->contact_number = $validatedStaffData['contact_number'];
+            $staff->email = $validatedStaffData['email'];
+            if (isset($validatedStaffData['password'])) {
+                $staff->password = Hash::make($validatedStaffData['password']);
+            }
+            $staff->save();
+
+
+
+            // Return a success response
+            return response()->json(['message' => 'staff updated successfully', 'staff' => $staff], 200);
+        } catch (\Exception $e) {
+            Log::error('Internal Server Error: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'code' => 500,
+                'message' => 'Internal Server Error'
+            ], 500);
+        }
+    }
+
 
     public function indexAdmin()
     {
         try {
-            // Authenticate admin
-            $admin = auth()->guard('admin-api')->user();
-            if (!$admin) {
+            // Authenticate staff
+            $staff = auth()->guard('admin-api')->user();
+            if (!$staff) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
-            // Retrieve staff associated with the authenticated admin's company ID
+            // Retrieve staff associated with the authenticated staff's company ID
             $staff = Staff::with('company', 'jobPosition', 'admin')
-                ->where('admin_id', $admin->id)
+                ->where('admin_id', $staff->id)
                 ->get();
 
             // Return a response with staff data
@@ -213,14 +258,14 @@ class StaffController extends Controller
     public function getStaffById($id)
     {
         try {
-            // Authenticate admin
-            $admin = auth()->guard('admin-api')->user();
-            if (!$admin) {
+            // Authenticate staff
+            $staff = auth()->guard('staff-api')->user();
+            if (!$staff) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
-            // Retrieve staff associated with the authenticated admin's company ID and the provided ID
-            $staff = Staff::where('company_id', $admin->company_id)
+            // Retrieve staff associated with the authenticated staff's company ID and the provided ID
+            $staff = Staff::where('company_id', $staff->company_id)
                 ->where('id', $id)
                 ->first();
 
@@ -244,14 +289,14 @@ class StaffController extends Controller
     public function editStaffById(Request $request, $id)
     {
         try {
-            // Authenticate admin
-            $admin = auth()->guard('admin-api')->user();
-            if (!$admin) {
+            // Authenticate staff
+            $staff = auth()->guard('staff-api')->user();
+            if (!$staff) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
-            // Retrieve staff associated with the authenticated admin's company ID and the provided ID
-            $staff = Staff::where('company_id', $admin->company_id)
+            // Retrieve staff associated with the authenticated staff's company ID and the provided ID
+            $staff = Staff::where('company_id', $staff->company_id)
                 ->where('id', $id)
                 ->first();
 

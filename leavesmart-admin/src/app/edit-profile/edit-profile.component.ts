@@ -17,6 +17,7 @@ export class EditProfileComponent implements OnInit {
     gender: '',
     contact_number: '',
     company_id: 0,
+    photo_admin: null
   };
 
   constructor(private adminService: AdminService) { }
@@ -36,7 +37,9 @@ export class EditProfileComponent implements OnInit {
           gender: adminData.gender,
           contact_number: adminData.contact_number,
           company_id: adminData.company_id,
-          password: adminData.password
+          password: adminData.password,
+          photo_admin: null
+
         };
         console.log(this.updatedAdminProfile)
       },

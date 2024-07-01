@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IStaff } from '../interface/staff';
 import { StaffService } from '../services/staff.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +11,10 @@ import { StaffService } from '../services/staff.service';
 export class ProfileComponent implements OnInit {
   staffList: IStaff[] = [];
 
-  constructor(private staffService: StaffService) { }
+  constructor(
+    private staffService: StaffService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.fetchStaffData();
@@ -30,6 +34,11 @@ export class ProfileComponent implements OnInit {
         // Handle error
       }
     );
+  }
+
+  editLeaveRequestInNewTab() {
+    const editUrl = `/edit-profile`; // Adjust the URL as per your routing configuration
+    window.open(editUrl, '_blank'); // Open URL in a new tab
   }
   
 }

@@ -17,6 +17,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
     ViewLeaveRequestComponent,
     LeaveRequestFormComponent,
     CalendarComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,

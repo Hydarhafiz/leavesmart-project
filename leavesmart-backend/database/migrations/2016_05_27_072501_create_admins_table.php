@@ -15,7 +15,7 @@ class CreateAdminsTable extends Migration
             $table->string('password');
             $table->unsignedBigInteger('company_id');
             $table->string('gender');
-            //$table->string('photo_admin')->nullable();
+            $table->string('photo_admin');
             $table->string('contact_number');
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

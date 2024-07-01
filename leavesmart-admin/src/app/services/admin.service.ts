@@ -15,6 +15,8 @@ export class AdminService {
   private editProfileUrl  = environment.url + '/update-profile';
   private postRegisterAdminAndCompany = environment.url + '/register-admin-company';
   private postRegisterAdmin = environment.url + '/register-admin';
+  private photoAdmin = environment.url;
+
 
 
   constructor(
@@ -42,6 +44,10 @@ export class AdminService {
       );
   }
 
+  getAttachmentUrl(filename: string): string {
+    return `${this.photoAdmin}/${filename}`;
+  }
+
   editProfile(profileData: any): Observable<any> {
     // Retrieve token from local storage
     const token = this.localStorage.get('token');
@@ -61,7 +67,7 @@ export class AdminService {
       );
   }
 
-  postNewAdminAndCompany(data: any): Observable<any> {
+  postNewAdminAndCompany(data: FormData): Observable<any> {
     return this.http.post<any>(this.postRegisterAdminAndCompany, data)
       .pipe(
         catchError(error => {
@@ -71,7 +77,7 @@ export class AdminService {
       );
   }
   
-  postNewAdmin(admin: IAdmin ): Observable<any> {
+  postNewAdmin(admin: FormData ): Observable<any> {
     return this.http.post<any>(this.postRegisterAdmin, admin )
       .pipe(
         catchError(error => {

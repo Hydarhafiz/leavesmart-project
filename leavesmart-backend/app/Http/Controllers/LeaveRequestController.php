@@ -125,21 +125,6 @@ class LeaveRequestController extends Controller
         }
     }
 
-    public function listAttachments()
-    {
-        $attachmentsDirectory = storage_path('app/public/attachments');
-        $files = File::files($attachmentsDirectory);
-        
-        $fileList = [];
-        foreach ($files as $file) {
-            $fileList[] = [
-                'filename' => $file->getFilename(),
-                'url' => route('attachment.view', ['filename' => $file->getFilename()]),
-            ];
-        }
-
-        return response()->json(['files' => $fileList]);
-    }
 
     public function getAttachment($filename)
     {

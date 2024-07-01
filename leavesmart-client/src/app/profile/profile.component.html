@@ -9,6 +9,6 @@
     <div><strong>Position Name:</strong> {{ staff.job_position?.position_name}}</div>
     <div><strong>Reporting To:</strong> {{ staff.admin?.username }}</div>
     <div><strong>Company Name:</strong> {{ staff.company?.company_name }}</div>
-    <button class="edit-profile-btn">Edit Profile</button> <!-- New button -->
+    <button class="edit-profile-btn" (click)="editLeaveRequestInNewTab()">Edit Profile</button> <!-- New button -->
   </div>
 </div>

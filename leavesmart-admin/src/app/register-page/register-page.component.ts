@@ -20,6 +20,7 @@ export class RegisterPageComponent {
     password: '',
     gender: '',
     contact_number: '',
+    photo_admin: null
   }
   company: ICompany = {
     company_name: '',
@@ -36,7 +37,7 @@ export class RegisterPageComponent {
   getCompany: ICompany[] = [];
   companyOptions: { value: number, display: string }[] = [];
 
-  hasRegisteredCompany: string = 'no'; 
+  hasRegisteredCompany: string = 'no';
 
   constructor(
     private adminService: AdminService,
@@ -65,7 +66,7 @@ export class RegisterPageComponent {
               return { value: 0, display: 'Undefined package' }; // Default value for example
             }
           });
-          
+
         } else {
           console.error('Invalid response format:', response);
         }
@@ -92,7 +93,7 @@ export class RegisterPageComponent {
               return { value: 0, display: 'Undefined company' }; // Default value for example
             }
           });
-          
+
         } else {
           console.error('Invalid response format:', response);
         }
@@ -112,31 +113,47 @@ export class RegisterPageComponent {
       password: '',
       gender: '',
       contact_number: '',
+      photo_admin: null
+
     }
     this.company = {
       company_name: '',
-    registration_number: '',
-    company_contact_number: '',
-    company_email: '',
-    industry: '',
-    website: '',
-    package_type_id: 0
+      registration_number: '',
+      company_contact_number: '',
+      company_email: '',
+      industry: '',
+      website: '',
+      package_type_id: 0
     };
   }
-  
+
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.admin.photo_admin = file;
+    }
+  }
+
   submitRegister() {
     //if company have registered
-    if(this.hasRegisteredCompany ==='yes'){
-      const data = { 
-        username: this.admin.username,
-        email: this.admin.email,
-        password: this.admin.password,
-        gender: this.admin.gender,
-        contact_number: this.admin.contact_number,
-        company_id: this.admin.company_id
-      };
+    if (this.hasRegisteredCompany === 'yes') {
 
-      this.adminService.postNewAdmin(data).subscribe(
+
+      const formData = new FormData();
+      if (this.admin.photo_admin) {
+        formData.append('photo_admin', this.admin.photo_admin);
+      }
+      formData.append('username', this.admin.username);
+      formData.append('email', this.admin.email);
+      formData.append('password', this.admin.password);
+      formData.append('gender', this.admin.gender);
+      formData.append('contact_number', this.admin.contact_number);
+      // Check if company_id is defined before appending
+      if (this.admin.company_id !== undefined) {
+        formData.append('company_id', String(this.admin.company_id));
+      }
+
+      this.adminService.postNewAdmin(formData).subscribe(
         (response: any) => {
           console.log('Your account has been registered successfully:', response);
           this.router.navigate(['/login'])
@@ -147,26 +164,44 @@ export class RegisterPageComponent {
         }
       );
 
-    } 
-    
+    }
+
     //if company not registered yet
-    else{
-      const data = { 
-        username: this.admin.username,
-        email: this.admin.email,
-        password: this.admin.password,
-        gender: this.admin.gender,
-        contact_number: this.admin.contact_number,
-        company_name: this.company.company_name,
-        registration_number: this.company.registration_number,
-        company_contact_number: this.company.company_contact_number,
-        company_email: this.company.company_email,
-        industry: this.company.industry,
-        website: this.company.website,
-        package_type_id: this.company.package_type_id
-      };
-      console.log(data); // Just to verify the data being sent
-      this.adminService.postNewAdminAndCompany(data).subscribe(
+    else {
+
+      const formData = new FormData();
+      if (this.admin.photo_admin) {
+        formData.append('photo_admin', this.admin.photo_admin);
+      }
+      formData.append('username', this.admin.username);
+      formData.append('email', this.admin.email);
+      formData.append('password', this.admin.password);
+      formData.append('gender', this.admin.gender);
+      formData.append('contact_number', this.admin.contact_number);
+      formData.append('company_name', this.company.company_name);
+      formData.append('registration_number', this.company.registration_number);
+      formData.append('company_contact_number', this.company.company_contact_number);
+      formData.append('company_email', this.company.company_email);
+      formData.append('industry', this.company.industry);
+      formData.append('website', this.company.website);
+      formData.append('package_type_id', this.company.package_type_id.toString());
+
+      // const data = { 
+      //   username: this.admin.username,
+      //   email: this.admin.email,
+      //   password: this.admin.password,
+      //   gender: this.admin.gender,
+      //   contact_number: this.admin.contact_number,
+      //   company_name: this.company.company_name,
+      //   registration_number: this.company.registration_number,
+      //   company_contact_number: this.company.company_contact_number,
+      //   company_email: this.company.company_email,
+      //   industry: this.company.industry,
+      //   website: this.company.website,
+      //   package_type_id: this.company.package_type_id
+      // };
+      console.log(formData); // Just to verify the data being sent
+      this.adminService.postNewAdminAndCompany(formData).subscribe(
         (response: any) => {
           console.log('Your account has been registered successfully:', response);
           this.router.navigate(['/login'])
@@ -177,7 +212,7 @@ export class RegisterPageComponent {
         }
       );
     }
-    
+
   }
-  
+
 }

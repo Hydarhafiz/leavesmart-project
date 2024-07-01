@@ -23,6 +23,7 @@ class Admin extends Authenticatable implements JWTSubject
         'FullName',
         'gender',
         'contact_number',
+        'photo_admin'
     ];
 
     public function company()

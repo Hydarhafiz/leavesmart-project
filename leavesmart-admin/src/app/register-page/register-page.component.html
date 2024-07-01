@@ -87,6 +87,10 @@
             <label for="adminContactNumber">Contact Number</label>
             <input type="text" id="adminContactNumber" name="adminContactNumber" class="form-control bigger-input" [(ngModel)]="admin.contact_number" required>
         </div>
+        <div class="form-group">
+            <label for="photo_admin">Your profile photo:</label>
+            <input type="file" id="photo_admin" name="photo_admin" (change)="onFileChange($event)">
+          </div>
     </div>
     
     <button type="submit" class="custom-button">Register</button>

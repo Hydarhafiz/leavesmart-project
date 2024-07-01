@@ -15,7 +15,7 @@ class CreateStaffTable extends Migration
             $table->string('contact_number');
             $table->string('email')->unique();
             $table->string('password');
-            //$table->string('photo_staff')->nullable();
+            $table->string('photo_staff');
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('job_position_id');
             $table->unsignedBigInteger('admin_id');

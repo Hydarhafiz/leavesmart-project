@@ -7,6 +7,9 @@ use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\Company;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 
 
 class AdminController extends Controller
@@ -47,15 +50,25 @@ class AdminController extends Controller
             $company->total_admins = 1;
             $company->save();
 
-            // Create a new admin account associated with the company
-            $admin = new Admin();
-            $admin->username = $validatedAdminData['username'];
-            $admin->email = $validatedAdminData['email'];
-            $admin->password = bcrypt($validatedAdminData['password']);
-            $admin->gender = $validatedAdminData['gender'];
-            $admin->contact_number = $validatedAdminData['contact_number'];
-            $admin->company_id = $company->id; // Associate the admin with the newly created company
-            $admin->save();
+            
+            $validatedAdminData['password'] = bcrypt($validatedAdminData['password']);
+            if ($request->hasFile('photo_admin')) {
+                try {
+                    $file = $request->file('photo_admin');
+                    $path = $file->store('photo_admins', 'public');
+                    $validatedAdminData['photo_admin'] = $path;
+                } catch (\Exception $e) {
+                    Log::error('File upload error: ' . $e->getMessage());
+                    return response()->json([
+                        'status' => 'error',
+                        'code' => 500,
+                        'message' => 'File upload failed'
+                    ], 500);
+                }
+            }
+
+
+            $admin = Admin::create($validatedAdminData);
 
             // Return a response indicating success
             return response()->json(['message' => 'Admin account and company created successfully', 'admin' => $admin, 'company' => $company], 201);
@@ -94,15 +107,24 @@ class AdminController extends Controller
             ]);
 
 
-            // Create a new admin account associated with the company
-            $admin = new Admin();
-            $admin->username = $validatedAdminData['username'];
-            $admin->email = $validatedAdminData['email'];
-            $admin->password = bcrypt($validatedAdminData['password']);
-            $admin->gender = $validatedAdminData['gender'];
-            $admin->contact_number = $validatedAdminData['contact_number'];
-            $admin->company_id = $validatedAdminData['company_id']; // Associate the admin with the newly created company
-            $admin->save();
+            $validatedAdminData['password'] = bcrypt($validatedAdminData['password']);
+            if ($request->hasFile('photo_admin')) {
+                try {
+                    $file = $request->file('photo_admin');
+                    $path = $file->store('photo_admins', 'public');
+                    $validatedAdminData['photo_admin'] = $path;
+                } catch (\Exception $e) {
+                    Log::error('File upload error: ' . $e->getMessage());
+                    return response()->json([
+                        'status' => 'error',
+                        'code' => 500,
+                        'message' => 'File upload failed'
+                    ], 500);
+                }
+            }
+
+
+            $admin = Admin::create($validatedAdminData);
 
             $company = Company::find($admin->company_id);
             if ($company) {
@@ -228,6 +250,37 @@ class AdminController extends Controller
             ], 500);
         }
     }
+
+    public function getPhotoAdmin($filename)
+{
+    // Construct the correct path to the photo
+    $path = public_path('storage/photo_admins/' . $filename);
+
+    // Log the path to debug
+    Log::info('Photo path: ' . $path);
+
+    if (!File::exists($path)) {
+        return response()->json(['error' => 'File not found at path: ' . $path], 404);
+    }
+
+    $type = File::mimeType($path);
+
+    // Check if the file is an image
+    $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/webp'];
+
+    if (!in_array($type, $allowedMimeTypes)) {
+        return response()->json(['error' => 'File is not a supported image type'], 404);
+    }
+
+    $file = File::get($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+}
+
+    
 
     public function updateAdmin(Request $request)
     {

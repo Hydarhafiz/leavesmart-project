@@ -1,5 +1,6 @@
 <div *ngFor="let admin of adminProfile" class="profile">
-    <img src="assets/admin.png" alt="Profile Picture" class="profile-pic">
+  <img [src]="adminPhoto || 'assets/admin.png'" alt="Profile Picture" class="profile-pic fixed-size">
+
     <h2>Profile Information</h2>
       <div class="profile-info">
         <div><strong>Name:</strong> {{admin.username}}</div>

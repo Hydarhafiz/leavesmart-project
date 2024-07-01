@@ -9,6 +9,7 @@ import { AdminService } from '../services/admin.service';
 })
 export class ViewProfileComponent implements OnInit {
   adminProfile: any;
+  adminPhoto: any;
 
   constructor(private adminService: AdminService) { }
 
@@ -21,6 +22,12 @@ export class ViewProfileComponent implements OnInit {
       (response: any) => {
         if (response) {
           this.adminProfile = response.data;
+          console.log(this.adminProfile[0].photo_admin)
+
+          if (this.adminProfile[0].photo_admin) {
+            this.adminPhoto = this.adminService.getAttachmentUrl(this.adminProfile[0].photo_admin);
+            console.log(this.adminPhoto)
+          }
         } else {
           console.error('Invalid response format:', response);
         }
