@@ -12,6 +12,7 @@ export class StaffService {
   private viewStaffsUrl  = environment.url + '/view-staff-manager';
   private postStaffUrl  = environment.url + '/staff/register';
   private editStaffUrl  = environment.url + '/edit-staff-manager';
+  private photoStaff = environment.url;
 
 
   constructor(
@@ -61,6 +62,10 @@ export class StaffService {
       );
   }
 
+  getAttachmentUrl(filename: any): string {
+    return `${this.photoStaff}/${filename}`;
+  }
+
   editStaffProfile(id: number, updatedStaff: IStaff): Observable<IStaff> {
     const token = this.localStorage.get('token');
     const headers = new HttpHeaders({
@@ -75,7 +80,7 @@ export class StaffService {
     );
   }
 
-  postNewStaff(staff: IStaff): Observable<any> {
+  postNewStaff(staff: FormData): Observable<any> {
     // Retrieve token from local storage
     const token = this.localStorage.get('token');
 

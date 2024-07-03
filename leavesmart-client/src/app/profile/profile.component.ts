@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
   staffList: IStaff[] = [];
+  staffPhoto: any;
 
   constructor(
     private staffService: StaffService,
@@ -20,11 +21,16 @@ export class ProfileComponent implements OnInit {
     this.fetchStaffData();
   }
 
+
   fetchStaffData() {
     this.staffService.fetchProfile().subscribe(
       (response: any) => {
         if (response && response.data) {
           this.staffList = response.data;
+          if (this.staffList[0].photo_staff) {
+            this.staffPhoto = this.staffService.getAttachmentUrl(this.staffList[0].photo_staff);
+            console.log(this.staffPhoto)
+          }
         } else {
           console.error('Invalid response format:', response);
         }

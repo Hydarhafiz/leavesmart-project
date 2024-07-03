@@ -13,14 +13,15 @@ use App\Models\LeaveType;
 use App\Models\PackageType;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 
 class StaffController extends Controller
 {
     public function register(Request $request)
     {
         try {
-            if (!Auth::guard('staff-api')->check()) {
+            if (!Auth::guard('admin-api')->check()) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
@@ -33,7 +34,7 @@ class StaffController extends Controller
                 'password' => 'required|string',
                 'company_id' => 'required|exists:companies,id',
                 'job_position_id' => 'required|exists:job_positions,id',
-                'staff_id' => 'required|exists:staffs,id',
+                'admin_id' => 'required|exists:admins,id',
             ]);
 
             $company = Company::find($validatedStaffData['company_id']);
@@ -54,17 +55,26 @@ class StaffController extends Controller
             }
 
 
-            // Create a new staff member
-            $staff = new Staff();
-            $staff->FullName = $validatedStaffData['FullName'];
-            $staff->gender = $validatedStaffData['gender'];
-            $staff->contact_number = $validatedStaffData['contact_number'];
-            $staff->email = $validatedStaffData['email'];
-            $staff->password = bcrypt($validatedStaffData['password']);
-            $staff->company_id = $validatedStaffData['company_id'];
-            $staff->job_position_id = $validatedStaffData['job_position_id'];
-            $staff->staff_id = $validatedStaffData['staff_id'];
-            $staff->save();
+            if ($request->hasFile('photo_staff')) {
+                try {
+                    $file = $request->file('photo_staff');
+                    $path = $file->store('photo_staffs', 'public');
+                    $validatedStaffData['photo_staff'] = $path;
+                } catch (\Exception $e) {
+                    Log::error('File upload error: ' . $e->getMessage());
+                    return response()->json([
+                        'status' => 'error',
+                        'code' => 500,
+                        'message' => 'File upload failed'
+                    ], 500);
+                }
+            }
+
+            $validatedStaffData['password'] = bcrypt($validatedStaffData['password']);
+
+
+
+            $staff = Staff::create($validatedStaffData);
 
             // Fetch all job position leave types based on job_position_id
             $jobPositionLeaveTypes = JobPositionLeaveTypes::where('job_position_id', $staff->job_position_id)->get();
@@ -109,6 +119,7 @@ class StaffController extends Controller
             return response()->json(['error' => $e->validator->errors()->first()], 422);
         } catch (\Exception $e) {
             // Log the exception
+            Log::error('Internal Server Error: ' . $e->getMessage());
             return response()->json([
                 'status' => 'error',
                 'code' => 500,
@@ -183,6 +194,24 @@ class StaffController extends Controller
         }
     }
 
+
+    public function getStaffPhoto($filename)
+    {
+        $path = storage_path('app/public/photo_staffs/' . $filename);
+
+        if (!File::exists($path)) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        return response()->make($file, 200, [
+            'Content-Type' => $type,
+            'Content-Disposition' => 'inline; filename="' . $filename . '"'
+        ]);
+    }
+
     public function updateStaff(Request $request)
     {
         try {
@@ -254,6 +283,26 @@ class StaffController extends Controller
             ], 500);
         }
     }
+
+
+    public function listStaffPhotos()
+    {
+        $attachmentsDirectory = storage_path('app/public/photo_staffs');
+        $files = File::files($attachmentsDirectory);
+        
+        $fileList = [];
+        foreach ($files as $file) {
+            $filePath = $file->getPathname();  // Get the full path to the file
+            $fileList[] = [
+                'filename' => $file->getFilename(),
+                'path' => $filePath,
+            ];
+        }
+    
+        return response()->json(['files' => $fileList]);
+    }
+
+
 
     public function getStaffById($id)
     {

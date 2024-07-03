@@ -56,6 +56,9 @@ Route::post('staff/register', [StaffController::class, 'register'])->name('regis
 Route::get('view-staff-manager', [StaffController::class, 'indexAdmin']);
 Route::get('view-staff-manager/{id}', [StaffController::class, 'getStaffById']);
 Route::put('edit-staff-manager/{id}', [StaffController::class, 'editStaffById']);
+Route::get('/photo_staffs', [StaffController::class, 'listStaffPhotos']);
+Route::get('/photo_staffs/{filename}', [StaffController::class, 'getStaffPhoto'])->name('photo_staffs.view');
+
 
 
 

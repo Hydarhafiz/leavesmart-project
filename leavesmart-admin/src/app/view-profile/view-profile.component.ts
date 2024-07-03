@@ -14,10 +14,10 @@ export class ViewProfileComponent implements OnInit {
   constructor(private adminService: AdminService) { }
 
   ngOnInit(): void {
-    this.fetchStaffData();
+    this.fetchAdminData();
   }
 
-  fetchStaffData() {
+  fetchAdminData() {
     this.adminService.fetchProfile().subscribe(
       (response: any) => {
         if (response) {

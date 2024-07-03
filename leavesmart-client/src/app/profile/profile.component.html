@@ -1,5 +1,6 @@
 <div *ngFor="let staff of staffList" class="profile">
-  <img src="assets/user.png" alt="Profile Picture" class="profile-pic">
+  <img [src]="staffPhoto|| 'assets/user.png'" alt="Profile Picture" class="profile-pic fixed-size">
+
   <h2>Profile Information</h2>
   <div class="profile-info">
     <div><strong>Name:</strong> {{ staff.FullName }}</div>

@@ -20,9 +20,10 @@ class Staff extends Authenticatable implements JWTSubject
         'contact_number',
         'email',
         'password',
+        'photo_staff',
         'company_id',
         'job_position_id',
-        'admin_id'
+        'admin_id',
     ];
 
     public function company()

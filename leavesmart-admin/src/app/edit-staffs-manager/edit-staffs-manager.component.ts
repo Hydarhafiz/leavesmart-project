@@ -20,6 +20,8 @@ export class EditStaffsManagerComponent implements OnInit{
     job_position_id: 0,
     admin_id: 0,
     company_id: 0,
+    photo_staff: null
+
   } 
 
   constructor(
@@ -57,6 +59,8 @@ export class EditStaffsManagerComponent implements OnInit{
       job_position_id: this.staff.job_position_id,
       admin_id: this.staff.admin_id,
       company_id: this.staff.company_id,
+      photo_staff: null
+
     } 
     this.staffService.editStaffProfile(this.staffId, this.updatedStaff).subscribe(
       (response: IStaff) => {

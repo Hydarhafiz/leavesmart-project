@@ -22,6 +22,7 @@ export class CreateStaffComponent implements OnInit {
     job_position_id: 0,
     admin_id: 0,
     company_id: 0,
+    photo_staff: null
   };
   jobPosition: IJobPosition[] = [];
   jobPositionOptions: { value: number, display: string }[] = []; // Array to store leave options
@@ -34,7 +35,7 @@ export class CreateStaffComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchJobPositionData();
-    this.fetchAdminIdAndCompanyId();
+    this.fetchstaffIdAndCompanyId();
   }
 
   fetchJobPositionData() {
@@ -66,7 +67,7 @@ export class CreateStaffComponent implements OnInit {
 
   
 
-  fetchAdminIdAndCompanyId() {
+  fetchstaffIdAndCompanyId() {
     this.adminService.fetchProfile().subscribe(
       (response: any) => {
         if (response && response.data) {
@@ -98,12 +99,40 @@ export class CreateStaffComponent implements OnInit {
       job_position_id: 0,
       admin_id: 0,
       company_id: 0,
+      photo_staff: null
     };
+  }
+
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.staff.photo_staff = file;
+    }
   }
   
   submitStaff() {
-    console.log(this.staff)
-    this.staffService.postNewStaff(this.staff).subscribe(
+
+    const formData = new FormData();
+      if (this.staff.photo_staff) {
+        formData.append('photo_staff', this.staff.photo_staff);
+      }
+      formData.append('FullName', this.staff.FullName);
+      formData.append('email', this.staff.email);
+      if (this.staff.password !== undefined) {
+        formData.append('password', String(this.staff.password));
+      }
+      formData.append('gender', this.staff.gender);
+      formData.append('contact_number', this.staff.contact_number);
+      if (this.staff.admin_id !== undefined) {
+        formData.append('admin_id', String(this.staff.admin_id));
+      }
+      if (this.staff.job_position_id !== undefined) {
+        formData.append('job_position_id', String(this.staff.job_position_id));
+      }
+      if (this.staff.company_id !== undefined) {
+        formData.append('company_id', String(this.staff.company_id));
+      }
+    this.staffService.postNewStaff(formData).subscribe(
       (response: any) => {
         console.log('Staff submitted successfully:', response);
         //this.formSubmitted.emit();

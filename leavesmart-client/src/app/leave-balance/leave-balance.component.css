@@ -4,8 +4,8 @@
     border: 2px solid black;
     padding: 20px;
     text-align: center; /* Center align text */
-    min-height: 191px;
-    max-height: 191px;
+    min-height: 210px;
+    max-height: 210px;
     overflow-y: auto; /* Add scrollbar if content exceeds max height */
 
 }

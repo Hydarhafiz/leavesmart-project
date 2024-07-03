@@ -186,20 +186,6 @@ export class RegisterPageComponent {
       formData.append('website', this.company.website);
       formData.append('package_type_id', this.company.package_type_id.toString());
 
-      // const data = { 
-      //   username: this.admin.username,
-      //   email: this.admin.email,
-      //   password: this.admin.password,
-      //   gender: this.admin.gender,
-      //   contact_number: this.admin.contact_number,
-      //   company_name: this.company.company_name,
-      //   registration_number: this.company.registration_number,
-      //   company_contact_number: this.company.company_contact_number,
-      //   company_email: this.company.company_email,
-      //   industry: this.company.industry,
-      //   website: this.company.website,
-      //   package_type_id: this.company.package_type_id
-      // };
       console.log(formData); // Just to verify the data being sent
       this.adminService.postNewAdminAndCompany(formData).subscribe(
         (response: any) => {

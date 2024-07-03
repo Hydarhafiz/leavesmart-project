@@ -11,6 +11,8 @@ import { LocalStorageService } from './local-storage.service';
 export class StaffService {
 
   private viewStaffUrl  = environment.url + '/view-staff-profile';
+  private photoStaff = environment.url;
+
 
   constructor(
     private http: HttpClient,
@@ -35,5 +37,9 @@ export class StaffService {
           return throwError(error);
         })
       );
+  }
+
+  getAttachmentUrl(filename: any): string {
+    return `${this.photoStaff}/${filename}`;
   }
 }

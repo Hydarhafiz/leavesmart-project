@@ -9,6 +9,8 @@
     </div> -->
     <div *ngFor="let staff of staffList" class="staff-box">
         <div class="staff-details">
+            <img [src]="getPhotoUrl(staff.photo_staff)" alt="Profile Picture" class="profile-pic fixed-size">
+
             <div><strong>Name:</strong> {{ staff.FullName }}</div>
             <div><strong>Gender:</strong> {{ staff.gender }}</div>
             <div><strong>Contact Number:</strong> {{ staff.contact_number }}</div>
