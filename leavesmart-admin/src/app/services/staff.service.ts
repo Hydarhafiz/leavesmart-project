@@ -13,6 +13,8 @@ export class StaffService {
   private postStaffUrl  = environment.url + '/staff/register';
   private editStaffUrl  = environment.url + '/edit-staff-manager';
   private photoStaff = environment.url;
+  private deleteStaffUrl  = environment.url + '/delete-staff';
+
 
 
   constructor(
@@ -91,6 +93,28 @@ export class StaffService {
       .pipe(
         catchError(error => {
           console.error('Error creating new staff:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  deleteStaffById(id: number): Observable<IStaff> {
+    // Retrieve token from local storage
+    const token = this.localStorage.get('token');
+
+    // Set up HTTP headers with the token
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    // Construct the URL with the ID
+    const url = `${this.deleteStaffUrl}/${id}`;
+
+    // Make HTTP DELETE request with headers
+    return this.http.delete<IStaff>(url, { headers })
+      .pipe(
+        catchError(error => {
+          console.error(`Error deleting staff with ID ${id}:`, error);
           return throwError(error);
         })
       );

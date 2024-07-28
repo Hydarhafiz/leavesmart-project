@@ -1,25 +1,28 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { IStaff } from '../interface/staff';
 import { IJobPosition } from '../interface/job-position';
 import { StaffService } from '../services/staff.service';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-view-staff-manager',
   templateUrl: './view-staff-manager.component.html',
   styleUrl: './view-staff-manager.component.css'
 })
-export class ViewStaffManagerComponent {
-  
+export class ViewStaffManagerComponent implements AfterViewInit {
+  @ViewChild('confirmationDialog') confirmationDialog!: ConfirmationDialogComponent;
+
   staffList: IStaff[] = [];
   staffPhotos: string[] = []; // Array to hold photo URLs
 
   constructor(private staffService: StaffService) { }
 
+  ngAfterViewInit(): void {
+  }
+
   ngOnInit(): void {
     this.fetchStaffData();
   }
-
-  
 
   fetchStaffData() {
     this.staffService.fetchStaffs().subscribe(
@@ -31,7 +34,7 @@ export class ViewStaffManagerComponent {
               const photoUrl = this.staffService.getAttachmentUrl(staff.photo_staff);
               this.staffPhotos.push(photoUrl);
             }
-            console.log(this.staffPhotos)
+            console.log(this.staffPhotos);
           });
         } else {
           console.error('Invalid response format:', response);
@@ -39,7 +42,6 @@ export class ViewStaffManagerComponent {
       },
       error => {
         console.error('Error fetching staff data:', error);
-        // Handle error
       }
     );
   }
@@ -52,7 +54,29 @@ export class ViewStaffManagerComponent {
   getPhotoUrl(filename: any): string {
     return this.staffService.getAttachmentUrl(filename); // Implement this method in your StaffService
   }
-  
+
+  confirmDelete(id: any) {
+    if (this.confirmationDialog) {
+      this.confirmationDialog.isVisible = true;
+      this.confirmationDialog.message = 'Are you sure you want to delete this staff member?';
+      const sub = this.confirmationDialog.confirm.subscribe(() => {
+        this.deleteStaff(id);
+        sub.unsubscribe(); // Unsubscribe after the first confirmation
+      });
+    }
+  }
+
+  deleteStaff(id: any) {
+    this.staffService.deleteStaffById(id).subscribe(
+      (response: any) => {
+        console.log('Staff member deleted successfully:', response);
+        this.fetchStaffData();
+      },
+      error => {
+        console.error('Error deleting staff member:', error);
+      }
+    );
+  }
 }
 
 

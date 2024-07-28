@@ -289,7 +289,7 @@ class StaffController extends Controller
     {
         $attachmentsDirectory = storage_path('app/public/photo_staffs');
         $files = File::files($attachmentsDirectory);
-        
+
         $fileList = [];
         foreach ($files as $file) {
             $filePath = $file->getPathname();  // Get the full path to the file
@@ -298,7 +298,7 @@ class StaffController extends Controller
                 'path' => $filePath,
             ];
         }
-    
+
         return response()->json(['files' => $fileList]);
     }
 
@@ -308,7 +308,7 @@ class StaffController extends Controller
     {
         try {
             // Authenticate staff
-            $staff = auth()->guard('staff-api')->user();
+            $staff = auth()->guard('admin-api')->user();
             if (!$staff) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
@@ -339,7 +339,7 @@ class StaffController extends Controller
     {
         try {
             // Authenticate staff
-            $staff = auth()->guard('staff-api')->user();
+            $staff = auth()->guard('admin-api')->user();
             if (!$staff) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
@@ -368,6 +368,52 @@ class StaffController extends Controller
             ], 500);
         }
     }
+
+    public function deleteStaffById($id)
+{
+    try {
+        // Authenticate staff
+        $admin = auth()->guard('admin-api')->user();
+        if (!$admin) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        // Retrieve staff associated with the authenticated staff's company ID and the provided ID
+        $staffToDelete = Staff::where('company_id', $admin->company_id)
+            ->where('id', $id)
+            ->first();
+
+        // Check if staff with the provided ID exists
+        if (!$staffToDelete) {
+            return response()->json(['error' => 'Staff not found'], 404);
+        }
+
+        // Retrieve the company record
+        $company = Company::where('id', $staffToDelete->company_id)->first();
+
+        // Check if company with the provided ID exists
+        if (!$company) {
+            return response()->json(['error' => 'Company not found'], 404);
+        }
+
+        // Delete the staff member
+        $staffToDelete->delete();
+
+        // Decrement the total_staffs column
+        $company->total_staffs = $company->total_staffs - 1;
+        $company->save();
+
+        // Return a response indicating successful deletion
+        return response()->json(['message' => 'Staff member deleted successfully'], 200);
+    } catch (\Exception $e) {
+        // Log the exception
+        return response()->json([
+            'status' => 'error',
+            'code' => 500,
+            'message' => 'Internal Server Error'
+        ], 500);
+    }
+}
 
 
 

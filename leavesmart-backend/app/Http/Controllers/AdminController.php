@@ -50,7 +50,7 @@ class AdminController extends Controller
             $company->total_admins = 1;
             $company->save();
 
-            
+
             $validatedAdminData['password'] = bcrypt($validatedAdminData['password']);
             if ($request->hasFile('photo_admin')) {
                 try {
@@ -67,6 +67,8 @@ class AdminController extends Controller
                 }
             }
 
+            // Set the company_id for the admin
+            $validatedAdminData['company_id'] = $company->id;
 
             $admin = Admin::create($validatedAdminData);
 
@@ -252,35 +254,35 @@ class AdminController extends Controller
     }
 
     public function getPhotoAdmin($filename)
-{
-    // Construct the correct path to the photo
-    $path = public_path('storage/photo_admins/' . $filename);
+    {
+        // Construct the correct path to the photo
+        $path = public_path('storage/photo_admins/' . $filename);
 
-    // Log the path to debug
-    Log::info('Photo path: ' . $path);
+        // Log the path to debug
+        Log::info('Photo path: ' . $path);
 
-    if (!File::exists($path)) {
-        return response()->json(['error' => 'File not found at path: ' . $path], 404);
+        if (!File::exists($path)) {
+            return response()->json(['error' => 'File not found at path: ' . $path], 404);
+        }
+
+        $type = File::mimeType($path);
+
+        // Check if the file is an image
+        $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/webp'];
+
+        if (!in_array($type, $allowedMimeTypes)) {
+            return response()->json(['error' => 'File is not a supported image type'], 404);
+        }
+
+        $file = File::get($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
     }
 
-    $type = File::mimeType($path);
 
-    // Check if the file is an image
-    $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/webp'];
-
-    if (!in_array($type, $allowedMimeTypes)) {
-        return response()->json(['error' => 'File is not a supported image type'], 404);
-    }
-
-    $file = File::get($path);
-
-    $response = Response::make($file, 200);
-    $response->header("Content-Type", $type);
-
-    return $response;
-}
-
-    
 
     public function updateAdmin(Request $request)
     {

@@ -58,6 +58,7 @@ Route::get('view-staff-manager/{id}', [StaffController::class, 'getStaffById']);
 Route::put('edit-staff-manager/{id}', [StaffController::class, 'editStaffById']);
 Route::get('/photo_staffs', [StaffController::class, 'listStaffPhotos']);
 Route::get('/photo_staffs/{filename}', [StaffController::class, 'getStaffPhoto'])->name('photo_staffs.view');
+Route::delete('/delete-staff/{id}', [StaffController::class, 'deleteStaffById']);
 
 
 

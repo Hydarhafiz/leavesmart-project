@@ -18,7 +18,7 @@
             <div><strong>Job Position:</strong> {{ staff.job_position?.position_name }}</div>
             <div class="action-buttons">
                 <button class="edit-button" (click)="editStaffInNewTab(staff.id)">Edit</button>
-                <button class="remove-button">Remove</button>
+                <button class="remove-button" (click)="confirmDelete(staff.id)">Remove</button>
             </div>
         </div>
     </div>

@@ -185,6 +185,8 @@ export class RegisterPageComponent {
       formData.append('industry', this.company.industry);
       formData.append('website', this.company.website);
       formData.append('package_type_id', this.company.package_type_id.toString());
+      formData.append('company_id', String(this.company.id));
+
 
       console.log(formData); // Just to verify the data being sent
       this.adminService.postNewAdminAndCompany(formData).subscribe(
