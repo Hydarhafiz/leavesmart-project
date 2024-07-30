@@ -1,9 +1,12 @@
 <div class="leave-types-setting">
     <h2>Leave Types Setting</h2>
+    <div *ngIf="leaveTypes.length === 0" class="no-leave-types-message">
+        Currently you have not create any leave types yet. <br> Click on 'Add Leave Type' to create one!
+      </div>
     <div *ngFor="let leaveType of leaveTypes" class="leave-type">
         <div class="leave-details">
-            <div><strong>Leave Name:</strong> {{ leaveType.leave_name }}</div>
-            <div><strong>Description:</strong> {{ leaveType.desc }}</div>
+            <div><strong>{{ leaveType.leave_name }}</strong></div>
+            <div> {{ leaveType.desc }}</div>
         </div>
         <div class="action-buttons">
             <div class="button-container">

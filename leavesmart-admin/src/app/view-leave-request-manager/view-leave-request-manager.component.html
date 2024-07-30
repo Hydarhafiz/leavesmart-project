@@ -1,5 +1,8 @@
 <div class="leave-request-manager">
     <h1 class="title">Leave Request Manager</h1>
+    <div *ngIf="leaveRequests.length === 0" class="no-leave-request-message">
+        Currently you have not received any leave request yet
+      </div>
     <div *ngFor="let request of leaveRequests" class="leave-request">
         <div class="request-details">
             <div><strong>Leave Title:</strong> {{ request.leave_title }}</div>

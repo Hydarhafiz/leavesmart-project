@@ -75,7 +75,6 @@ class AdminController extends Controller
             // Return a response indicating success
             return response()->json(['message' => 'Admin account and company created successfully', 'admin' => $admin, 'company' => $company], 201);
         } catch (ValidationException $e) {
-            // Check if the error is due to duplicate username or email for admin or duplicate company data
             $errors = $e->validator->errors();
             $errorMessage = '';
             if ($errors->has('username')) {
@@ -89,8 +88,7 @@ class AdminController extends Controller
             } else {
                 $errorMessage = $e->getMessage();
             }
-
-            // Return the specific error message
+    
             return response()->json(['error' => $errorMessage], 422);
         }
     }

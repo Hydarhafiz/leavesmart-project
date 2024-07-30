@@ -62,14 +62,12 @@ export class CreateJobPositionComponent {
         console.log('Job position submitted successfully:', response);
         this.toastr.success('Job position created successfully.', 'Success');
       },
-      error => {
-        console.error('Error submitting job position:', error);
+      (error: any) => {
         if (error.error && error.error.message) {
-          console.log('Extracted error message:', error.error.message);
+          this.toastr.error(error.error.message, 'Error');
         } else {
-          console.log('Generic error message');
+          this.toastr.error('An unexpected error occurred', 'Error');
         }
-        this.toastr.error('Failed to create job position.', 'Error');
       }
     );
   }

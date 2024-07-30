@@ -1,10 +1,21 @@
 <div class="leave-types-setting">
     <h2>Job Position Setting</h2>
-    <div class="job-position-dropdown">
-        <label for="jobPosition">Select Job Position: </label>
+    <div *ngIf="jobPositions.length > 0; else noJobPositions" class="job-position-dropdown">
+        <label>Select Job Position: </label>
         <select id="jobPosition" name="jobPosition" [(ngModel)]="selectedJobPositionId" (ngModelChange)="updateLeaveTypes($event)">
             <option *ngFor="let jobPosition of jobPositions" [value]="jobPosition.id">{{ jobPosition.position_name }}</option>
         </select>
+    </div>
+    <ng-template #noJobPositions>
+        <div class="no-leave-request-message">
+            <p>You have not created any job positions yet. <br> Click on 'Add Job Position' to create one!</p>
+        </div>
+    </ng-template>
+    <div *ngIf="!selectedJobPositionId && jobPositions.length > 0" class="no-leave-request-message">
+        Please select job position on the dropdown.
+    </div>
+    <div *ngIf="selectedJobPositionId && jobPositionByLeaveTypes.length === 0" class="no-leave-request-message">
+        Currently you have not any leave types for this job position. <br> Click on 'Add Leave Type' to create one!
     </div>
     <div *ngFor="let jobPosition of jobPositionByLeaveTypes" class="leave-type">
         <div class="leave-details">

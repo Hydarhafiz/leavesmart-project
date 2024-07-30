@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { LocalStorageService } from './local-storage.service';
 import { Observable, catchError, throwError } from 'rxjs';
 import { IAdmin } from '../interface/admin';
@@ -70,7 +70,7 @@ export class AdminService {
   postNewAdminAndCompany(data: FormData): Observable<any> {
     return this.http.post<any>(this.postRegisterAdminAndCompany, data)
       .pipe(
-        catchError(error => {
+        catchError((error: HttpErrorResponse) => {
           console.error('Error creating new admin and company:', error);
           return throwError(error);
         })
@@ -80,7 +80,7 @@ export class AdminService {
   postNewAdmin(admin: FormData ): Observable<any> {
     return this.http.post<any>(this.postRegisterAdmin, admin )
       .pipe(
-        catchError(error => {
+        catchError((error: HttpErrorResponse) => {
           console.error('Error creating new admin:', error);
           return throwError(error);
         })

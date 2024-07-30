@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { LocalStorageService } from './local-storage.service';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ILeaveType } from '../interface/leave-type';
@@ -49,7 +49,7 @@ export class LeaveTypeService {
 
     return this.http.post<any>(this.postLeaveTypesUrl, leaveType, { headers })
       .pipe(
-        catchError(error => {
+        catchError((error: HttpErrorResponse) => {
           console.error('Error creating new leaveType:', error);
           return throwError(error);
         })

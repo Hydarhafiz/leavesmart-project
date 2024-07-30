@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ILeaveType } from '../interface/leave-type';
 import { LeaveTypeService } from '../services/leave-type.service';
 import { AdminService } from '../services/admin.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-leave-type',
@@ -18,7 +19,9 @@ export class CreateLeaveTypeComponent implements OnInit {
 
   constructor(
     private leaveTypeService: LeaveTypeService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private toastr: ToastrService
+
   ) { }
 
   ngOnInit(): void {
@@ -62,12 +65,17 @@ export class CreateLeaveTypeComponent implements OnInit {
     this.leaveTypeService.postNewLeaveType(this.leaveTypeForm).subscribe(
       (response: any) => {
         console.log('Staff submitted successfully:', response);
+        this.toastr.success('Leave type created successfully.', 'Success');
+
         //this.formSubmitted.emit();
 
       },
-      error => {
-        console.error('Error submitting staff:', error);
-        // Handle error
+      (error: any) => {
+        if (error.error && error.error.message) {
+          this.toastr.error(error.error.message, 'Error');
+        } else {
+          this.toastr.error('An unexpected error occurred', 'Error');
+        }
       }
     );
   }

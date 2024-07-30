@@ -6,6 +6,7 @@ import { AdminService } from '../services/admin.service';
 import { PackageService } from '../services/package.service';
 import { CompanyService } from '../services/company.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register-page',
@@ -32,7 +33,7 @@ export class RegisterPageComponent {
     package_type_id: 0
   };
   packageType: IPackageType[] = [];
-  packageTypeOptions: { value: number, display: string }[] = []; // Array to store leave options
+  packageTypeOptions: { value: number, display: string, maxStaff: number }[] = []; // Array to store leave options
 
   getCompany: ICompany[] = [];
   companyOptions: { value: number, display: string }[] = [];
@@ -43,7 +44,8 @@ export class RegisterPageComponent {
     private adminService: AdminService,
     private packageTypeService: PackageService,
     private companyService: CompanyService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -60,10 +62,10 @@ export class RegisterPageComponent {
           // Create leave options array with value (leave_type_id) and display (leave_name)
           this.packageTypeOptions = this.packageType.map(packageType => {
             if (packageType.id !== undefined) {
-              return { value: packageType.id, display: packageType.type_name };
+              return { value: packageType.id, display: packageType.type_name, maxStaff: packageType.max_staff_count };
             } else {
               // handle the case where id is undefined, maybe log an error or handle it differently
-              return { value: 0, display: 'Undefined package' }; // Default value for example
+              return { value: 0, display: 'Undefined package', maxStaff: 0 }; // Default value for example
             }
           });
 
@@ -192,11 +194,15 @@ export class RegisterPageComponent {
       this.adminService.postNewAdminAndCompany(formData).subscribe(
         (response: any) => {
           console.log('Your account has been registered successfully:', response);
-          this.router.navigate(['/login'])
+          this.toastr.success('Account Registration Successful', 'Success');
+          this.router.navigate(['/login']);
         },
-        error => {
-          console.error('Error registering:', error);
-          // Handle error
+        (error: any) => {
+          if (error.error && error.error.error) {
+            this.toastr.error(error.error.error, 'Error');
+          } else {
+            this.toastr.error('An unexpected error occurred', 'Error');
+          }
         }
       );
     }

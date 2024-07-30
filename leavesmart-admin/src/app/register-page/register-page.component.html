@@ -1,4 +1,6 @@
 <form (ngSubmit)="submitRegister()" class="smaller-form">
+    <h1>Admin Account Registration</h1>
+
     <!-- Section 1: Do you have a company registered? -->
     <div class="form-section">
         <h3 class="form-heading">Do you have a company registered?</h3>
@@ -27,7 +29,7 @@
         <div class="form-group">
             <label for="packageType">Package Type</label>
             <select id="packageType" name="packageType" class="form-control bigger-input" [(ngModel)]="company.package_type_id" required>
-                <option *ngFor="let option of packageTypeOptions" [value]="option.value">{{ option.display }}</option>
+                <option *ngFor="let option of packageTypeOptions" [value]="option.value">{{ option.display }} : {{option.maxStaff}} max staffs</option>
             </select>
         </div>
     </div>

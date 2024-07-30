@@ -1,12 +1,9 @@
 .leave-types-setting {
     background-color: #fff;
-    border: 2px solid black;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
     padding: 20px;
-}
-
-.leave-types-setting h2 {
-    margin-top: 0;
-    font-size: 1.2em;
 }
 
 .leave-type {
@@ -14,11 +11,11 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 35px 20px;
-
     margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
 }
+
 .leave-type div {
     margin-bottom: 5px;
 }
@@ -41,52 +38,61 @@
     margin-right: 10px;
 }
 
-.edit-button {
+.edit-button,
+.remove-button {
     padding: 5px 10px;
-    margin-top: 10px; /* Adjust the spacing between buttons */
+    margin-top: 10px;
     border: none;
-    background-color: #007bff; /* Blue color */
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    width: 100px;
+}
+
+.edit-button {
+    background-color: #007bff;
 }
 
 .edit-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
 }
 
 .remove-button {
-    padding: 5px 10px;
-    margin-top: 10px; /* Adjust the spacing between buttons */
-    border: none;
-    background-color: #dc3545; /* Red color */
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
+    background-color: #dc3545;
 }
 
 .remove-button:hover {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #c82333;
 }
 
 .add-button {
     padding: 10px 20px;
     border: none;
-    background-color: #28a745; /* Green color */
+    background-color: #28a745;
     color: white;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.add-button:hover {
+    background-color: #218838;
+}
+
+.button-container {
+    text-align: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.job-position-dropdown {
+    margin-bottom: 20px;
     
 }
 
-.button-container{
+.no-leave-request-message {
     text-align: center;
-    justify-content: center;
-    gap: 10px
-}
-
-
-
-.add-button:hover {
-    background-color: #218838; /* Darker green on hover */
+    font-size: 18px;
+    color: #777;
+    margin-top: 80px;
+    margin-bottom: 80px;
 }
