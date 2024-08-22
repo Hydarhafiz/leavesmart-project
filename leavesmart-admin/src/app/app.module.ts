@@ -27,7 +27,6 @@ import { CreateLeaveTypeComponent } from './create-leave-type/create-leave-type.
 import { CreateJobPositionComponent } from './create-job-position/create-job-position.component';
 import { CreateJobPositionByLeaveTypeComponent } from './create-job-position-by-leave-type/create-job-position-by-leave-type.component';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
@@ -50,7 +49,6 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     CreateLeaveTypeComponent,
     CreateJobPositionComponent,
     CreateJobPositionByLeaveTypeComponent,
-    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,

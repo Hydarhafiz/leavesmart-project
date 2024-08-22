@@ -2,7 +2,6 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { IStaff } from '../interface/staff';
 import { IJobPosition } from '../interface/job-position';
 import { StaffService } from '../services/staff.service';
-import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-view-staff-manager',
@@ -10,7 +9,6 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
   styleUrl: './view-staff-manager.component.css'
 })
 export class ViewStaffManagerComponent implements AfterViewInit {
-  @ViewChild('confirmationDialog') confirmationDialog!: ConfirmationDialogComponent;
 
   staffList: IStaff[] = [];
   staffPhotos: string[] = []; // Array to hold photo URLs
@@ -53,17 +51,6 @@ export class ViewStaffManagerComponent implements AfterViewInit {
 
   getPhotoUrl(filename: any): string {
     return this.staffService.getAttachmentUrl(filename); // Implement this method in your StaffService
-  }
-
-  confirmDelete(id: any) {
-    if (this.confirmationDialog) {
-      this.confirmationDialog.isVisible = true;
-      this.confirmationDialog.message = 'Are you sure you want to delete this staff member?';
-      const sub = this.confirmationDialog.confirm.subscribe(() => {
-        this.deleteStaff(id);
-        sub.unsubscribe(); // Unsubscribe after the first confirmation
-      });
-    }
   }
 
   deleteStaff(id: any) {
