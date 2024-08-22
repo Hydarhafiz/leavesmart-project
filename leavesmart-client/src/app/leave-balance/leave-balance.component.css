@@ -1,25 +1,25 @@
-
 .leave-balance-info {
     background-color: #fff;
-    border: 2px solid black;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    text-align: center; /* Center align text */
+    text-align: center;
     min-height: 210px;
     max-height: 210px;
-    overflow-y: auto; /* Add scrollbar if content exceeds max height */
-
+    overflow-y: auto;
 }
 
-.leave-balance-info ul {
-    list-style: none; /* Remove default bullet points */
-    padding-left: 0; /* Remove default padding */
-    margin: 0; /* Remove default margin */
+.leave-balance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
 }
 
-.leave-balance-info li {
-    margin-bottom: 10px;
-}
-
-.leave-balance-info li strong {
-    margin-right: 5px;
+.leave-balance-item {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }

@@ -5,6 +5,7 @@ import { StaffService } from '../services/staff.service';
 import { LocalStorageService } from '../services/local-storage.service';
 import { JobPositionService } from '../services/job-position.service';
 import { AdminService } from '../services/admin.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-staff',
@@ -30,7 +31,9 @@ export class CreateStaffComponent implements OnInit {
   constructor(
     private staffService: StaffService,
     private jobPositionService: JobPositionService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private toastr: ToastrService
+
   ) { }
 
   ngOnInit(): void {
@@ -135,11 +138,15 @@ export class CreateStaffComponent implements OnInit {
     this.staffService.postNewStaff(formData).subscribe(
       (response: any) => {
         console.log('Staff submitted successfully:', response);
+        this.toastr.success(response.message , 'Success');
+
         //this.formSubmitted.emit();
 
       },
       error => {
         console.error('Error submitting staff:', error);
+        this.toastr.error( error.error.error, 'Error');
+
         // Handle error
       }
     );

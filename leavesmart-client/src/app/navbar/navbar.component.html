@@ -1,15 +1,16 @@
 <div class="sidebar">
-    <div class="sidebar-header">
+  <div class="sidebar-header">
       <h3>Menu</h3>
-    </div>
-    <ul class="list-group">
-      <li class="list-group-item">Dashboard</li>
-      <li class="list-group-item">Messages</li>
-      <li class="list-group-item">Settings</li>
-      <!-- Add more items as needed -->
-    </ul>
-    <div class="logout">
-      <button class="btn btn-danger btn-block">Logout</button>
-    </div>
   </div>
-  
+  <ul class="list-group">
+      <li class="list-group-item" (click)="navigate('profile')">Profile Details</li>
+      <li class="list-group-item" (click)="navigate('leaveBalance')">Leave Balance</li>
+      <li class="list-group-item" (click)="navigate('viewLeaveRequest')">View Leave Request</li>
+      <li class="list-group-item" (click)="navigate('calendar')">Calendar</li>
+      <li class="list-group-item" (click)="navigate('leaveRequestFormPage')">Leave Request Form</li>
+      <!-- Add more items as needed -->
+  </ul>
+  <div class="logout">
+      <button class="btn btn-danger btn-block">Logout</button>
+  </div>
+</div>

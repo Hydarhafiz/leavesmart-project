@@ -27,8 +27,8 @@ class StaffController extends Controller
 
             // Validate incoming request data for staff member
             $validatedStaffData = $request->validate([
-                'FullName' => 'required|string',
-                'gender' => 'required|string|in:Male,Female,Other',
+                'FullName' => 'required|string|unique:staff,FullName',
+                'gender' => 'required|string|in:Male,Female',
                 'contact_number' => 'required|string',
                 'email' => 'required|email|unique:staff,email',
                 'password' => 'required|string',

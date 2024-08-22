@@ -6,6 +6,7 @@ import { JobPositionLeaveTypeService } from '../services/job-position-leave-type
 import { LeaveTypeService } from '../services/leave-type.service';
 import { ILeaveType } from '../interface/leave-type';
 import { IJobPosition } from '../interface/job-position';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-job-position-by-leave-type',
@@ -29,7 +30,9 @@ export class CreateJobPositionByLeaveTypeComponent {
     private leaveTypeService: LeaveTypeService,
     private jobPositionService: JobPositionService,
     private jobPositionByLeaveTypesService: JobPositionLeaveTypeService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private toastr: ToastrService
+
   ) { }
 
   ngOnInit(): void {
@@ -127,11 +130,13 @@ export class CreateJobPositionByLeaveTypeComponent {
     this.jobPositionByLeaveTypesService.postNewjobPositionByLeaveType(this.jobPositionByLeaveTypesForm).subscribe(
       (response: any) => {
         console.log('Job position for this leave type submitted successfully:', response);
-        //this.formSubmitted.emit();
+        this.toastr.success(response.message , 'Success');
 
       },
       error => {
         console.error('Error submitting these data:', error);
+        this.toastr.error( error.error.error, 'Error');
+
         // Handle error
       }
     );

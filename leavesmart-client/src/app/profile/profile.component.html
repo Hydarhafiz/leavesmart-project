@@ -1,15 +1,27 @@
 <div *ngFor="let staff of staffList" class="profile">
-  <img [src]="staffPhoto|| 'assets/user.png'" alt="Profile Picture" class="profile-pic fixed-size">
-
-  <h2>Profile Information</h2>
-  <div class="profile-info">
-    <div><strong>Name:</strong> {{ staff.FullName }}</div>
-    <div><strong>Gender:</strong> {{ staff.gender }}</div>
-    <div><strong>Contact Number:</strong> {{ staff.contact_number }}</div>
-    <div><strong>Email:</strong> {{ staff.email }}</div>
-    <div><strong>Position Name:</strong> {{ staff.job_position?.position_name}}</div>
-    <div><strong>Reporting To:</strong> {{ staff.admin?.username }}</div>
-    <div><strong>Company Name:</strong> {{ staff.company?.company_name }}</div>
-    <button class="edit-profile-btn" (click)="editLeaveRequestInNewTab()">Edit Profile</button> <!-- New button -->
+  <h1>Profile Details</h1>
+  <div class="profile-content">
+    <div class="profile-left">
+      <img [src]="staffPhoto || 'assets/admin.png'" alt="Profile Picture" class="profile-pic fixed-size">
+    </div>
+    <div class="profile-right">
+      <h2>{{staff.FullName}}</h2>
+      <div class="profile-info">
+        <div><strong>Email:</strong> {{staff.email}}</div>
+        <div><strong>Contact Number:</strong> {{staff.contact_number}}</div>
+      </div>
+      <div class="company-info">
+        <img [src]="'assets/enterprise.png'" alt="Company" class="icon">
+        <div>{{staff.company?.company_name}}</div>
+      </div>
+    </div>
   </div>
+  <div class="stats">
+    <div class="stat-item">Position: <br> <strong>{{staff.job_position?.position_name}}</strong> </div>
+    <div class="stat-item">Reporting to: <br> <strong>{{staff.admin?.username}}</strong> </div>
+  </div>
+  <button class="edit-profile-btn" (click)="editLeaveRequestInNewTab()">Edit Profile</button>
 </div>
+
+
+

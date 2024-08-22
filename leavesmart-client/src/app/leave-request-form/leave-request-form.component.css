@@ -1,6 +1,8 @@
 .leave-request-form {
     background-color: #fff;
-    border: 2px solid black;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
 
 }
@@ -29,7 +31,8 @@
 }
 
 .button-container {
-    text-align: center; /* Center align the button */
+    text-align: center;
+    /* Center align the button */
 }
 
 button[type="submit"] {
