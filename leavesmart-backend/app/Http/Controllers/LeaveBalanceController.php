@@ -17,7 +17,8 @@ class LeaveBalanceController extends Controller
             }
 
             // Retrieve leave requests associated with the authenticated user's staff ID
-            $leaveBalances = LeaveBalance::where('staff_id', $user->id)->get();
+            $leaveBalances = LeaveBalance::with('leaveType')
+            ->where('staff_id', $user->id)->get();
 
             // Return a response with leave requests
             return response()->json(['data' => $leaveBalances], 200);

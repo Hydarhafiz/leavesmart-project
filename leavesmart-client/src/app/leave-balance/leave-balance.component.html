@@ -2,7 +2,7 @@
     <h2>Leave Balance</h2>
     <div class="leave-balance-grid">
         <div *ngFor="let leave of leaveBalances" class="leave-balance-item">
-            <strong>{{ leave.title }}:</strong> <br> {{ leave.days_left }} days
+            <strong>{{ leave.leave_type?.leave_name }}:</strong> <br> {{ leave.days_left }} days
         </div>
     </div>
 </div>

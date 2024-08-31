@@ -31,7 +31,7 @@ export class LeaveRequestFormComponent implements OnInit {
     attachment: null
   };
   leaveBalances: ILeaveBalance[] = [];
-  leaveOptions: { value: number, display: string }[] = [];
+  leaveOptions: { value: number, display: any }[] = [];
 
   constructor(
     private leaveBalanceService: LeaveBalanceService,
@@ -51,8 +51,9 @@ export class LeaveRequestFormComponent implements OnInit {
         if (response && response.data) {
           this.leaveBalances = response.data;
           this.leaveOptions = this.leaveBalances.map(balance => {
-            return { value: balance.leave_type_id, display: balance.title };
+            return { value: balance.leave_type_id, display: balance.leave_type?.leave_name };
           });
+          console.log(this.leaveOptions)
         } else {
           console.error('Invalid response format:', response);
         }

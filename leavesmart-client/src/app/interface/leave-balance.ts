@@ -6,4 +6,5 @@ export interface ILeaveBalance{
     leave_type_id: number;
     job_position_id: number;
     company_id: number;
+    leave_type?: { leave_name: string }; // Include job_position property
 }
