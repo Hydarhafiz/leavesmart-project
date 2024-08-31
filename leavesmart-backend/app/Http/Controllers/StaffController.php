@@ -27,7 +27,7 @@ class StaffController extends Controller
 
             // Validate incoming request data for staff member
             $validatedStaffData = $request->validate([
-                'FullName' => 'required|string|unique:staff,FullName',
+                'FullName' => 'required|string',
                 'gender' => 'required|string|in:Male,Female',
                 'contact_number' => 'required|string',
                 'email' => 'required|email|unique:staff,email',
@@ -49,8 +49,8 @@ class StaffController extends Controller
             }
 
             // Check if adding the new staff member would exceed the max staff count
-            $currentTotalStaffsAndstaffs = $company->total_staffs + $company->total_staffs;
-            if ($currentTotalStaffsAndstaffs + 1 > $packageType->max_staff_count) {
+            $currentTotalStaffsAndAdmin = $company->total_staffs + $company->total_admins;
+            if ($currentTotalStaffsAndAdmin >= $packageType->max_staff_count) {
                 return response()->json(['error' => 'Max staff exceed'], 400);
             }
 

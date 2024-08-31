@@ -5,6 +5,7 @@ import { LeaveRequestService } from '../services/leave-request.service';
 import { IStaff } from '../interface/staff';
 import { IJobPosition } from '../interface/job-position';
 import { ILeaveType } from '../interface/leave-type';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-view-leave-request-by-id',
@@ -36,6 +37,7 @@ export class ViewLeaveRequestByIdComponent {
   constructor(
     private route: ActivatedRoute,
     private leaveRequestService: LeaveRequestService,
+    private toastr: ToastrService
 
   ) { }
 
@@ -87,12 +89,14 @@ export class ViewLeaveRequestByIdComponent {
     this.leaveRequestService.editLeaveRequestById(this.leaveRequestId, this.updatedLeaveRequest).subscribe(
       (response: ILeaveRequest) => {
         console.log("Leave request approved successfully:", response);
+        this.toastr.success('This request was successfully approved!' , 'Success');
         this.fetchLeaveRequestById(this.leaveRequestId);
 
         // Optionally, you can update this.leaveRequest with the updated data if needed
       },
       error => {
         console.error(`Error approving leave request with ID ${this.leaveRequestId}:`, error);
+        this.toastr.error( error.error.error, 'Error');
         // Handle error
       }
     );
@@ -118,13 +122,15 @@ export class ViewLeaveRequestByIdComponent {
     this.leaveRequestService.editLeaveRequestById(this.leaveRequestId, this.updatedLeaveRequest).subscribe(
       (response: ILeaveRequest) => {
         console.log("Leave request rejected successfully:", response);
+        this.toastr.success('This request was successfully rejected!' , 'Success');
+
         this.fetchLeaveRequestById(this.leaveRequestId);
 
         // Optionally, you can update this.leaveRequest with the updated data if needed
       },
       error => {
         console.error(`Error rejecting leave request with ID ${this.leaveRequestId}:`, error);
-        // Handle error
+        this.toastr.error( error.error.error, 'Error');
       }
     );
   }

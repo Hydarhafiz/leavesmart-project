@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ILeaveType } from '../interface/leave-type';
 import { LeaveTypeService } from '../services/leave-type.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-view-leave-types-setting',
@@ -11,16 +12,18 @@ export class ViewLeaveTypesSettingComponent {
   
 
   leaveTypes: ILeaveType[] = [];
+  leaveTypeToDeleteId: any;
 
   constructor(
-    private leaveTypeService: LeaveTypeService
+    private leaveTypeService: LeaveTypeService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
-    this.fetchLeaveRequestData();
+    this.fetchLeaveTypesData();
   }
 
-  fetchLeaveRequestData() {
+  fetchLeaveTypesData() {
     this.leaveTypeService.fetchLeaveTypes().subscribe(
       (response: any) => {
         if (response) {
@@ -34,6 +37,49 @@ export class ViewLeaveTypesSettingComponent {
         // Handle error
       }
     );
+  }
+
+  editLeaveType(leaveType: ILeaveType) {
+    leaveType.editing = true;
+  }
+
+  cancelEdit(leaveType: ILeaveType) {
+    leaveType.editing = false;
+    // Optionally reset the changes
+    this.fetchLeaveTypesData(); 
+  }
+
+  confirmEdit(leaveType: ILeaveType) {
+    this.leaveTypeService.editLeaveType(leaveType.id, leaveType).subscribe(
+      (response: ILeaveType) => {
+        console.log('Leave type updated successfully:', response);
+        leaveType.editing = false;
+        this.fetchLeaveTypesData(); // Optionally refresh the list
+      },
+      error => {
+        console.error('Error updating leave type:', error);
+      }
+    );
+  }
+
+  openDeleteModal(content: any, leaveTypeId: any) {
+    this.leaveTypeToDeleteId = leaveTypeId;
+    this.modalService.open(content, { ariaLabelledBy: 'deleteModalLabel' });
+  }
+
+  confirmDelete() {
+    if (this.leaveTypeToDeleteId !== null) {
+      this.leaveTypeService.deleteLeaveTypeById(this.leaveTypeToDeleteId).subscribe(
+        (response: any) => {
+          console.log('Staff member deleted successfully:', response);
+          this.fetchLeaveTypesData();
+          this.modalService.dismissAll();
+        },
+        error => {
+          console.error('Error deleting staff member:', error);
+        }
+      );
+    }
   }
 
   createLeaveTypeInNewTab() {

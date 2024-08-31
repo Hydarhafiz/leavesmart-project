@@ -2,9 +2,13 @@
     <h2>Job Position Setting</h2>
     <div *ngIf="jobPositions.length > 0; else noJobPositions" class="job-position-dropdown">
         <label>Select Job Position: </label>
-        <select id="jobPosition" name="jobPosition" [(ngModel)]="selectedJobPositionId" (ngModelChange)="updateLeaveTypes($event)">
+        <select id="jobPosition" name="jobPosition" [(ngModel)]="selectedJobPositionId" (ngModelChange)="getLeaveTypes($event)">
             <option *ngFor="let jobPosition of jobPositions" [value]="jobPosition.id">{{ jobPosition.position_name }}</option>
         </select>
+        <div class="job-position-buttons">
+            <button class="edit-button" *ngIf="selectedJobPositionId">Edit</button>
+            <button class="remove-button" *ngIf="selectedJobPositionId" (click)="openDeleteJobPositionModal(deleteJobPositionModal)">Remove</button>
+        </div>
     </div>
     <ng-template #noJobPositions>
         <div class="no-leave-request-message">
@@ -12,20 +16,30 @@
         </div>
     </ng-template>
     <div *ngIf="!selectedJobPositionId && jobPositions.length > 0" class="no-leave-request-message">
-        Please select job position on the dropdown.
+        Please select job position from the dropdown.
     </div>
     <div *ngIf="selectedJobPositionId && jobPositionByLeaveTypes.length === 0" class="no-leave-request-message">
-        Currently you have not any leave types for this job position. <br> Click on 'Add Leave Type' to create one!
+        Currently, you have not added any leave types for this job position. <br> Click on 'Add Leave Type' to create one!
     </div>
     <div *ngFor="let jobPosition of jobPositionByLeaveTypes" class="leave-type">
         <div class="leave-details">
             <div><strong>Leave Name:</strong> {{ jobPosition.leave_type.leave_name }}</div>
-            <div><strong>Days Allocated:</strong> {{ jobPosition.max_allowed_days }} days</div>
+            <div>
+                <strong>Days Allocated:</strong>
+                <span *ngIf="!jobPosition.editing">{{ jobPosition.max_allowed_days }} days</span>
+                <div *ngIf="jobPosition.editing" class="edit-days-container">
+                    <button class="decrease-button" (click)="decreaseDays(jobPosition)">-</button>
+                    <input [(ngModel)]="jobPosition.max_allowed_days" type="number" min="0" />
+                    <button class="increase-button" (click)="increaseDays(jobPosition)">+</button>
+                </div>
+            </div>
         </div>
         <div class="action-buttons">
             <div class="button-container">
-                <button class="edit-button">Edit</button>
-                <button class="remove-button">Remove</button>
+                <button *ngIf="!jobPosition.editing" class="edit-button" (click)="editJobPosition(jobPosition)">Edit</button>
+                <button *ngIf="!jobPosition.editing" class="remove-button" (click)="openDeleteLeaveTypeModal(deleteLeaveTypeModal, jobPosition.id)">Remove</button>
+                <button *ngIf="jobPosition.editing" class="confirm-button" (click)="confirmEdit(jobPosition)">Confirm</button>
+                <button *ngIf="jobPosition.editing" class="cancel-button" (click)="cancelEdit(jobPosition)">Cancel</button>
             </div>
         </div>
     </div>
@@ -34,3 +48,37 @@
         <button class="add-button" (click)="CreateJobPositionByLeaveTypeNewTab()">Add Leave Type</button>
     </div>
 </div>
+
+<!-- Modal for Deleting Job Position -->
+<ng-template #deleteJobPositionModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="deleteJobPositionModalLabel">Confirm Deletion</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to delete selected job position? <br> This action will also delete leave type data for this job position.
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDeleteJobPosition()">Remove</button>
+    </div>
+</ng-template>
+
+<!-- Modal for Deleting Leave Type -->
+<ng-template #deleteLeaveTypeModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="deleteLeaveTypeModalLabel">Confirm Deletion</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to delete selected leave type for this position?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDeleteLeaveType()">Remove</button>
+    </div>
+</ng-template>

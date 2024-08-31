@@ -158,11 +158,16 @@ export class RegisterPageComponent {
       this.adminService.postNewAdmin(formData).subscribe(
         (response: any) => {
           console.log('Your account has been registered successfully:', response);
+          this.toastr.success('Account Registration Successful', 'Success');
           this.router.navigate(['/login'])
         },
         error => {
           console.error('Error registering:', error);
-          // Handle error
+          if (error.error.error) {
+            this.toastr.error(error.error.error, 'Error');
+          } else {
+            this.toastr.error('An unexpected error occurred', 'Error');
+          }        
         }
       );
 

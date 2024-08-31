@@ -2,6 +2,10 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { IStaff } from '../interface/staff';
 import { IJobPosition } from '../interface/job-position';
 import { StaffService } from '../services/staff.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-view-staff-manager',
@@ -11,12 +15,11 @@ import { StaffService } from '../services/staff.service';
 export class ViewStaffManagerComponent implements AfterViewInit {
 
   staffList: IStaff[] = [];
-  staffPhotos: string[] = []; // Array to hold photo URLs
+  staffToDeleteId: number | null = null;
 
-  constructor(private staffService: StaffService) { }
+  constructor(private staffService: StaffService, private modalService: NgbModal) {}
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     this.fetchStaffData();
@@ -27,13 +30,6 @@ export class ViewStaffManagerComponent implements AfterViewInit {
       (response: any) => {
         if (response && response.data) {
           this.staffList = response.data;
-          this.staffList.forEach(staff => {
-            if (staff.photo_staff) {
-              const photoUrl = this.staffService.getAttachmentUrl(staff.photo_staff);
-              this.staffPhotos.push(photoUrl);
-            }
-            console.log(this.staffPhotos);
-          });
         } else {
           console.error('Invalid response format:', response);
         }
@@ -45,24 +41,32 @@ export class ViewStaffManagerComponent implements AfterViewInit {
   }
 
   editStaffInNewTab(id: any) {
-    const editUrl = `/view-staff-manager/${id}`; // Adjust the URL as per your routing configuration
-    window.open(editUrl, '_blank'); // Open URL in a new tab
+    const editUrl = `/view-staff-manager/${id}`;
+    window.open(editUrl, '_blank');
   }
 
   getPhotoUrl(filename: any): string {
-    return this.staffService.getAttachmentUrl(filename); // Implement this method in your StaffService
+    return this.staffService.getAttachmentUrl(filename);
   }
 
-  deleteStaff(id: any) {
-    this.staffService.deleteStaffById(id).subscribe(
-      (response: any) => {
-        console.log('Staff member deleted successfully:', response);
-        this.fetchStaffData();
-      },
-      error => {
-        console.error('Error deleting staff member:', error);
-      }
-    );
+  openDeleteModal(content: any, staffId: any) {
+    this.staffToDeleteId = staffId;
+    this.modalService.open(content, { ariaLabelledBy: 'deleteModalLabel' });
+  }
+
+  confirmDelete() {
+    if (this.staffToDeleteId !== null) {
+      this.staffService.deleteStaffById(this.staffToDeleteId).subscribe(
+        (response: any) => {
+          console.log('Staff member deleted successfully:', response);
+          this.fetchStaffData();
+          this.modalService.dismissAll();
+        },
+        error => {
+          console.error('Error deleting staff member:', error);
+        }
+      );
+    }
   }
 }
 

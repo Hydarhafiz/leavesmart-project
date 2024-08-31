@@ -12,6 +12,8 @@ export class LeaveTypeService {
 
   private viewLeaveTypesUrl  = environment.url + '/view-leave-types-manager';
   private postLeaveTypesUrl  = environment.url + '/create-leave-types';
+  private editLeaveTypesUrl  = environment.url + '/edit-leave-types-manager';
+  private deleteLeaveTypesUrl  = environment.url + '/delete-leave-type';
 
 
   constructor(
@@ -51,6 +53,42 @@ export class LeaveTypeService {
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error creating new leaveType:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  editLeaveType(id: any, updatedStaff: ILeaveType): Observable<ILeaveType> {
+    const token = this.localStorage.get('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const url = `${this.editLeaveTypesUrl}/${id}`;
+    return this.http.put<ILeaveType>(url, updatedStaff, { headers }).pipe(
+      catchError(error => {
+        console.error(`Error editing staff with ID ${id}:`, error);
+        return throwError(error);
+      })
+    );
+  }
+
+  deleteLeaveTypeById(id: number): Observable<ILeaveType> {
+    // Retrieve token from local storage
+    const token = this.localStorage.get('token');
+
+    // Set up HTTP headers with the token
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    // Construct the URL with the ID
+    const url = `${this.deleteLeaveTypesUrl}/${id}`;
+
+    // Make HTTP DELETE request with headers
+    return this.http.delete<ILeaveType>(url, { headers })
+      .pipe(
+        catchError(error => {
+          console.error(`Error deleting leave type with ID ${id}:`, error);
           return throwError(error);
         })
       );

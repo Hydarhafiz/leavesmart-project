@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Models\JobPosition;
 use App\Models\LeaveType;
 use App\Models\JobPositionLeaveTypes;
+use App\Models\Company;
+
 
 class JobPositionLeaveTypeController extends Controller
 {
@@ -32,7 +34,7 @@ class JobPositionLeaveTypeController extends Controller
                 return response()->json(['error' => 'Leave type for this position already exists'], 409);
             }
 
-            // Create a new association between job position and leave type
+            // Create a new association between Leave type for job position and leave type
             $association = JobPositionLeaveTypes::create($validatedData);
 
             // Return a response indicating success
@@ -80,4 +82,110 @@ class JobPositionLeaveTypeController extends Controller
             ], 500);
         }
     }
+
+    public function getJobPositionLeaveTypeById($id)
+    {
+        try {
+            // Authenticate admin
+            $admin = auth()->guard('admin-api')->user();
+            if (!$admin) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+
+            // Retrieve the Leave type for job position associated with the provided ID and the authenticated admin's company ID
+            $jobPosition = JobPositionLeaveTypes::where('company_id', $admin->company_id)
+                ->where('id', $id)
+                ->first();
+
+            if (!$jobPosition) {
+                return response()->json(['error' => 'Leave type for job position not found'], 404);
+            }
+
+            // Return a response with the Leave type for job position data
+            return response()->json(['data' => $jobPosition], 200);
+        } catch (\Exception $e) {
+            // Log the exception
+            return response()->json([
+                'status' => 'error',
+                'code' => 500,
+                'message' => 'Internal Server Error'
+            ], 500);
+        }
+    }
+
+    public function editJobPositionLeaveTypeById(Request $request, $id)
+    {
+        try {
+            // Authenticate staff
+            $admin = auth()->guard('admin-api')->user();
+            if (!$admin) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+
+            // Retrieve the Leave type for job position associated with the provided ID and the authenticated admin's company ID
+            $jobPosition = JobPositionLeaveTypes::where('company_id', $admin->company_id)
+                ->where('id', $id)
+                ->first();
+
+            if (!$jobPosition) {
+                return response()->json(['error' => 'Leave type for Leave type for job position not found'], 404);
+            }
+
+            // Update Leave type for job position information based on request data
+            $jobPosition->update($request->all());
+
+            // Return a response with updated staff data
+            return response()->json(['data' => $jobPosition], 200);
+        } catch (\Exception $e) {
+            // Log the exception
+            return response()->json([
+                'status' => 'error',
+                'code' => 500,
+                'message' => 'Internal Server Error'
+            ], 500);
+        }
+    }
+
+    public function deleteJobPositionLeaveTypeById($id)
+{
+    try {
+        // Authenticate staff
+        $admin = auth()->guard('admin-api')->user();
+        if (!$admin) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        // Retrieve staff associated with the authenticated staff's company ID and the provided ID
+        $jobPositionToDelete = JobPositionLeaveTypes::where('company_id', $admin->company_id)
+            ->where('id', $id)
+            ->first();
+
+        // Check if staff with the provided ID exists
+        if (!$jobPositionToDelete) {
+            return response()->json(['error' => 'Leave type for job position not found'], 404);
+        }
+
+        // Retrieve the company record
+        $company = Company::where('id', $jobPositionToDelete->company_id)->first();
+
+        // Check if company with the provided ID exists
+        if (!$company) {
+            return response()->json(['error' => 'Company not found'], 404);
+        }
+
+        // Delete the staff member
+        $jobPositionToDelete->delete();
+
+
+        // Return a response indicating successful deletion
+        return response()->json(['message' => 'Leave type for job position deleted successfully'], 200);
+    } catch (\Exception $e) {
+        // Log the exception
+        return response()->json([
+            'status' => 'error',
+            'code' => 500,
+            'message' => 'Internal Server Error'
+        ], 500);
+    }
+}
 }

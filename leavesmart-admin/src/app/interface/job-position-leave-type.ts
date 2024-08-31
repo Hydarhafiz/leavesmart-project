@@ -4,4 +4,6 @@ export interface IJobPositionLeaveType {
     leave_type_id: number;
     max_allowed_days: number;
     company_id: number;
+    editing?: boolean;
+
   }

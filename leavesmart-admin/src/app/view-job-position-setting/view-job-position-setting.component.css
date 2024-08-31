@@ -35,7 +35,10 @@
 .button-container {
     display: flex;
     flex-direction: column;
-    margin-right: 10px;
+    /* margin-right: 10px; */
+    text-align: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .edit-button,
@@ -78,16 +81,64 @@
     background-color: #218838;
 }
 
-.button-container {
-    text-align: center;
-    justify-content: center;
-    gap: 10px;
-}
+
 
 .job-position-dropdown {
+    text-align: center;
     margin-bottom: 20px;
-    
+    gap: 15px;
 }
+
+.job-position-dropdown label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.job-position-dropdown select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.job-position-dropdown select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.job-position-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: auto;
+}
+
+
+.edit-button,
+.remove-button {
+    padding: 5px 10px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.remove-button {
+    background-color: #dc3545;
+}
+
+.remove-button:hover {
+    background-color: #c82333;
+}
+
 
 .no-leave-request-message {
     text-align: center;
@@ -95,4 +146,62 @@
     color: #777;
     margin-top: 80px;
     margin-bottom: 80px;
+}
+
+.edit-days-container {
+    display: flex;
+    align-items: center;
+}
+
+.edit-days-container input {
+    width: 50px;
+    text-align: center;
+}
+
+.increase-button,
+.decrease-button {
+    padding: auto 40px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 8px;
+}
+
+.increase-button:hover,
+.decrease-button:hover {
+    background-color: #0056b3;
+}
+
+.confirm-button {
+    padding: 5px 10px;
+    margin-top: 10px;
+    border: none;
+    background-color: #28a745;
+    /* Green color */
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.confirm-button:hover {
+    background-color: #218838;
+    /* Darker green on hover */
+}
+
+.cancel-button {
+    padding: 5px 10px;
+    margin-top: 10px;
+    border: none;
+    background-color: #ffc107;
+    /* Yellow color */
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    background-color: #e0a800;
+    /* Darker yellow on hover */
 }

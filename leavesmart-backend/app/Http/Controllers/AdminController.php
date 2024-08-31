@@ -10,6 +10,7 @@ use App\Models\Company;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
+use App\Models\PackageType;
 
 
 class AdminController extends Controller
@@ -19,7 +20,7 @@ class AdminController extends Controller
         try {
             // Validate incoming request data for admin
             $validatedAdminData = $request->validate([
-                'username' => 'required|string|unique:admins',
+                'username' => 'required|string',
                 'email' => 'required|email|unique:admins',
                 'password' => 'required|string',
                 'gender' => 'required',
@@ -98,7 +99,7 @@ class AdminController extends Controller
         try {
             // Validate incoming request data for admin
             $validatedAdminData = $request->validate([
-                'username' => 'required|string|unique:admins',
+                'username' => 'required|string',
                 'email' => 'required|email|unique:admins',
                 'password' => 'required|string',
                 'gender' => 'required',
@@ -124,16 +125,24 @@ class AdminController extends Controller
             }
 
 
-            $admin = Admin::create($validatedAdminData);
 
-            $company = Company::find($admin->company_id);
+            $company = Company::find($validatedAdminData['company_id']);
             if ($company) {
                 // Increment the total_admins field
+                // Check if adding the new staff member would exceed the max staff count
+                $packageType = PackageType::find($company->package_type_id);
+                $currentTotalStaffsAndAdmin = $company->total_staffs + $company->total_admins;
+                if ($currentTotalStaffsAndAdmin >= $packageType->max_staff_count) {
+                    return response()->json(['error' => 'Max staff exceed'], 400);
+                }
                 $company->total_admins += 1;
                 $company->save();
             } else {
                 // Handle the case where the company is not found (if necessary)
             }
+
+            $admin = Admin::create($validatedAdminData);
+
 
             // Return a response indicating success
             return response()->json(['message' => 'Admin account created successfully', 'admin' => $admin], 201);

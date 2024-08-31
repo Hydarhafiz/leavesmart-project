@@ -6,6 +6,9 @@ use App\Models\LeaveType;
 
 use Illuminate\Http\Request;
 
+use App\Models\Company;
+
+
 class LeaveTypeController extends Controller
 {
     public function store(Request $request)
@@ -111,4 +114,80 @@ class LeaveTypeController extends Controller
             ], 500);
         }
     }
+
+    public function editLeaveTypeById(Request $request, $id)
+    {
+        try {
+            // Authenticate staff
+            $admin = auth()->guard('admin-api')->user();
+            if (!$admin) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+
+            // Retrieve the leave type associated with the provided ID and the authenticated admin's company ID
+            $leaveType = LeaveType::where('company_id', $admin->company_id)
+                ->where('id', $id)
+                ->first();
+
+            if (!$leaveType) {
+                return response()->json(['error' => 'Leave type not found'], 404);
+            }
+
+            // Update leave type information based on request data
+            $leaveType->update($request->all());
+
+            // Return a response with updated staff data
+            return response()->json(['data' => $leaveType], 200);
+        } catch (\Exception $e) {
+            // Log the exception
+            return response()->json([
+                'status' => 'error',
+                'code' => 500,
+                'message' => 'Internal Server Error'
+            ], 500);
+        }
+    }
+
+    public function deleteLeaveTypeById($id)
+{
+    try {
+        // Authenticate staff
+        $admin = auth()->guard('admin-api')->user();
+        if (!$admin) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        // Retrieve staff associated with the authenticated staff's company ID and the provided ID
+        $leaveTypeToDelete = LeaveType::where('company_id', $admin->company_id)
+            ->where('id', $id)
+            ->first();
+
+        // Check if staff with the provided ID exists
+        if (!$leaveTypeToDelete) {
+            return response()->json(['error' => 'Leave type not found'], 404);
+        }
+
+        // Retrieve the company record
+        $company = Company::where('id', $leaveTypeToDelete->company_id)->first();
+
+        // Check if company with the provided ID exists
+        if (!$company) {
+            return response()->json(['error' => 'Company not found'], 404);
+        }
+
+        // Delete the staff member
+        $leaveTypeToDelete->delete();
+
+
+        // Return a response indicating successful deletion
+        return response()->json(['message' => 'Leave type deleted successfully'], 200);
+    } catch (\Exception $e) {
+        // Log the exception
+        return response()->json([
+            'status' => 'error',
+            'code' => 500,
+            'message' => 'Internal Server Error'
+        ], 500);
+    }
+}
 }

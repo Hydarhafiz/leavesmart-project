@@ -27,6 +27,10 @@ import { CreateLeaveTypeComponent } from './create-leave-type/create-leave-type.
 import { CreateJobPositionComponent } from './create-job-position/create-job-position.component';
 import { CreateJobPositionByLeaveTypeComponent } from './create-job-position-by-leave-type/create-job-position-by-leave-type.component';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog/confirm-delete-dialog.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -49,6 +53,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
     CreateLeaveTypeComponent,
     CreateJobPositionComponent,
     CreateJobPositionByLeaveTypeComponent,
+    ConfirmDeleteDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +62,10 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
     HttpClientModule, // Add this line
     BrowserAnimationsModule, // Add this line
     FormsModule, // Add this line
+    MatDialogModule,
+    MatButtonModule,
+    NgbModule,
+
 
     CalendarModule.forRoot({
       provide: DateAdapter,

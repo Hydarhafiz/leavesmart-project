@@ -9,8 +9,10 @@ import { IJobPositionLeaveType } from '../interface/job-position-leave-type';
   providedIn: 'root'
 })
 export class JobPositionLeaveTypeService {
-  private viewJobPositionLeaveTypes  = environment.url + '/view-job-position-by-leave-types';
+  private viewJobPositionLeaveTypes  = environment.url + '/view-leave-types-by-job-position';
   private createJobPositionLeaveTypes  = environment.url + '/create-job-position-by-leave-type';
+  private editJobPositionLeaveTypes  = environment.url + '/edit-leave-types-by-job-position';
+  private deleteJobPositionLeaveTypes  = environment.url + '/delete-leave-types-by-job-position';
 
   constructor(
     private http: HttpClient,
@@ -53,4 +55,41 @@ export class JobPositionLeaveTypeService {
         })
       );
   }
+
+  editJobPositionLeaveType(id: any, updatedStaff: IJobPositionLeaveType): Observable<IJobPositionLeaveType> {
+    const token = this.localStorage.get('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const url = `${this.editJobPositionLeaveTypes}/${id}`;
+    return this.http.put<IJobPositionLeaveType>(url, updatedStaff, { headers }).pipe(
+      catchError(error => {
+        console.error(`Error editing staff with ID ${id}:`, error);
+        return throwError(error);
+      })
+    );
+  }
+
+  deleteJobPositionLeaveType(id: any): Observable<IJobPositionLeaveType> {
+    // Retrieve token from local storage
+    const token = this.localStorage.get('token');
+
+    // Set up HTTP headers with the token
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    // Construct the URL with the ID
+    const url = `${this.deleteJobPositionLeaveTypes}/${id}`;
+
+    // Make HTTP DELETE request with headers
+    return this.http.delete<IJobPositionLeaveType>(url, { headers })
+      .pipe(
+        catchError(error => {
+          console.error(`Error deleting leave type with ID ${id}:`, error);
+          return throwError(error);
+        })
+      );
+  }
+  
 }

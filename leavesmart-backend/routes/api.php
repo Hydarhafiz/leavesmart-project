@@ -74,16 +74,23 @@ Route::get('/attachments/{filename}', [LeaveRequestController::class, 'getAttach
 Route::post('/create-leave-types', [LeaveTypeController::class, 'store']);
 Route::get('view-leave-types-manager', [LeaveTypeController::class, 'indexAdmin']);
 Route::get('view-leave-types-manager/{id}', [LeaveTypeController::class, 'getLeaveTypeById']);
+Route::put('edit-leave-types-manager/{id}', [LeaveTypeController::class, 'editLeaveTypeById']);
+Route::delete('delete-leave-type/{id}', [LeaveTypeController::class, 'deleteLeaveTypeById']);
 
 
 //job-position
 Route::post('/create-job-positions', [JobPositionController::class, 'store']);
 Route::get('view-job-positions-setting', [JobPositionController::class, 'indexAdmin']);
-
+Route::get('view-job-positions-setting/{id}', [JobPositionController::class, 'getJobPositionById']);
+Route::put('edit-job-positions-setting/{id}', [JobPositionController::class, 'editJobPositionById']);
+Route::delete('delete-job-position/{id}', [JobPositionController::class, 'deleteJobPositionById']);
 
 //job-position-leave-type
 Route::post('/create-job-position-by-leave-type', [JobPositionLeaveTypeController::class, 'store']);
-Route::get('view-job-position-by-leave-types/{id}', [JobPositionLeaveTypeController::class, 'indexAdmin']);
+Route::get('view-leave-types-by-job-position/{id}', [JobPositionLeaveTypeController::class, 'indexAdmin']);
+Route::get('view-leave-types-setting/{id}', [JobPositionLeaveTypeController::class, 'getJobPositionLeaveTypeById']);
+Route::put('edit-leave-types-by-job-position/{id}', [JobPositionLeaveTypeController::class, 'editJobPositionLeaveTypeById']);
+Route::delete('delete-leave-types-by-job-position/{id}', [JobPositionLeaveTypeController::class, 'deleteJobPositionLeaveTypeById']);
 
 
 
