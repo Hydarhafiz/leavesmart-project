@@ -122,7 +122,7 @@ class LeaveRequestController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
-            $leaveRequests = LeaveRequest::with('leaveType')
+            $leaveRequests = LeaveRequest::with('LeaveType')
                 ->where('staff_id', $user->id)
                 ->get();
 
@@ -166,7 +166,7 @@ class LeaveRequestController extends Controller
             }
 
             // Retrieve leave requests associated with the authenticated admin's company ID
-            $leaveRequests = LeaveRequest::with(['staff', 'staff.jobPosition', 'leaveType'])
+            $leaveRequests = LeaveRequest::with(['staff', 'staff.jobPosition', 'LeaveType'])
                 ->where('company_id', $admin->company_id)
                 ->where('admin_id', $admin->id)
                 ->get();
@@ -195,7 +195,7 @@ class LeaveRequestController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
-            $leaveRequest = LeaveRequest::with('staff', 'staff.jobPosition', 'leaveType')
+            $leaveRequest = LeaveRequest::with('staff', 'staff.jobPosition', 'LeaveType')
                 ->where('company_id', $admin->company_id)
                 ->where('id', $id)
                 ->first();

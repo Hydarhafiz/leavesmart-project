@@ -35,9 +35,9 @@ class LeaveRequest extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function leaveType()
+    public function LeaveType()
     {
-        return $this->belongsTo(leaveType::class);
+        return $this->belongsTo(LeaveType::class);
     }
 
     public function jobPosition()
