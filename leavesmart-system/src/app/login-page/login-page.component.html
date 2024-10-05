@@ -20,6 +20,7 @@
           <div class="col-md-6 col-lg-6">
           <!-- Bootstrap login form -->
           <form id="login-form">
+            
             <!-- Email input -->
             <div data-mdb-input-init class="form-outline mb-4">
               <label class="form-label">Email address</label>
@@ -48,15 +49,14 @@
                 </div>
             </div>
   
-            <div class="d-flex justify-content-between align-items-center">
-              <!-- Checkbox -->
-              <div class="form-check mb-0">
-                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                <label class="form-check-label" for="form2Example3">
-                  Remember me
-                </label>
-              </div>
-            </div>
+            <!-- Role selection dropdown -->
+            <div class="form-outline mb-4">
+              <label class="form-label">Login as</label>
+              <select class="form-control form-control-lg" [(ngModel)]="credentials.role" name="role" required>
+                  <option value="admin">Admin</option>
+                  <option value="employee">Employee</option>
+              </select>
+          </div>
   
             <div class="text-center text-lg-start mt-4 pt-2">
               <!-- Apply color to the button -->

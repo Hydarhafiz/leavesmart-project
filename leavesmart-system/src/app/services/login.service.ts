@@ -9,12 +9,16 @@ import { ILogin } from '../interface/login';
 })
 export class LoginService {
 
-  private baseUrl = environment.url + '/admin/login'
+  private adminLoginUrl = environment.url + '/admin/login';
+  private employeeLoginUrl = environment.url + '/staff/login';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  authenticateLogin(credentials: ILogin): Observable<ILogin[]>{
-    const url = `${this.baseUrl}`;
-    return this.http.post<ILogin[]>(url, credentials)
-   }
+  authenticateAdminLogin(credentials: ILogin): Observable<any> {
+    return this.http.post<any>(this.adminLoginUrl, credentials);
+  }
+
+  authenticateEmployeeLogin(credentials: ILogin): Observable<any> {
+    return this.http.post<any>(this.employeeLoginUrl, credentials);
+  }
 }

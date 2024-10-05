@@ -10,8 +10,10 @@ import { CreateLeaveTypeComponent } from './create-leave-type/create-leave-type.
 import { CreateJobPositionComponent } from './create-job-position/create-job-position.component';
 import { CreateJobPositionByLeaveTypeComponent } from './create-job-position-by-leave-type/create-job-position-by-leave-type.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
+import { MainPageEmployeeComponent } from './main-page-employee/main-page-employee.component';
 
 const routes: Routes = [
+  //admin
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginPageComponent},
   {path: 'main-page', component: MainPageComponent, canActivate: [AuthGuard]},
@@ -23,6 +25,8 @@ const routes: Routes = [
   { path: 'create-new-job-position-by-leave-type', component: CreateJobPositionByLeaveTypeComponent, canActivate: [AuthGuard] },
   { path: 'register-admin', component: RegisterPageComponent },
 
+  //staff
+  {path: 'main-page-employee', component: MainPageEmployeeComponent, canActivate: [AuthGuard]},
 
 ];
 

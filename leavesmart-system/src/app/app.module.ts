@@ -31,6 +31,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog/confirm-delete-dialog.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MainPageEmployeeComponent } from './main-page-employee/main-page-employee.component';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CreateJobPositionComponent,
     CreateJobPositionByLeaveTypeComponent,
     ConfirmDeleteDialogComponent,
+    MainPageEmployeeComponent,
   ],
   imports: [
     BrowserModule,

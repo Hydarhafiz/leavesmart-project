@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './login-page.component.css'
 })
 export class LoginPageComponent {
-  credentials: ILogin = { email: '', password: '' };
+  credentials: ILogin = { email: '', password: '', role: 'admin' }; // Initialize with default role
   error: string = '';
 
   constructor(
@@ -26,19 +26,35 @@ export class LoginPageComponent {
   form!: FormGroup;
 
   submit() {
-    this.loginService.authenticateLogin(this.credentials).subscribe({
-      next: (response: any) => {
-        console.log(response);
-        const token = response.token;
-        this.localStorage.set('token', token);
-        this.toastr.success('Login successful', 'Success');
-        this.router.navigate(['/main-page']);
-      },
-      error: (error: any) => {
-        console.log(error);
-        this.toastr.error('Invalid email or password', 'Login Failed');
-      }
-    });
+    if (this.credentials.role === 'admin') {
+      this.loginService.authenticateAdminLogin(this.credentials).subscribe({
+        next: (response: any) => {
+          console.log(response);
+          const token = response.token;
+          this.localStorage.set('token', token);
+          this.toastr.success('Login successful', 'Success');
+          this.router.navigate(['/main-page']);
+        },
+        error: (error: any) => {
+          console.log(error);
+          this.toastr.error('Invalid email or password', 'Login Failed');
+        }
+      });
+    } else {
+      this.loginService.authenticateEmployeeLogin(this.credentials).subscribe({
+        next: (response: any) => {
+          console.log(response);
+          const token = response.token;
+          this.localStorage.set('token', token);
+          this.toastr.success('Login successful', 'Success');
+          this.router.navigate(['/main-page-employee']);
+        },
+        error: (error: any) => {
+          console.log(error);
+          this.toastr.error('Invalid email or password', 'Login Failed');
+        }
+      });
+    }
   }
 
   navigateToRegister() {
