@@ -1,0 +1,66 @@
+.smaller-form {
+    max-width: 500px; /* Adjust the max-width as needed */
+    margin: auto; /* Center the form horizontally */
+  }
+  
+  .form-heading {
+    text-align: center; /* Center the heading */
+  }
+  
+  .bigger-input {
+    height: 45px; /* Increase height to make the input bigger */
+    border: 2px solid #000; /* Add black border */
+    border-radius: 5px; /* Add border-radius for rounded corners */
+  }
+
+  .custom-dropdown .dropdown {
+    position: relative;
+  }
+  
+  .custom-dropdown .caret {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  
+  .custom-dropdown select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    padding-right: 30px;
+  }
+  
+  .custom-dropdown select::-ms-expand {
+    display: none;
+  }
+  
+
+  .button-submit{
+    text-align: center;
+  }
+  
+  .custom-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #007bff; /* Bootstrap's primary color */
+    color: #fff;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+  
+  .custom-button:hover {
+    background-color: #0056b3; /* Darker shade of primary color */
+    border-color: #0056b3;
+  }
+  
+  
+  .smaller-form .form-group {
+    margin-bottom: 20px; /* Increase margin bottom to increase the gap between form elements */
+  }
+  

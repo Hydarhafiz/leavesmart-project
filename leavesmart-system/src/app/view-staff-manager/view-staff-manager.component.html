@@ -1,0 +1,42 @@
+<div class="staff-list">
+  <h2>Staff Account Manager List</h2>
+  <div *ngIf="staffList.length === 0" class="no-staff-message">
+    Currently you have no staffs yet
+  </div>
+  <div *ngFor="let staff of staffList" class="staff-box">
+    <div class="staff-content">
+      <div class="staff-left">
+        <img [src]="getPhotoUrl(staff.photo_staff)" alt="Profile Picture" class="profile-pic fixed-size">
+      </div>
+      <div class="staff-right">
+        <h2>{{ staff.FullName }}</h2>
+        <div class="staff-details">
+          <div><strong>Contact Number:</strong> {{ staff.contact_number }}</div>
+          <div><strong>Email:</strong> {{ staff.email }}</div>
+          <div><strong>Job Position:</strong> {{ staff.job_position?.position_name }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="action-buttons">
+      <button class="edit-button" (click)="editStaffInNewTab(staff.id)">Edit</button>
+      <button class="remove-button" (click)="openDeleteModal(deleteModal, staff.id)">Remove</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete this staff member?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="confirmDelete()">Remove</button>
+  </div>
+</ng-template>

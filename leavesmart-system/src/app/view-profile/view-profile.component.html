@@ -1,0 +1,26 @@
+<div *ngFor="let admin of adminProfile" class="profile">
+  <h1>Profile Details</h1>
+  <div class="profile-content">
+    <div class="profile-left">
+      <img [src]="adminPhoto || 'assets/admin.png'" alt="Profile Picture" class="profile-pic fixed-size">
+    </div>
+    <div class="profile-right">
+      <h2>{{admin.username}}</h2>
+      <div class="profile-info">
+        <div><strong>Email:</strong> {{admin.email}}</div>
+        <div><strong>Contact Number:</strong> {{admin.contact_number}}</div>
+      </div>
+      <div class="company-info">
+        <img [src]="'assets/enterprise.png'" alt="Company" class="icon">
+        <div>{{admin.company.company_name}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat-item"><strong>{{admin.company.total_staffs}}</strong> <br> Total Staff</div>
+    <div class="stat-item"><strong>{{admin.company.total_admins}}</strong> <br> Total Admins</div>
+    <div class="stat-item"><strong>{{admin.company.package_type.max_staff_count}}</strong> <br> Max Allowed Staff</div>
+  </div>
+  <button class="edit-profile-btn" (click)="editLeaveRequestInNewTab()">Edit Profile</button>
+
+</div>

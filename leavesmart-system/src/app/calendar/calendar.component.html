@@ -1,0 +1,35 @@
+<div class="calendar container">
+  <div class="row mb-3">
+    <div class="col">
+      <button class="btn btn-primary" (click)="prevMonth()">Previous Month</button>
+    </div>
+    <div class="col text-center">
+      <h5>{{ viewDate | date: 'MMMM yyyy' }}</h5> <!-- Display current month -->
+    </div>
+    <div class="col col-last text-right">
+      <button class="btn btn-primary" (click)="nextMonth()">Next Month</button>
+    </div>
+  </div>
+
+  <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [events]="events"
+    [eventTitleTemplate]="eventTitleTemplate">
+  </mwl-calendar-month-view>
+  <div *ngFor="let staff of staffLegend" class="legend">
+    <div [style.background-color]="staff.color" class="legend-color"></div>
+    <div>{{ staff.staffName }}</div>
+  </div>
+</div>
+
+<!-- Legends for color -->
+
+
+<ng-template #eventTitleTemplate let-event="event">
+  <div class="event-title">
+    <div>{{ event.title }}</div>
+    <div>Start Date: {{ event.start | date:'mediumDate' }}</div>
+    <div>End Date: {{ event.end | date:'mediumDate' }}</div>
+    <!-- Add other leave request details as needed -->
+  </div>
+</ng-template>

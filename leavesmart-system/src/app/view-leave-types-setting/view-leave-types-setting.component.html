@@ -1,0 +1,46 @@
+<div class="leave-types-setting">
+    <h2>Leave Types Setting</h2>
+    <div *ngIf="leaveTypes.length === 0" class="no-leave-types-message">
+        Currently you have not created any leave types yet. <br> Click on 'Add Leave Type' to create one!
+    </div>
+    <div *ngFor="let leaveType of leaveTypes" class="leave-type">
+        <div class="leave-details">
+            <div>
+                <strong *ngIf="!leaveType.editing">{{ leaveType.leave_name }}</strong>
+                <input *ngIf="leaveType.editing" [(ngModel)]="leaveType.leave_name" />
+            </div>
+            <div>
+                <span *ngIf="!leaveType.editing">{{ leaveType.desc }}</span>
+                <textarea *ngIf="leaveType.editing" [(ngModel)]="leaveType.desc" rows="4" cols="50"></textarea>
+            </div>
+        </div>
+        <div class="action-buttons">
+            <div class="button-container">
+                <button *ngIf="!leaveType.editing" class="edit-button" (click)="editLeaveType(leaveType)">Edit</button>
+                <button *ngIf="!leaveType.editing" class="remove-button" (click)="openDeleteModal(deleteModal, leaveType.id)">Remove</button>
+                <button *ngIf="leaveType.editing" class="confirm-button" (click)="confirmEdit(leaveType)">Confirm</button>
+                <button *ngIf="leaveType.editing" class="cancel-button" (click)="cancelEdit(leaveType)">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div class="button-container">
+        <button class="add-button" (click)="createLeaveTypeInNewTab()">Add Leave Type</button>
+    </div>
+</div>
+
+<!-- Modal -->
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      Are you sure you want to delete this leave types?
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+      <button type="button" class="btn btn-danger" (click)="confirmDelete()">Remove</button>
+    </div>
+  </ng-template>

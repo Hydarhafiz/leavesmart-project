@@ -1,0 +1,12 @@
+<form (ngSubmit)="submitLeaveTypeForm()" class="leave-type-form">
+  <h3 class="form-heading">Create Leave Type</h3>
+  <div class="form-group">
+      <label for="leaveName">Leave Name</label>
+      <input type="text" id="leaveName" name="leaveName" class="form-control bigger-input" [(ngModel)]="leaveTypeForm.leave_name" required>
+  </div>
+  <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" class="form-control bigger-input" [(ngModel)]="leaveTypeForm.desc" required></textarea>
+  </div>
+  <button type="submit" class="custom-button">Submit</button>
+</form>
