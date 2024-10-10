@@ -1,1 +1,23 @@
-<p>main-page-employee works!</p>
+<div class="content">
+    <div class="sidebar">
+        <app-navbar (navigateTo)="scrollTo($event)"></app-navbar>
+    </div>
+        <div class="profile" #profile>
+            <app-profile-employee></app-profile-employee>
+        </div>
+        <div class="main-content">
+
+        <div class="leave-balance" #leaveBalance>
+            <app-leave-balance-employee></app-leave-balance-employee>
+        </div>
+        <div class="view-leave-request" #viewLeaveRequest>
+            <app-view-leave-request></app-view-leave-request>
+        </div>
+    </div>
+    <div class="calendar" #calendar>
+        <app-calendar-employee></app-calendar-employee>
+    </div>
+    <div class="leave-request-form" #leaveRequestFormPage>
+        <app-leave-request-form-employee (formSubmitted)="onFormSubmitted()"></app-leave-request-form-employee>
+    </div>
+</div>

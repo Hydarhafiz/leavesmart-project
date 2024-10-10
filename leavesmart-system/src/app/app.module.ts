@@ -32,6 +32,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog/confirm-delete-dialog.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MainPageEmployeeComponent } from './main-page-employee/main-page-employee.component';
+import { CalendarEmployeeComponent } from './calendar-employee/calendar-employee.component';
+import { EditEmployeeProfileComponent } from './edit-employee-profile/edit-employee-profile.component';
+import { LeaveBalanceEmployeeComponent } from './leave-balance-employee/leave-balance-employee.component';
+import { LeaveRequestFormEmployeeComponent } from './leave-request-form-employee/leave-request-form-employee.component';
+import { NavbarEmployeeComponent } from './navbar-employee/navbar-employee.component';
+import { ProfileEmployeeComponent } from './profile-employee/profile-employee.component';
+import { ViewLeaveRequestComponent } from './view-leave-request/view-leave-request.component';
 
 
 @NgModule({
@@ -56,6 +63,13 @@ import { MainPageEmployeeComponent } from './main-page-employee/main-page-employ
     CreateJobPositionByLeaveTypeComponent,
     ConfirmDeleteDialogComponent,
     MainPageEmployeeComponent,
+    CalendarEmployeeComponent,
+    EditEmployeeProfileComponent,
+    LeaveBalanceEmployeeComponent,
+    LeaveRequestFormEmployeeComponent,
+    NavbarEmployeeComponent,
+    ProfileEmployeeComponent,
+    ViewLeaveRequestComponent,
   ],
   imports: [
     BrowserModule,
