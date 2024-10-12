@@ -27,7 +27,7 @@ class StaffController extends Controller
 
             // Validate incoming request data for staff member
             $validatedStaffData = $request->validate([
-                'FullName' => 'required|string',
+                'username' => 'required|string',
                 'gender' => 'required|string|in:Male,Female',
                 'contact_number' => 'required|string',
                 'email' => 'required|email|unique:staff,email',
@@ -133,7 +133,7 @@ class StaffController extends Controller
     public function login(Request $request)
     {
         try {
-            $credentials = request(['email', 'password']);
+            $credentials = request(['username', 'password']);
 
             if (!$token = auth()->guard('user-api')->attempt($credentials)) {
                 return response()->json(['error' => 'Unauthorized'], 401);
@@ -223,7 +223,7 @@ class StaffController extends Controller
 
             // Validate incoming request data for staff
             $validatedStaffData = $request->validate([
-                'FullName' => 'required|string',
+                'username' => 'required|string',
                 'gender' => 'required|string',
                 'contact_number' => 'required|string',
                 'email' => 'required|email|unique:staff,email',
@@ -234,7 +234,7 @@ class StaffController extends Controller
 
             // Update staff data
             $staff = Staff::find($user->id); // Retrieve the staff record from the database
-            $staff->username = $validatedStaffData['FullName'];
+            $staff->username = $validatedStaffData['username'];
             $staff->gender = $validatedStaffData['gender'];
             $staff->contact_number = $validatedStaffData['contact_number'];
             $staff->email = $validatedStaffData['email'];

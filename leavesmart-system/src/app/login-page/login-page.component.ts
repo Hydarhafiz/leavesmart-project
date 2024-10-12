@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './login-page.component.css'
 })
 export class LoginPageComponent {
-  credentials: ILogin = { email: '', password: '', role: 'admin' }; // Initialize with default role
+  credentials: ILogin = { username: '', password: '', role: 'admin' }; // Initialize with default role
   error: string = '';
 
   constructor(

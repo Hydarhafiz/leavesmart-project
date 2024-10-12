@@ -13,7 +13,7 @@ export class EditStaffsManagerComponent implements OnInit{
   staffId: number = 0;
   staff!: IStaff;
   updatedStaff: IStaff = {
-    FullName: '',
+    username: '',
     gender: '',
     contact_number: '',
     email: '',
@@ -52,7 +52,7 @@ export class EditStaffsManagerComponent implements OnInit{
 
   onSubmit() {
     this.updatedStaff = {
-      FullName: this.staff.FullName,
+      username: this.staff.username,
       gender: this.staff.gender,
       contact_number: this.staff.contact_number,
       email: this.staff.email,

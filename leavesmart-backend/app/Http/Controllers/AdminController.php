@@ -170,7 +170,7 @@ class AdminController extends Controller
     public function adminLogin(Request $request)
     {
         try {
-            $credentials = request(['email', 'password']);
+            $credentials = request(['username', 'password']);
             $token = auth()->guard('admin-api')->attempt($credentials);
             if (!$token) {
                 return response()->json([

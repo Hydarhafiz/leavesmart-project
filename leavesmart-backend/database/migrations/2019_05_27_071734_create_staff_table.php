@@ -10,7 +10,7 @@ class CreateStaffTable extends Migration
     {
         Schema::create('staff', function (Blueprint $table) {
             $table->id();
-            $table->string('FullName');
+            $table->string('username');
             $table->string('gender');
             $table->string('contact_number');
             $table->string('email')->unique();

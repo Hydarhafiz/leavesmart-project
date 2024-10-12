@@ -5,6 +5,8 @@ import { EmployeeLeaveBalanceService } from '../services/employee-leave-balance.
 import { EmployeeLeaveRequestService } from '../services/employee-leave-request.service';
 import { EmployeeService } from '../services/employee.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+
 
 @Component({
   selector: 'app-leave-request-form-employee',
@@ -36,7 +38,7 @@ export class LeaveRequestFormEmployeeComponent {
     private leaveRequestService: EmployeeLeaveRequestService,
     private staffService: EmployeeService,
     private toastr: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.fetchLeaveBalanceData();
@@ -141,9 +143,9 @@ export class LeaveRequestFormEmployeeComponent {
         }
       }
     );
-}
+  }
 
-private formatDate(date: Date): string {
+  private formatDate(date: Date): string {
     const d = new Date(date);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
@@ -153,5 +155,13 @@ private formatDate(date: Date): string {
     if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
-}
+  }
+
+  // Custom filter to prevent weekends from being selected
+  myFilter = (d: Date | null): boolean => {
+    if (d === null) return false;
+    const day = d.getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6;
+  };
 }

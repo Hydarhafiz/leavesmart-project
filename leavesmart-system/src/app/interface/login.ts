@@ -1,6 +1,6 @@
 export interface ILogin {
     role: string; // Add role field
 
-    email: string;
+    username: string;
     password: string;
 }

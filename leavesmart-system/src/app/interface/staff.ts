@@ -1,6 +1,6 @@
 export interface IStaff {
     id?: number;
-    FullName: string;
+    username: string;
     gender: string;
     contact_number: string;
     email: string;

@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class CreateStaffComponent implements OnInit {
 
   staff: IStaff = {
-    FullName: '',
+    username: '',
     gender: '',
     contact_number: '',
     email: '',
@@ -94,7 +94,7 @@ export class CreateStaffComponent implements OnInit {
 
   resetForm() {
     this.staff = {
-      FullName: '',
+      username: '',
       gender: '',
       contact_number: '',
       email: '',
@@ -119,7 +119,7 @@ export class CreateStaffComponent implements OnInit {
       if (this.staff.photo_staff) {
         formData.append('photo_staff', this.staff.photo_staff);
       }
-      formData.append('FullName', this.staff.FullName);
+      formData.append('username', this.staff.username);
       formData.append('email', this.staff.email);
       if (this.staff.password !== undefined) {
         formData.append('password', String(this.staff.password));

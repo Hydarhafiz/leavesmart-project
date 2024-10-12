@@ -23,9 +23,9 @@
             
             <!-- Email input -->
             <div data-mdb-input-init class="form-outline mb-4">
-              <label class="form-label">Email address</label>
+              <label class="form-label">Username</label>
               <input type="email" id="email" class="form-control form-control-lg" name="email"
-                placeholder="Enter a valid email address" [(ngModel)]="credentials.email" required />
+                placeholder="Enter a valid email address" [(ngModel)]="credentials.username" required />
               <!-- Display error message only if the field is touched and submitted -->
               <div *ngIf="submitted && form.get('email')?.errors?.['required']" class="error-message">
                 Email is required.

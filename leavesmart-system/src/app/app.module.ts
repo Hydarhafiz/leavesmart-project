@@ -39,7 +39,10 @@ import { LeaveRequestFormEmployeeComponent } from './leave-request-form-employee
 import { NavbarEmployeeComponent } from './navbar-employee/navbar-employee.component';
 import { ProfileEmployeeComponent } from './profile-employee/profile-employee.component';
 import { ViewLeaveRequestComponent } from './view-leave-request/view-leave-request.component';
-
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -81,6 +84,10 @@ import { ViewLeaveRequestComponent } from './view-leave-request/view-leave-reque
     MatDialogModule,
     MatButtonModule,
     NgbModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
 
 
     CalendarModule.forRoot({
