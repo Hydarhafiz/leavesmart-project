@@ -66,13 +66,19 @@ export class CalendarComponent implements OnInit {
         } else {
           color = this.staffColorMap.get(staffId)!;
         }
+
+        // Set event color to gray if the event falls on a weekend
+        const startDate = new Date(request.start_date);
+        const endDate = new Date(request.end_date);
+        const isWeekend = this.isWeekend(startDate) || this.isWeekend(endDate);
+
         return {
-          start: new Date(request.start_date),
-          end: new Date(request.end_date),
+          start: startDate,
+          end: endDate,
           title: `Leave Title: ${request.leave_title}<br>Staff Name: ${request.staff.FullName}<br>Leave Type: ${request.leave_type.leave_name}`,
           color: {
-            primary: color,
-            secondary: '#D1E8FF'
+            primary: isWeekend ? '#D1D1D1' : color,  // Gray for weekends
+            secondary: isWeekend ? '#D1D1D1' : '#D1E8FF'
           }
         };
       });
@@ -88,5 +94,11 @@ export class CalendarComponent implements OnInit {
   getStaffName(staffId: number): string {
     const staff = this.leaveRequests.find(request => request.staff.id === staffId)?.staff;
     return staff ? staff.FullName : '';
+  }
+
+  // Utility function to check if a date is a weekend
+  isWeekend(date: Date): boolean {
+    const day = date.getDay();
+    return day === 0 || day === 6; // 0: Sunday, 6: Saturday
   }
 }

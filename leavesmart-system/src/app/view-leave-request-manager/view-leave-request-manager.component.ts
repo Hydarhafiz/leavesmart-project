@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LeaveRequestService } from '../services/leave-request.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-view-leave-request-manager',
@@ -11,6 +12,7 @@ export class ViewLeaveRequestManagerComponent implements OnInit{
 
   constructor(
     private leaveRequestService: LeaveRequestService,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +49,8 @@ export class ViewLeaveRequestManagerComponent implements OnInit{
   }
 
   editLeaveRequestInNewTab(id: number) {
-    const editUrl = `/view-leave-request/${id}`; // Adjust the URL as per your routing configuration
+    const baseUrl = this.location.prepareExternalUrl('');
+    const editUrl = `${baseUrl}view-leave-request/${id}`; // Adjust the URL as per your routing configuration
     window.open(editUrl, '_blank'); // Open URL in a new tab
   }
 

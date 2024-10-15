@@ -38,10 +38,17 @@ class LeaveRequestController extends Controller
                 'admin_id' => 'required|exists:admins,id',
             ]);
 
-            // Calculate total days
+            // Calculate total business days (excluding weekends)
             $startDate = Carbon::parse($validatedData['start_date']);
             $endDate = Carbon::parse($validatedData['end_date']);
-            $totalDays = $endDate->diffInDays($startDate) + 1;
+            $totalDays = 0;
+
+            while ($startDate->lte($endDate)) {
+                if (!$startDate->isWeekend()) {
+                    $totalDays++;
+                }
+                $startDate->addDay();
+            }
 
             // Add total days to the validated data
             $validatedData['total_days'] = $totalDays;

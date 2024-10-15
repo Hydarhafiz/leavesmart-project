@@ -55,4 +55,31 @@
       font-size: 14px;
       color: #333;
     }
+
+    /* Weekend color change */
+.legend-weekend {
+  background-color: white !important; /* Force white background for weekends */
+}
+
+/* Use ::ng-deep to apply styles to child components deeply */
+::ng-deep .cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
+  background-color: white !important; /* Change weekend circle to white */
+  color: black !important; /* Adjust text color if needed */
+  border-radius: 50%; /* Make it a circle */
+  width: 20px; /* Adjust width */
+  height: 20px; /* Adjust height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+::ng-deep .cal-month-view .cal-day-cell.cal-weekend {
+  background-color: #eee !important; /* Adjust background color of the entire cell */
+}
+
+::ng-deep .cal-month-view .cal-event {
+  color: black !important; /* Ensure event text color is readable */
+}
+
+
     

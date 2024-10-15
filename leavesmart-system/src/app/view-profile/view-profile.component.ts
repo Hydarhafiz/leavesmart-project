@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IAdmin } from '../interface/admin';
 import { AdminService } from '../services/admin.service';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-view-profile',
@@ -11,7 +13,7 @@ export class ViewProfileComponent implements OnInit {
   adminProfile: any;
   adminPhoto: any;
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService, private location: Location) { }
 
   ngOnInit(): void {
     this.fetchAdminData();
@@ -40,7 +42,8 @@ export class ViewProfileComponent implements OnInit {
   }
 
   editLeaveRequestInNewTab() {
-    const editUrl = `/edit-profile`; // Adjust the URL as per your routing configuration
+    const baseUrl = this.location.prepareExternalUrl('');
+    const editUrl = `${baseUrl}edit-profile`; // Adjust the URL as per your routing configuration
     window.open(editUrl, '_blank'); // Open URL in a new tab
   }
 }
