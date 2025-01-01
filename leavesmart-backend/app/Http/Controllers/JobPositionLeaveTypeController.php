@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Models\JobPosition;
-use App\Models\LeaveType;
 use App\Models\JobPositionLeaveTypes;
 use App\Models\Company;
 

@@ -75,7 +75,7 @@ export class CalendarComponent implements OnInit {
         return {
           start: startDate,
           end: endDate,
-          title: `Leave Title: ${request.leave_title}<br>Staff Name: ${request.staff.FullName}<br>Leave Type: ${request.leave_type.leave_name}`,
+          title: `Leave Title: ${request.leave_title}<br>Staff Name: ${request.staff.username}<br>Leave Type: ${request.leave_type.leave_name}`,
           color: {
             primary: isWeekend ? '#D1D1D1' : color,  // Gray for weekends
             secondary: isWeekend ? '#D1D1D1' : '#D1E8FF'
@@ -93,7 +93,7 @@ export class CalendarComponent implements OnInit {
 
   getStaffName(staffId: number): string {
     const staff = this.leaveRequests.find(request => request.staff.id === staffId)?.staff;
-    return staff ? staff.FullName : '';
+    return staff ? staff.username : '';
   }
 
   // Utility function to check if a date is a weekend

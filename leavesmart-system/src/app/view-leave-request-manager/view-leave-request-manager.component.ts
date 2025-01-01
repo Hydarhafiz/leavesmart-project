@@ -49,8 +49,7 @@ export class ViewLeaveRequestManagerComponent implements OnInit{
   }
 
   editLeaveRequestInNewTab(id: number) {
-    const baseUrl = this.location.prepareExternalUrl('');
-    const editUrl = `${baseUrl}view-leave-request/${id}`; // Adjust the URL as per your routing configuration
+    const editUrl = `/view-leave-request/${id}`; // Adjust the URL as per your routing configuration
     window.open(editUrl, '_blank'); // Open URL in a new tab
   }
 
