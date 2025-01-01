@@ -263,7 +263,7 @@ class AdminController extends Controller
     public function getPhotoAdmin($filename)
     {
         // Construct the correct path to the photo
-        $path = public_path('storage/photo_admins/' . $filename);
+        $path = storage_path('app/public/photo_admins/' . $filename);
 
         // Log the path to debug
         Log::info('Photo path: ' . $path);
