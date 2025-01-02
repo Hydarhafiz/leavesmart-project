@@ -23,7 +23,7 @@ LeaveSmart is offered as a subscription-based service, providing companies with 
 ## Setup Instructions
 1. Clone the repository:
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/Hydarhafiz/leavesmart-project.git
     ```
 2. Set up the MySQL database by installing XAMPP.
 3. Connect MySQL to `leavesmart-backend` using the environment configuration file (`.env`).
