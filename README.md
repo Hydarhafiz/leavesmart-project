@@ -39,3 +39,6 @@ LeaveSmart is offered as a subscription-based service, providing companies with 
     ```bash
     npm run start
     ```
+
+## Live demo
+Link: [link](https://syarikathr.com/login)
